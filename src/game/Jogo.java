@@ -4,9 +4,18 @@ public class Jogo {
 
 	private Tabuleiro tab;
 	private Dragao dragao;
+	private Heroi heroi;
 	
 	Jogo(){
-		dragao=new Dragao(0,1,'D');
-		tab.inserirChar(0, 1, 'D');
+		tab=new Tabuleiro();
+		dragao=new Dragao(3,1,'D');
+		heroi=new Heroi(1,1,'H');
+		tab.inserirChar(dragao.getLinha(), dragao.getColuna(), dragao.getSimbolo());
+		tab.inserirChar(heroi.getLinha(), heroi.getColuna(), heroi.getSimbolo());
+		tab.printTab();
+	}
+	
+	public void moverHeroi(){
+		System.out.print("Para onde pretende mover? (e,d,f,t)");
 	}
 }
