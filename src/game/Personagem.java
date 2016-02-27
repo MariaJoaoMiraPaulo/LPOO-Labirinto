@@ -1,9 +1,9 @@
 package game;
 
 public class Personagem {
-	private int linha;
-	private int coluna;
-	private char simbolo;
+	public int linha;
+	public int coluna;
+	public char simbolo;
 	
 	Personagem(int linha, int coluna,char simbolo){
 		this.linha=linha;

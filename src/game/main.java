@@ -7,6 +7,7 @@ public class main {
 //		Tabuleiro t= new Tabuleiro();
 //		t.printTab();
 		Jogo j=new Jogo();
+		j.jogar();
 	}
 
 }

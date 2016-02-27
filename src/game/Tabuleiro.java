@@ -7,7 +7,7 @@ public class Tabuleiro {
 			{'X',' ','X','X',' ','X',' ','X',' ','X'},
 			{'X',' ','X','X',' ','X',' ','X',' ','X'},
 			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ',' ',' ',' ',' ',' ','X',' ',' '},
+			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
 			{'X',' ','X','X',' ','X',' ','X',' ','X'},
 			{'X',' ','X','X',' ','X',' ','X',' ','X'},
 			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
@@ -18,7 +18,7 @@ public class Tabuleiro {
 		
 	}
 	
-	public void printTab(){
+	public void desenhaTab(){
 		for(int i=0;i<labirinto.length;i++){
 			for(int j=0;j<labirinto[i].length;j++){
 				System.out.print(labirinto[i][j]);
@@ -29,5 +29,9 @@ public class Tabuleiro {
 	
 	public void inserirChar(int linha, int coluna,char letra){
 		labirinto[linha][coluna]=letra;
+	}
+	
+	public char retornaChar(int linha,int coluna){
+		return labirinto[linha][coluna];
 	}
 }
