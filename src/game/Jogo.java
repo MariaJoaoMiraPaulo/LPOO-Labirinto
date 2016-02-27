@@ -27,8 +27,9 @@ public class Jogo {
 		c = ler.next().charAt(0); //take the first character from Scanner.next
 		c=Character.toLowerCase(c);
 		while(c!='e' && c!='d' && c!='c' && c!='b'){ //|| c!='E' || c!='D' || c!='C' || c!='B'
-			System.out.print("Introduza uma entrada válida (e,d,c,b) \n");
+			System.out.print("Introduza uma entrada valida (e,d,c,b) \n");
 			c = ler.next().charAt(0); //take the first character from Scanner.next	
+			c=Character.toLowerCase(c);
 		}
 		return c;
 	}
