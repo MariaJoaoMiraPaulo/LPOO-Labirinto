@@ -7,6 +7,7 @@ public class Jogo {
 	private Dragao dragao;
 	private Heroi heroi;
 	private Espada espada;
+	private boolean fimDeJogo=false;
 
 	Jogo(){
 		tab=new Tabuleiro();
@@ -66,6 +67,8 @@ public class Jogo {
 
 
 		}while(!valido);
+		if(tab.retornaChar(linha,coluna)=='S')
+			fimDeJogo=true;
 		tab.inserirChar(heroi.getLinha(),heroi.getColuna(),' ');
 		heroi.setColuna(coluna);
 		heroi.setLinha(linha);
@@ -80,9 +83,10 @@ public class Jogo {
 		}
 	}
 
-	public boolean verificaDragao(){
+	public void verificaDragao(){
 
 		boolean mesmaPosicao=false;
+
 		if(tab.retornaChar(heroi.getLinha()-1, heroi.getColuna())==dragao.getSimbolo())
 			mesmaPosicao=true;
 		else if(tab.retornaChar(heroi.getLinha()+1,heroi.getColuna())==dragao.getSimbolo())
@@ -98,23 +102,21 @@ public class Jogo {
 				tab.inserirChar(dragao.getLinha(), dragao.getColuna(), ' ');
 			}
 			else {
-				System.out.print("Fim do Jogo!\n");
-				return true;
+				fimDeJogo=true;
 			}
 		}
-		return false;
 	}
-	
+
 
 	public void jogar(){
 
-		boolean fimJogo=false;
-		while(!fimJogo){
+		while(!fimDeJogo){
 			moverHeroi();
 			verificaEspada();
-			fimJogo=verificaDragao();
+			if(!dragao.isMorto())
+				verificaDragao();
 			tab.desenhaTab();
 		}
-
+		System.out.println("Fim do Jogo!");
 	}
 }
