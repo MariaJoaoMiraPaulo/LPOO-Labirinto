@@ -1,4 +1,4 @@
-package game;
+package maze.logic;
 
 public class Tabuleiro {
 	private char labirinto[][]={
@@ -33,5 +33,18 @@ public class Tabuleiro {
 	
 	public char retornaChar(int linha,int coluna){
 		return labirinto[linha][coluna];
+	}
+	
+	public String paraString(){
+		String resultado="";
+		
+		for(int i=0; i< labirinto.length;i++){
+			for(int j=0;j<labirinto[i].length;j++){
+				resultado+= " " +labirinto[i][j];
+			}
+			resultado+= "\n";
+		}
+		
+		return resultado;
 	}
 }

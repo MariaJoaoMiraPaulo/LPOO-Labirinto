@@ -1,5 +1,8 @@
-package game;
-import java.util.Scanner;
+package maze.logic;
+
+import java.util.Random;
+
+import maze.cli.CommandLineInterface;
 
 public class Jogo {
 
@@ -8,30 +11,17 @@ public class Jogo {
 	private Heroi heroi;
 	private Espada espada;
 	private boolean fimDeJogo=false;
+	private CommandLineInterface cli;
 
 	Jogo(){
 		tab=new Tabuleiro();
 		dragao=new Dragao(3,1,'D');
 		heroi=new Heroi(1,1,'H');
-		espada=new Espada(8,1,'E');
+		espada=new Espada(4,1,'E');
+		cli=new CommandLineInterface();
 		tab.inserirChar(dragao.getLinha(), dragao.getColuna(), dragao.getSimbolo());
 		tab.inserirChar(heroi.getLinha(), heroi.getColuna(), heroi.getSimbolo());
 		tab.inserirChar(espada.getLinha(), espada.getColuna(), espada.getSimbolo());
-		tab.desenhaTab();
-	}
-
-	public char lerDirecao(){
-		System.out.print("Para onde pretende mover? (e,d,b,c)\n");
-		char c;
-		Scanner ler = new Scanner (System.in);
-		c = ler.next().charAt(0); //take the first character from Scanner.next
-		c=Character.toLowerCase(c);
-		while(c!='e' && c!='d' && c!='c' && c!='b'){ //|| c!='E' || c!='D' || c!='C' || c!='B'
-			System.out.print("Introduza uma entrada valida (e,d,c,b) \n");
-			c = ler.next().charAt(0); //take the first character from Scanner.next	
-			c=Character.toLowerCase(c);
-		}
-		return c;
 	}
 
 	public void moverHeroi(){
@@ -42,7 +32,7 @@ public class Jogo {
 		do{
 			linha=heroi.getLinha();
 			coluna=heroi.getColuna();
-			char direcao=lerDirecao();
+			char direcao=cli.lerDirecao();
 			switch (direcao){
 			case 'e': 
 				coluna-=1;
@@ -108,16 +98,78 @@ public class Jogo {
 		}
 	}
 
+	public void moverDragao(){
+		Random rn=new Random();
+		int linha;
+		int coluna;
+		int direcao;
+		boolean valido=false;
 
-	public void jogar(){
-
-		while(!fimDeJogo){
-			moverHeroi();
-			verificaEspada();
-			if(!dragao.isMorto())
-				verificaDragao();
-			tab.desenhaTab();
+		do{
+			direcao=rn.nextInt(5);
+			linha=dragao.getLinha();
+			coluna=dragao.getColuna();
+			switch (direcao){
+			case 0: 
+				coluna-=1;
+				break;
+			case 1: 
+				coluna+=1;
+				break;
+			case 2:
+				linha+=1;
+				break;
+			case 3:
+				linha-=1;
+				break;
+			case 4:
+				break;
+			}
+				if(tab.retornaChar(linha,coluna)!='X' && tab.retornaChar(linha, coluna)!= 'S'){
+					valido=true;
+				}
+		}while(!valido);
+		
+		if(espada.isCoberta())
+			tab.inserirChar(dragao.getLinha(),dragao.getColuna(),'E');
+		else tab.inserirChar(dragao.getLinha(),dragao.getColuna(),' ');
+		
+		dragao.setColuna(coluna);
+		dragao.setLinha(linha);
+		
+		if(tab.retornaChar(linha,coluna)== 'E'){
+			espada.setCoberta(true);
+			tab.inserirChar(linha, coluna, 'F');
+			}
+		else {
+			espada.setCoberta(false);
+			tab.inserirChar(linha, coluna, dragao.getSimbolo());
 		}
-		System.out.println("Fim do Jogo!");
 	}
+
+	public boolean jogada( ){
+		moverHeroi();
+		verificaEspada();
+		if(!dragao.isMorto())
+			verificaDragao();
+		if(!dragao.isMorto())
+			moverDragao();
+		if(!dragao.isMorto())
+			verificaDragao();
+
+		return fimDeJogo;
+	}
+
+	public Tabuleiro getTab() {
+		return tab;
+	}
+
+	public Dragao getDragao() {
+		return dragao;
+	}
+
+	public void setDragao(Dragao dragao) {
+		this.dragao = dragao;
+	}
+
 }
