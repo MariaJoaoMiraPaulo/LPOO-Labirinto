@@ -12,6 +12,8 @@ public class Jogo {
 	private Espada espada;
 	private boolean fimDeJogo=false;
 	private CommandLineInterface cli;
+	private int modoJogo;
+
 
 	Jogo(){
 		tab=new Tabuleiro();
@@ -92,68 +94,96 @@ public class Jogo {
 				dragao.setMorto(true);
 				tab.inserirChar(dragao.getLinha(), dragao.getColuna(), ' ');
 			}
-			else {
+			else if (!dragao.isDormir()) {
 				fimDeJogo=true;
 			}
 		}
 	}
 
 	public void moverDragao(){
+
 		Random rn=new Random();
 		int linha;
 		int coluna;
 		int direcao;
 		boolean valido=false;
 
-		do{
-			direcao=rn.nextInt(5);
+		if (!dragao.isDormir()){
+			do{
+				direcao=rn.nextInt(6);
+				linha=dragao.getLinha();
+				coluna=dragao.getColuna();
+				switch (direcao){
+				case 0: 
+					coluna-=1;
+					break;
+				case 1: 
+					coluna+=1;
+					break;
+				case 2:
+					linha+=1;
+					break;
+				case 3:
+					linha-=1;
+					break;
+				case 4:
+					break;
+				case 5:
+					if (modoJogo==3){
+						dragao.setDormir(true);
+						dragao.setSimbolo('d');
+						tab.inserirChar(linha, coluna, 'd');
+					}
+					break;
+
+				}
+				if(tab.retornaChar(linha,coluna)!='X' && tab.retornaChar(linha, coluna)!= 'S'){
+					valido=true;
+				}
+			}while(!valido);
+
+			if(espada.isCoberta())
+				tab.inserirChar(dragao.getLinha(),dragao.getColuna(),'E');
+			else tab.inserirChar(dragao.getLinha(),dragao.getColuna(),' ');
+
+			dragao.setColuna(coluna);
+			dragao.setLinha(linha);
+
+			if(tab.retornaChar(linha,coluna)== 'E'){
+				espada.setCoberta(true);
+				tab.inserirChar(linha, coluna, 'F');
+			}
+			else {
+				espada.setCoberta(false);
+				tab.inserirChar(linha, coluna, dragao.getSimbolo());
+			}
+		}
+		else if (dragao.isDormir()){
+			direcao=rn.nextInt(1);
 			linha=dragao.getLinha();
 			coluna=dragao.getColuna();
 			switch (direcao){
 			case 0: 
-				coluna-=1;
+				dragao.setDormir(false); 
+				dragao.setSimbolo('D'); 
+				tab.inserirChar(linha, coluna, 'D'); 
 				break;
-			case 1: 
-				coluna+=1;
-				break;
-			case 2:
-				linha+=1;
-				break;
-			case 3:
-				linha-=1;
-				break;
-			case 4:
+			case 1:
 				break;
 			}
-				if(tab.retornaChar(linha,coluna)!='X' && tab.retornaChar(linha, coluna)!= 'S'){
-					valido=true;
-				}
-		}while(!valido);
-		
-		if(espada.isCoberta())
-			tab.inserirChar(dragao.getLinha(),dragao.getColuna(),'E');
-		else tab.inserirChar(dragao.getLinha(),dragao.getColuna(),' ');
-		
-		dragao.setColuna(coluna);
-		dragao.setLinha(linha);
-		
-		if(tab.retornaChar(linha,coluna)== 'E'){
-			espada.setCoberta(true);
-			tab.inserirChar(linha, coluna, 'F');
-			}
-		else {
-			espada.setCoberta(false);
-			tab.inserirChar(linha, coluna, dragao.getSimbolo());
 		}
 	}
+
 
 	public boolean jogada( ){
 		moverHeroi();
 		verificaEspada();
 		if(!dragao.isMorto())
 			verificaDragao();
-		if(!dragao.isMorto())
-			moverDragao();
+		if (modoJogo!=1){
+			if(!dragao.isMorto())
+				moverDragao();
+		}
 		if(!dragao.isMorto())
 			verificaDragao();
 
@@ -170,6 +200,14 @@ public class Jogo {
 
 	public void setDragao(Dragao dragao) {
 		this.dragao = dragao;
+	}
+
+	public int getModoJogo() {
+		return modoJogo;
+	}
+
+	public void setModoJogo(int modoJogo) {
+		this.modoJogo = modoJogo;
 	}
 
 }

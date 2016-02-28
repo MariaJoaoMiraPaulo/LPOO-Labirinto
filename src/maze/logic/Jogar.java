@@ -15,6 +15,7 @@ public class Jogar {
 	Jogar(){
 		jogo=new Jogo();
 		cli=new CommandLineInterface();
+		jogo.setModoJogo(cli.retornaModoJogo());
 	}
 
 	public void jogar(){
