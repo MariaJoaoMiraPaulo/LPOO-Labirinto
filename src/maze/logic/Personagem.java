@@ -34,4 +34,17 @@ public class Personagem {
 	public void setSimbolo(char simbolo) {
 		this.simbolo = simbolo;
 	}
+	
+	public void moverEsquerda(){
+		coluna-=1;
+	}
+	public void moverDireita(){
+		coluna+=1;
+	}
+	public void moverBaixo(){
+		linha+=1;
+	}
+	public void moverCima(){
+		linha-=1;
+	}
 }

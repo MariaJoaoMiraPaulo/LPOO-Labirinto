@@ -1,8 +1,10 @@
 package maze.logic;
 
 import java.util.Random;
-
 import maze.cli.CommandLineInterface;
+import maze.logic.Dragao.EstadoDragao;
+import maze.logic.Heroi.EstadoHeroi;
+
 
 public class Jogo {
 
@@ -14,7 +16,10 @@ public class Jogo {
 	private CommandLineInterface cli;
 	private int modoJogo;
 
-
+	public enum Movimento{
+		DIREITA,ESQUERDA,CIMA,BAIXO
+	}
+	
 	Jogo(){
 		tab=new Tabuleiro();
 		dragao=new Dragao(3,1,'D');
@@ -26,52 +31,80 @@ public class Jogo {
 		tab.inserirChar(espada.getLinha(), espada.getColuna(), espada.getSimbolo());
 	}
 
+	public boolean podeMoverHeroi(Movimento direcao ){
+		boolean valido=false;
+		
+		int linha=heroi.getLinha(),coluna=heroi.getColuna();
+		
+		switch (direcao){
+		
+		case DIREITA: 
+			coluna+=1;
+			break;
+		case ESQUERDA:
+			coluna-=1;
+			break;
+		case BAIXO:
+			linha+=1;
+			break;
+		case CIMA:
+			linha-=1;
+			break;
+		}
+
+		if(dragao.getEstado()==EstadoDragao.ACORDADO || dragao.getEstado()==EstadoDragao.DORMIR){
+			if(tab.retornaChar(linha,coluna)!='X' && tab.retornaChar(linha, coluna)!='S'){
+				valido=true;
+			}
+		}
+		else if(tab.retornaChar(linha,coluna)!='X')
+			valido=true;
+
+		return valido;
+
+	}
+
 	public void moverHeroi(){
 
-
-		boolean valido=false;
 		int linha,coluna;
-		do{
-			linha=heroi.getLinha();
-			coluna=heroi.getColuna();
-			char direcao=cli.lerDirecao();
-			switch (direcao){
-			case 'e': 
-				coluna-=1;
-				break;
-			case 'd': 
-				coluna+=1;
-				break;
-			case 'b':
-				linha+=1;
-				break;
-			case 'c':
-				linha-=1;
-				break;
-			}
-
-			if(!dragao.morto){
-				if(tab.retornaChar(linha,coluna)!='X' && tab.retornaChar(linha, coluna)!='S'){
-					valido=true;
-				}
-			}
-			else if(tab.retornaChar(linha,coluna)!='X')
-				valido=true;
-
-
-		}while(!valido);
-		if(tab.retornaChar(linha,coluna)=='S')
-			fimDeJogo=true;
+		Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getLinha(),heroi.getColuna(),' ');
-		heroi.setColuna(coluna);
-		heroi.setLinha(linha);
-		tab.inserirChar(linha, coluna, heroi.getSimbolo());
+		switch (direcao){
+		case ESQUERDA: 
+			if(podeMoverHeroi(Movimento.ESQUERDA))
+				heroi.moverEsquerda();
+			break;
+		case DIREITA: 
+			if(podeMoverHeroi(Movimento.DIREITA)){
+				heroi.moverDireita();
+				System.out.println("Quero virar a direita");
+			}
+			break;
+		case BAIXO:
+			if(podeMoverHeroi(Movimento.BAIXO))
+				heroi.moverBaixo();
+			break;
+		case CIMA:
+			if(podeMoverHeroi(Movimento.CIMA))
+				heroi.moverCima();
+			break;
+		}
+
+		verificaSaida();
+		tab.inserirChar(heroi.linha, heroi.coluna, heroi.getSimbolo());
+	}
+	
+	public void verificaSaida(){
+		
+		if(tab.retornaChar(heroi.linha,heroi.coluna)=='S')
+			fimDeJogo=true;
 	}
 
 	public void verificaEspada(){
 
 		if(heroi.getLinha()==espada.getLinha() && heroi.getColuna()==espada.getColuna()){
 			heroi.setSimbolo('A');
+			heroi.setEstado(EstadoHeroi.ARMADO);
 			tab.inserirChar(espada.getLinha(),espada.getColuna(),heroi.getSimbolo());
 		}
 	}
@@ -90,15 +123,16 @@ public class Jogo {
 			mesmaPosicao=true;
 
 		if (mesmaPosicao){
-			if (heroi.estaArmado()){
-				dragao.setMorto(true);
+			if (heroi.getEstado()==EstadoHeroi.ARMADO){
+				dragao.setEstado(EstadoDragao.MORTO);
 				tab.inserirChar(dragao.getLinha(), dragao.getColuna(), ' ');
 			}
-			else if (!dragao.isDormir()) {
+			else if (dragao.getEstado()==EstadoDragao.ACORDADO) {
 				fimDeJogo=true;
 			}
 		}
 	}
+	
 
 	public void moverDragao(){
 
@@ -108,7 +142,7 @@ public class Jogo {
 		int direcao;
 		boolean valido=false;
 
-		if (!dragao.isDormir()){
+		if (dragao.getEstado()==EstadoDragao.ACORDADO){
 			do{
 				direcao=rn.nextInt(6);
 				linha=dragao.getLinha();
@@ -130,7 +164,7 @@ public class Jogo {
 					break;
 				case 5:
 					if (modoJogo==3){
-						dragao.setDormir(true);
+						dragao.setEstado(EstadoDragao.DORMIR);;
 						dragao.setSimbolo('d');
 						tab.inserirChar(linha, coluna, 'd');
 					}
@@ -158,13 +192,13 @@ public class Jogo {
 				tab.inserirChar(linha, coluna, dragao.getSimbolo());
 			}
 		}
-		else if (dragao.isDormir()){
+		else if (dragao.getEstado()==EstadoDragao.DORMIR){
 			direcao=rn.nextInt(1);
 			linha=dragao.getLinha();
 			coluna=dragao.getColuna();
 			switch (direcao){
 			case 0: 
-				dragao.setDormir(false); 
+				dragao.setEstado(EstadoDragao.ACORDADO);; 
 				dragao.setSimbolo('D'); 
 				tab.inserirChar(linha, coluna, 'D'); 
 				break;
@@ -178,13 +212,13 @@ public class Jogo {
 	public boolean jogada( ){
 		moverHeroi();
 		verificaEspada();
-		if(!dragao.isMorto())
+		if(dragao.getEstado()==EstadoDragao.ACORDADO)
 			verificaDragao();
 		if (modoJogo!=1){
-			if(!dragao.isMorto())
+			if(dragao.getEstado()==EstadoDragao.ACORDADO)
 				moverDragao();
 		}
-		if(!dragao.isMorto())
+		if(dragao.getEstado()==EstadoDragao.ACORDADO || dragao.getEstado()==EstadoDragao.DORMIR)
 			verificaDragao();
 
 		return fimDeJogo;

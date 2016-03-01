@@ -1,6 +1,7 @@
 package maze.logic;
 
 import maze.cli.CommandLineInterface;
+import maze.logic.Dragao.EstadoDragao;
 
 
 public class Jogar {
@@ -26,7 +27,7 @@ public class Jogar {
 			cli.imprimir(jogo.getTab().paraString());
 		}
 
-		if(jogo.getDragao().isMorto())
+		if(jogo.getDragao().getEstado()==EstadoDragao.MORTO)
 			cli.imprimir("O jogador ganhou!!");
 		else cli.imprimir("O jogador perdeu!!");
 		

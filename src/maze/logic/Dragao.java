@@ -2,26 +2,22 @@ package maze.logic;
 
 public class Dragao extends Personagem {
 	
-	public boolean morto=false;
-	public boolean dormir=false;
+	public enum EstadoDragao{
+		MORTO,DORMIR,ACORDADO
+	}
+	
+	public EstadoDragao estado=EstadoDragao.ACORDADO;
 	
 	public Dragao(int linha, int coluna,char simbolo){
 		super(linha,coluna,simbolo);
 	}
 
-	public boolean isMorto() {
-		return morto;
+	public EstadoDragao getEstado() {
+		return estado;
 	}
 
-	public void setMorto(boolean morto) {
-		this.morto = morto;
+	public void setEstado(EstadoDragao estado) {
+		this.estado = estado;
 	}
 
-	public boolean isDormir() {
-		return dormir;
-	}
-
-	public void setDormir(boolean dormir) {
-		this.dormir = dormir;
-	}
 }

@@ -1,6 +1,7 @@
 package maze.cli;
 
 import java.util.Scanner;
+import maze.logic.Jogo.*;
 
 public class CommandLineInterface {
 	public CommandLineInterface() {
@@ -28,9 +29,11 @@ public class CommandLineInterface {
 		return modo;
 	}
 	
-	public char lerDirecao(){
+	public Movimento lerDirecao(){
+		
 		imprimir("Para onde pretende mover? (e,d,b,c)");
 		char c;
+		Movimento direcao=Movimento.CIMA;
 		Scanner ler = new Scanner (System.in);
 
 		c = ler.next().charAt(0); 
@@ -42,9 +45,25 @@ public class CommandLineInterface {
 			c = ler.next().charAt(0); 
 			c=Character.toLowerCase(c);
 		}
+		
+		switch(c){
+		case 'e':
+			direcao=Movimento.ESQUERDA;
+			break;
+		case 'd':
+			direcao=Movimento.DIREITA;
+			break;
+		case 'b':
+			direcao=Movimento.BAIXO;
+			break;
+		case 'c':
+			direcao=Movimento.CIMA;
+			break;
+		default:
+			break;
+			}
 
-		//ler.close();
-
-		return c;
+		return direcao;
 	}
+	
 }
