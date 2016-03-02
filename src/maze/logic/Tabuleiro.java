@@ -1,5 +1,7 @@
 package maze.logic;
 
+import java.awt.Point;
+
 public class Tabuleiro {
 	private char labirinto[][]={
 			{'X','X','X','X','X','X','X','X','X','X'},
@@ -27,13 +29,18 @@ public class Tabuleiro {
 		}
 	}
 	
-	public void inserirChar(int linha, int coluna,char letra){
-		labirinto[linha][coluna]=letra;
-	}
-	
+//	public void inserirChar(int linha, int coluna,char letra){
+//		labirinto[linha][coluna]=letra;
+//	}
+//	
 	public char retornaChar(int linha,int coluna){
 		return labirinto[linha][coluna];
 	}
+	public void inserirChar(int linha,int coluna, char letra){
+		labirinto[linha][coluna]=letra;
+	}
+	
+
 	
 	public String paraString(){
 		String resultado="";

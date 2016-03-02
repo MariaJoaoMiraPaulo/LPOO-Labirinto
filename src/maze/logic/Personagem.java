@@ -1,32 +1,28 @@
 package maze.logic;
 
+import java.awt.Point;
+
 public class Personagem {
-	public int linha;
-	public int coluna;
+	//	public int linha;
+	//	public int coluna;
+	public Point p;
 	public char simbolo;
-	
+
+
 	Personagem(int linha, int coluna,char simbolo){
-		this.linha=linha;
-		this.coluna=coluna;
+		p= new Point(linha,coluna);
 		this.simbolo=simbolo;
 	}
 
-	public int getLinha() {
-		return linha;
+	public Point getP() {
+		return p;
 	}
 
-	public void setLinha(int linha) {
-		this.linha = linha;
+	public void setP(Point p) {
+		this.p = p;
 	}
 
-	public int getColuna() {
-		return coluna;
-	}
 
-	public void setColuna(int coluna) {
-		this.coluna = coluna;
-	}
-	
 	public char getSimbolo() {
 		return simbolo;
 	}
@@ -34,17 +30,18 @@ public class Personagem {
 	public void setSimbolo(char simbolo) {
 		this.simbolo = simbolo;
 	}
-	
+
 	public void moverEsquerda(){
-		coluna-=1;
+		p.y-=1;
 	}
 	public void moverDireita(){
-		coluna+=1;
+		p.y+=1;
 	}
 	public void moverBaixo(){
-		linha+=1;
+		p.x+=1;
 	}
 	public void moverCima(){
-		linha-=1;
+		p.x-=1;
 	}
+
 }

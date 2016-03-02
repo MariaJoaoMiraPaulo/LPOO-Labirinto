@@ -1,5 +1,6 @@
 package maze.logic;
 
+import java.awt.Point;
 import java.util.Random;
 import maze.cli.CommandLineInterface;
 import maze.logic.Dragao.EstadoDragao;
@@ -26,15 +27,15 @@ public class Jogo {
 		heroi=new Heroi(1,1,'H');
 		espada=new Espada(4,1,'E');
 		cli=new CommandLineInterface();
-		tab.inserirChar(dragao.getLinha(), dragao.getColuna(), dragao.getSimbolo());
-		tab.inserirChar(heroi.getLinha(), heroi.getColuna(), heroi.getSimbolo());
-		tab.inserirChar(espada.getLinha(), espada.getColuna(), espada.getSimbolo());
+		tab.inserirChar(dragao.getP().x, dragao.getP().y, dragao.getSimbolo());
+		tab.inserirChar(heroi.getP().x, heroi.getP().y, heroi.getSimbolo());
+		tab.inserirChar(espada.getP().x, espada.getP().y, espada.getSimbolo());
 	}
 
 	public boolean podeMoverHeroi(Movimento direcao ){
 		boolean valido=false;
 		
-		int linha=heroi.getLinha(),coluna=heroi.getColuna();
+		int linha=heroi.getP().x,coluna=heroi.getP().y;
 		
 		switch (direcao){
 		
@@ -66,9 +67,8 @@ public class Jogo {
 
 	public void moverHeroi(){
 
-		int linha,coluna;
 		Movimento direcao=cli.lerDirecao();
-		tab.inserirChar(heroi.getLinha(),heroi.getColuna(),' ');
+		tab.inserirChar(heroi.getP().x,heroi.getP().y,' ');
 		switch (direcao){
 		case ESQUERDA: 
 			if(podeMoverHeroi(Movimento.ESQUERDA))
@@ -91,21 +91,21 @@ public class Jogo {
 		}
 
 		verificaSaida();
-		tab.inserirChar(heroi.linha, heroi.coluna, heroi.getSimbolo());
+		tab.inserirChar(heroi.getP().x, heroi.getP().y, heroi.getSimbolo());
 	}
 	
 	public void verificaSaida(){
 		
-		if(tab.retornaChar(heroi.linha,heroi.coluna)=='S')
+		if(tab.retornaChar(heroi.getP().x,heroi.getP().y)=='S')
 			fimDeJogo=true;
 	}
 
 	public void verificaEspada(){
 
-		if(heroi.getLinha()==espada.getLinha() && heroi.getColuna()==espada.getColuna()){
+		if(heroi.getP().x==espada.getP().x && heroi.getP().y==espada.getP().y){
 			heroi.setSimbolo('A');
 			heroi.setEstado(EstadoHeroi.ARMADO);
-			tab.inserirChar(espada.getLinha(),espada.getColuna(),heroi.getSimbolo());
+			tab.inserirChar(espada.getP().x,espada.getP().y,heroi.getSimbolo());
 		}
 	}
 
@@ -113,19 +113,19 @@ public class Jogo {
 
 		boolean mesmaPosicao=false;
 
-		if(tab.retornaChar(heroi.getLinha()-1, heroi.getColuna())==dragao.getSimbolo())
+		if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragao.getSimbolo())
 			mesmaPosicao=true;
-		else if(tab.retornaChar(heroi.getLinha()+1,heroi.getColuna())==dragao.getSimbolo())
+		else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragao.getSimbolo())
 			mesmaPosicao=true;
-		else if(tab.retornaChar(heroi.getLinha(), heroi.getColuna()-1)==dragao.getSimbolo())
+		else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragao.getSimbolo())
 			mesmaPosicao=true;
-		else if(tab.retornaChar(heroi.getLinha(), heroi.getColuna()+1)==dragao.getSimbolo())
+		else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragao.getSimbolo())
 			mesmaPosicao=true;
 
 		if (mesmaPosicao){
 			if (heroi.getEstado()==EstadoHeroi.ARMADO){
 				dragao.setEstado(EstadoDragao.MORTO);
-				tab.inserirChar(dragao.getLinha(), dragao.getColuna(), ' ');
+				tab.inserirChar(dragao.getP().x, dragao.getP().y, ' ');
 			}
 			else if (dragao.getEstado()==EstadoDragao.ACORDADO) {
 				fimDeJogo=true;
@@ -145,8 +145,8 @@ public class Jogo {
 		if (dragao.getEstado()==EstadoDragao.ACORDADO){
 			do{
 				direcao=rn.nextInt(6);
-				linha=dragao.getLinha();
-				coluna=dragao.getColuna();
+				linha=dragao.getP().x;
+				coluna=dragao.getP().y;
 				switch (direcao){
 				case 0: 
 					coluna-=1;
@@ -177,11 +177,11 @@ public class Jogo {
 			}while(!valido);
 
 			if(espada.isCoberta())
-				tab.inserirChar(dragao.getLinha(),dragao.getColuna(),'E');
-			else tab.inserirChar(dragao.getLinha(),dragao.getColuna(),' ');
+				tab.inserirChar(dragao.getP().x,dragao.getP().y,'E');
+			else tab.inserirChar(dragao.getP().x,dragao.getP().y,' ');
 
-			dragao.setColuna(coluna);
-			dragao.setLinha(linha);
+			Point p=new Point(linha,coluna);
+			dragao.setP(p);
 
 			if(tab.retornaChar(linha,coluna)== 'E'){
 				espada.setCoberta(true);
@@ -194,8 +194,8 @@ public class Jogo {
 		}
 		else if (dragao.getEstado()==EstadoDragao.DORMIR){
 			direcao=rn.nextInt(1);
-			linha=dragao.getLinha();
-			coluna=dragao.getColuna();
+			linha=dragao.getP().x;
+			coluna=dragao.getP().y;
 			switch (direcao){
 			case 0: 
 				dragao.setEstado(EstadoDragao.ACORDADO);; 
