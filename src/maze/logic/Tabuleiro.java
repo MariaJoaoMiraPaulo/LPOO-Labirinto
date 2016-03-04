@@ -29,17 +29,21 @@ public class Tabuleiro {
 		}
 	}
 	
-//	public void inserirChar(int linha, int coluna,char letra){
-//		labirinto[linha][coluna]=letra;
-//	}
-//	
 	public char retornaChar(int linha,int coluna){
 		return labirinto[linha][coluna];
 	}
-	public void inserirChar(int linha,int coluna, char letra){
-		labirinto[linha][coluna]=letra;
+	
+	public char retornaChar(Point p){
+		return labirinto[p.x][p.y];
 	}
 	
+//	public void inserirChar(int linha,int coluna, char letra){
+//		labirinto[linha][coluna]=letra;
+//	}
+	
+	public void inserirChar(Point p, char letra){
+		labirinto[p.x][p.y]=letra;
+	}
 
 	
 	public String paraString(){

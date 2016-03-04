@@ -6,7 +6,7 @@ public class Dragao extends Personagem {
 		MORTO,DORMIR,ACORDADO
 	}
 	
-	public EstadoDragao estado=EstadoDragao.ACORDADO;
+	private EstadoDragao estado=EstadoDragao.ACORDADO;
 	
 	public Dragao(int linha, int coluna,char simbolo){
 		super(linha,coluna,simbolo);
