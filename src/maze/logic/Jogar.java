@@ -21,13 +21,14 @@ public class Jogar {
 
 	public void jogar(){
 		boolean fimDeJogo=false;
+		jogo.colocaDragoes(cli.retornaNumeroDragoes());
 		cli.imprimir(jogo.getTab().paraString());
 		while(!fimDeJogo){
 			fimDeJogo=jogo.jogada();
 			cli.imprimir(jogo.getTab().paraString());
 		}
 
-		if(jogo.getDragao().getEstado()==EstadoDragao.MORTO)
+		if(!jogo.dragoesVivos())
 			cli.imprimir("O jogador ganhou!!");
 		else cli.imprimir("O jogador perdeu!!");
 		

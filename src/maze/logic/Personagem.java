@@ -22,7 +22,6 @@ public class Personagem {
 		this.p = p;
 	}
 
-
 	public char getSimbolo() {
 		return simbolo;
 	}

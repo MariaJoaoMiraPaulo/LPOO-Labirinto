@@ -1,5 +1,6 @@
 package maze.cli;
 
+import java.awt.Point;
 import java.util.Scanner;
 import maze.logic.Jogo.*;
 
@@ -12,6 +13,30 @@ public class CommandLineInterface {
 		System.out.println(aEscrever);
 	}
 	
+	public int retornaNumeroDragoes(){
+		imprimir("Com quantos dragões pretende jogar? (Maximo 5)");
+		Scanner ler = new Scanner(System.in);
+		int numero;
+		numero=ler.nextInt();
+		while(numero>5){
+			imprimir("Demasiados Dragões para jogar! Com quantos dragões pretende jogar?");
+			numero=ler.nextInt();
+		}
+		return numero;
+	}
+	
+	public Point retornaCoordenadaDragao(){
+		int x,y;
+		Scanner ler = new Scanner(System.in);
+		imprimir("Qual a coordenada x do Dragao?");
+		x=ler.nextInt();
+		imprimir("Qual a coordenada y do Dragao?");
+		y=ler.nextInt();
+		Point ponto= new Point(x,y);
+		return ponto;
+		
+	}
+
 	public int retornaModoJogo(){
 		
 		imprimir("Com que modo de Jogo pretende jogar?");
