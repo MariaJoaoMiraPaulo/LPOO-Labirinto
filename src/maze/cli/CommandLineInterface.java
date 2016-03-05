@@ -14,12 +14,12 @@ public class CommandLineInterface {
 	}
 	
 	public int retornaNumeroDragoes(){
-		imprimir("Com quantos dragões pretende jogar? (Maximo 5)");
+		imprimir("Com quantos dragoes pretende jogar? (Maximo 5)");
 		Scanner ler = new Scanner(System.in);
 		int numero;
 		numero=ler.nextInt();
 		while(numero>5){
-			imprimir("Demasiados Dragões para jogar! Com quantos dragões pretende jogar?");
+			imprimir("Demasiados Dragoes para jogar! Com quantos dragoes pretende jogar?");
 			numero=ler.nextInt();
 		}
 		return numero;
@@ -41,8 +41,8 @@ public class CommandLineInterface {
 		
 		imprimir("Com que modo de Jogo pretende jogar?");
 		imprimir("1.Dragao Parado");
-		imprimir("2.Dragao com movimentaçao aleatoria");
-		imprimir("3.Dragao com movimentaçao aleatoria intercalada com dormir");
+		imprimir("2.Dragao com movimentacao aleatoria");
+		imprimir("3.Dragao com movimenta�cao aleatoria intercalada com dormir");
 		int modo;
 		Scanner ler = new Scanner(System.in);
 		modo=ler.nextInt();

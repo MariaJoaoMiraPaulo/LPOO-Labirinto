@@ -3,7 +3,7 @@ package maze.logic;
 public class Espada extends Personagem {
 	
 	public boolean encontrada=false;
-	public boolean coberta=false;
+	//public boolean coberta=false;
 	
 	Espada(int linha,int coluna, char simbolo){
 		super(linha,coluna,simbolo);
@@ -17,13 +17,13 @@ public class Espada extends Personagem {
 		this.encontrada = encontrada;
 	}
 
-	public boolean isCoberta() {
-		return coberta;
-	}
-
-	public void setCoberta(boolean coberta) {
-		this.coberta = coberta;
-	}
+//	public boolean isCoberta() {
+//		return coberta;
+//	}
+//
+//	public void setCoberta(boolean coberta) {
+//		this.coberta = coberta;
+//	}
 	
 	
 }

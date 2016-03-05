@@ -7,6 +7,7 @@ public class Dragao extends Personagem {
 	}
 	
 	private EstadoDragao estado=EstadoDragao.ACORDADO;
+	private boolean porCimaEspada=false;
 	
 	public Dragao(int linha, int coluna,char simbolo){
 		super(linha,coluna,simbolo);
@@ -18,6 +19,14 @@ public class Dragao extends Personagem {
 
 	public void setEstado(EstadoDragao estado) {
 		this.estado = estado;
+	}
+
+	public boolean isPorCimaEspada() {
+		return porCimaEspada;
+	}
+
+	public void setPorCimaEspada(boolean porCimaEspada) {
+		this.porCimaEspada = porCimaEspada;
 	}
 
 }

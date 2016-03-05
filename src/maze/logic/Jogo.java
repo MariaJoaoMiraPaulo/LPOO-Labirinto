@@ -32,9 +32,9 @@ public class Jogo {
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
-	
+
 	public void colocaDragoes(int numeroDragoes){
-		
+
 		for(int i=0;i<numeroDragoes;i++){
 			Point ponto=cli.retornaCoordenadaDragao();
 			if (podeColocarDragao(ponto)){
@@ -42,18 +42,21 @@ public class Jogo {
 				dragoes.add(d);
 				tab.inserirChar(ponto,'D');
 			}
-			else i--;
+			else {
+				cli.imprimir("Coordenada inválida. Repita !");
+				i--;
+			}
 		}
 
 	}
-	
+
 	public boolean podeColocarDragao(Point ponto){
-		
+
 		if (tab.retornaChar(ponto)==' ')
 			return true;
-		
+
 		return false;
-		
+
 	}
 
 	public boolean podeMoverHeroi(Movimento direcao ){
@@ -91,9 +94,9 @@ public class Jogo {
 		return valido;
 
 	}
-	
+
 	public boolean dragoesVivos(){
-		
+
 		for (int i=0;i<dragoes.size();i++){
 			if(dragoes.get(i).getEstado()!=EstadoDragao.MORTO)
 				return true;
@@ -148,51 +151,53 @@ public class Jogo {
 
 	public void verificaDragao(){
 
-//		boolean mesmaPosicao=false;
-//
-//		
-//		if(dragao.getSimbolo()=='D' || heroi.getSimbolo()=='A'){
-//			if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragao.getSimbolo())
-//				mesmaPosicao=true;
-//			else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragao.getSimbolo())
-//				mesmaPosicao=true;
-//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragao.getSimbolo())
-//				mesmaPosicao=true;
-//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragao.getSimbolo())
-//				mesmaPosicao=true;
-//
-//			if (mesmaPosicao){
-//				if (heroi.getEstado()==EstadoHeroi.ARMADO){
-//					dragao.setEstado(EstadoDragao.MORTO);
-//					tab.inserirChar(dragao.getP(), ' ');
-//				}
-//				else if (dragao.getEstado()==EstadoDragao.ACORDADO) {
-//					fimDeJogo=true;
-//				}
-//			}
-//		}
-		
-		for (int i=0;i<dragoes.size();i++){
-			
-			boolean mesmaPos=false;
-			
-			if(dragoes.get(i).getEstado()==EstadoDragao.ACORDADO || heroi.getSimbolo()=='A'){
-				if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragoes.get(i).getSimbolo())
-					mesmaPos=true;
-				else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragoes.get(i).getSimbolo())
-					mesmaPos=true;
-				else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragoes.get(i).getSimbolo())
-					mesmaPos=true;
-				else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragoes.get(i).getSimbolo())
-					mesmaPos=true;
+		//		boolean mesmaPosicao=false;
+		//
+		//		
+		//		if(dragao.getSimbolo()=='D' || heroi.getSimbolo()=='A'){
+		//			if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragao.getSimbolo())
+		//				mesmaPosicao=true;
+		//			else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragao.getSimbolo())
+		//				mesmaPosicao=true;
+		//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragao.getSimbolo())
+		//				mesmaPosicao=true;
+		//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragao.getSimbolo())
+		//				mesmaPosicao=true;
+		//
+		//			if (mesmaPosicao){
+		//				if (heroi.getEstado()==EstadoHeroi.ARMADO){
+		//					dragao.setEstado(EstadoDragao.MORTO);
+		//					tab.inserirChar(dragao.getP(), ' ');
+		//				}
+		//				else if (dragao.getEstado()==EstadoDragao.ACORDADO) {
+		//					fimDeJogo=true;
+		//				}
+		//			}
+		//		}
 
-				if (mesmaPos){
-					if (heroi.getEstado()==EstadoHeroi.ARMADO){
-						dragoes.get(i).setEstado(EstadoDragao.MORTO);
-						tab.inserirChar(dragoes.get(i).getP(), ' ');
-					}
-					else if (dragoes.get(i).getEstado()==EstadoDragao.ACORDADO) {
-						fimDeJogo=true;
+		for (int i=0;i<dragoes.size();i++){
+
+			if(dragoes.get(i).getEstado()!= EstadoDragao.MORTO){
+				boolean mesmaPos=false;
+
+				if(dragoes.get(i).getEstado()==EstadoDragao.ACORDADO || heroi.getSimbolo()=='A'){
+					if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragoes.get(i).getSimbolo())
+						mesmaPos=true;
+					else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragoes.get(i).getSimbolo())
+						mesmaPos=true;
+					else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragoes.get(i).getSimbolo())
+						mesmaPos=true;
+					else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragoes.get(i).getSimbolo())
+						mesmaPos=true;
+
+					if (mesmaPos){
+						if (heroi.getEstado()==EstadoHeroi.ARMADO){
+							dragoes.get(i).setEstado(EstadoDragao.MORTO);
+							tab.inserirChar(dragoes.get(i).getP(), ' ');
+						}
+						else if (dragoes.get(i).getEstado()==EstadoDragao.ACORDADO) {
+							fimDeJogo=true;
+						}
 					}
 				}
 			}
@@ -200,27 +205,28 @@ public class Jogo {
 	}
 
 	public void dragaoEEspada(Point p, int indice){
-		
-		if(espada.isCoberta())
+
+		if( dragoes.get(indice).isPorCimaEspada()){	
+			dragoes.get(indice).setPorCimaEspada(false);
 			tab.inserirChar(dragoes.get(indice).getP(),'E');
+		}
 		else tab.inserirChar(dragoes.get(indice).getP(),' ');
 
 		dragoes.get(indice).setP(p);
 
 		if(tab.retornaChar(p)== 'E'){
-			espada.setCoberta(true);
+			dragoes.get(indice).setPorCimaEspada(true);
 			tab.inserirChar(p, 'F');
 		}
 		else {
-			espada.setCoberta(false);
 			tab.inserirChar(p, dragoes.get(indice).getSimbolo());
 		}
 	}
-	
+
 	public void dragaoADormir(int indice){
 		Random rn=new Random();
 		int direcao;
-		
+
 		direcao=rn.nextInt(2);
 
 		switch (direcao){
@@ -233,15 +239,15 @@ public class Jogo {
 			break;
 		}
 	}
-	
+
 	public void dragaoAcordado(int indice){
-		
+
 		Random rn=new Random();
 
 		int direcao;
 		boolean valido=false;
 		Point p;
-		
+
 		direcao=rn.nextInt(6);
 		p=(Point)dragoes.get(indice).getP().clone();
 
@@ -288,7 +294,7 @@ public class Jogo {
 				dragaoADormir(i);
 			}
 		}
-		
+
 	}
 
 
