@@ -181,13 +181,14 @@ public class Jogo {
 				boolean mesmaPos=false;
 
 				if(dragoes.get(i).getEstado()==EstadoDragao.ACORDADO || heroi.getSimbolo()=='A'){
-					if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragoes.get(i).getSimbolo())
+
+					if(heroi.getP().x-1==dragoes.get(i).getP().x && heroi.getP().y==dragoes.get(i).getP().y)
 						mesmaPos=true;
-					else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragoes.get(i).getSimbolo())
+					else if(heroi.getP().x+1==dragoes.get(i).getP().x && heroi.getP().y==dragoes.get(i).getP().y)
 						mesmaPos=true;
-					else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragoes.get(i).getSimbolo())
+					else if(heroi.getP().x==dragoes.get(i).getP().x && heroi.getP().y-1==dragoes.get(i).getP().y)
 						mesmaPos=true;
-					else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragoes.get(i).getSimbolo())
+					else if(heroi.getP().x==dragoes.get(i).getP().x && heroi.getP().y+1==dragoes.get(i).getP().y)
 						mesmaPos=true;
 
 					if (mesmaPos){
@@ -275,7 +276,7 @@ public class Jogo {
 			break;
 
 		}
-		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S'){
+		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd'){
 			valido=true;
 		}
 
