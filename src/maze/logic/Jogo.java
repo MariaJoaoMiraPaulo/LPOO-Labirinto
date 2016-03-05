@@ -22,7 +22,7 @@ public class Jogo {
 		DIREITA,ESQUERDA,CIMA,BAIXO
 	}
 
-	Jogo(){
+	public Jogo(){
 		tab=new Tabuleiro();
 		//dragao=new Dragao(3,1,'D');
 		heroi=new Heroi(1,1,'H');
@@ -150,30 +150,6 @@ public class Jogo {
 	}
 
 	public void verificaDragao(){
-
-		//		boolean mesmaPosicao=false;
-		//
-		//		
-		//		if(dragao.getSimbolo()=='D' || heroi.getSimbolo()=='A'){
-		//			if(tab.retornaChar(heroi.getP().x-1, heroi.getP().y)==dragao.getSimbolo())
-		//				mesmaPosicao=true;
-		//			else if(tab.retornaChar(heroi.getP().x+1,heroi.getP().y)==dragao.getSimbolo())
-		//				mesmaPosicao=true;
-		//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y-1)==dragao.getSimbolo())
-		//				mesmaPosicao=true;
-		//			else if(tab.retornaChar(heroi.getP().x, heroi.getP().y+1)==dragao.getSimbolo())
-		//				mesmaPosicao=true;
-		//
-		//			if (mesmaPosicao){
-		//				if (heroi.getEstado()==EstadoHeroi.ARMADO){
-		//					dragao.setEstado(EstadoDragao.MORTO);
-		//					tab.inserirChar(dragao.getP(), ' ');
-		//				}
-		//				else if (dragao.getEstado()==EstadoDragao.ACORDADO) {
-		//					fimDeJogo=true;
-		//				}
-		//			}
-		//		}
 
 		for (int i=0;i<dragoes.size();i++){
 
@@ -321,6 +297,22 @@ public class Jogo {
 
 	public void setModoJogo(int modoJogo) {
 		this.modoJogo = modoJogo;
+	}
+
+	public Heroi getHeroi() {
+		return heroi;
+	}
+
+	public void setHeroi(Heroi heroi) {
+		this.heroi = heroi;
+	}
+
+	public boolean isFimDeJogo() {
+		return fimDeJogo;
+	}
+
+	public void setFimDeJogo(boolean fimDeJogo) {
+		this.fimDeJogo = fimDeJogo;
 	}
 
 }
