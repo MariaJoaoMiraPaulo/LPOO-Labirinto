@@ -12,7 +12,7 @@ public class Jogar {
 //		Jogar j1=new Jogar();
 //		j1.jogar();
 		Tabuleiro t=new Tabuleiro();
-		t.gerarLabirinto(11);
+		t.gerarLabirinto(7);
 		t.desenhaTab();
 	}
 
