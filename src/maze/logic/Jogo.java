@@ -216,11 +216,15 @@ public class Jogo {
 		case 0: 
 			break;
 		case 1:
-			dragoes.get(indice).setEstado(EstadoDragao.ACORDADO);
-			dragoes.get(indice).setSimbolo('D'); 
-			tab.inserirChar(dragoes.get(indice).getP(), 'D');
+			acordarDragao(indice);
 			break;
 		}
+	}
+	
+	public void acordarDragao(int indice){
+		dragoes.get(indice).setEstado(EstadoDragao.ACORDADO);
+		dragoes.get(indice).setSimbolo('D'); 
+		tab.inserirChar(dragoes.get(indice).getP(), 'D');
 	}
 
 	public void dragaoAcordado(int indice){
@@ -251,14 +255,12 @@ public class Jogo {
 			break;
 		case 5:
 			if (modoJogo==3){
-				dragoes.get(indice).setEstado(EstadoDragao.DORMIR);
-				dragoes.get(indice).setSimbolo('d');
-				tab.inserirChar(p, 'd');
+				porDragaoDormir(indice,p);
 			}
 			break;
 
 		}
-		if(DragaoPodeMover(p)){
+		if(dragaoPodeMover(p)){
 			valido=true;
 		}
 
@@ -267,7 +269,13 @@ public class Jogo {
 		}
 	}
 	
-	public boolean DragaoPodeMover(Point p){
+	public void porDragaoDormir(int indice, Point p){
+		dragoes.get(indice).setEstado(EstadoDragao.DORMIR);
+		dragoes.get(indice).setSimbolo('d');
+		tab.inserirChar(p, 'd');
+	}
+	
+	public boolean dragaoPodeMover(Point p){
 		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd')
 			return true;
 		return false;

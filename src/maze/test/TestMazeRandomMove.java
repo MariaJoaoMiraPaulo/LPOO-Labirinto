@@ -52,10 +52,10 @@ public class TestMazeRandomMove {
 		Dragao d1=new Dragao(6,1,'D');
 		j.dragoes.add(d);
 		j.getTab().inserirChar(d.p, 'D');
-		assertEquals(true,j.DragaoPodeMover(p));
+		assertEquals(true,j.dragaoPodeMover(p));
 		j.dragoes.add(d1);
 		j.getTab().inserirChar(d1.p, 'D');
-		assertEquals(false,j.DragaoPodeMover(p));
+		assertEquals(false,j.dragaoPodeMover(p));
 	}
 	
 	@Test
@@ -67,10 +67,10 @@ public class TestMazeRandomMove {
 		d1.setEstado(EstadoDragao.DORMIR);
 		j.dragoes.add(d);
 		j.getTab().inserirChar(d.p, 'D');
-		assertEquals(true,j.DragaoPodeMover(p));
+		assertEquals(true,j.dragaoPodeMover(p));
 		j.dragoes.add(d1);
 		j.getTab().inserirChar(d1.p, 'd');
-		assertEquals(false,j.DragaoPodeMover(p));
+		assertEquals(false,j.dragaoPodeMover(p));
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class TestMazeRandomMove {
 			d.moverBaixo();
 		}
 		d.moverDireita();
-		assertEquals(false,j.DragaoPodeMover(d.p));
+		assertEquals(false,j.dragaoPodeMover(d.p));
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class TestMazeRandomMove {
 		Dragao d=new Dragao(3,1,'D');
 		j.dragoes.add(d);
 		d.moverDireita();
-		assertEquals(false,j.DragaoPodeMover(d.p));
+		assertEquals(false,j.dragaoPodeMover(d.p));
 	}
 	
 	@Test
@@ -229,6 +229,34 @@ public class TestMazeRandomMove {
 		assertEquals(true,j.dragoesVivos());
 	}
 	
+	@Test
+	public void porDragaoDormir(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(1,3,'D');
+		Point p=new Point(1,3);
+		j.dragoes.add(d);
+		assertEquals('D',j.dragoes.get(0).getSimbolo());
+		assertEquals(EstadoDragao.ACORDADO,j.dragoes.get(0).getEstado());
+		j.porDragaoDormir(0, p);
+		assertEquals('d',j.dragoes.get(0).getSimbolo());
+		assertEquals(EstadoDragao.DORMIR,j.dragoes.get(0).getEstado());
+	}
+	
+	@Test
+	public void acordarDragao(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(1,3,'D');
+		Point p=new Point(1,3);
+		j.dragoes.add(d);
+		assertEquals('D',j.dragoes.get(0).getSimbolo());
+		assertEquals(EstadoDragao.ACORDADO,j.dragoes.get(0).getEstado());
+		j.porDragaoDormir(0, p);
+		assertEquals('d',j.dragoes.get(0).getSimbolo());
+		assertEquals(EstadoDragao.DORMIR,j.dragoes.get(0).getEstado());
+		j.acordarDragao(0);
+		assertEquals('D',j.dragoes.get(0).getSimbolo());
+		assertEquals(EstadoDragao.ACORDADO,j.dragoes.get(0).getEstado());
+	}
 	
 	
 	
