@@ -130,4 +130,10 @@ public class TestMazeWithStaticDragon {
 			j.verificaSaida();
 		assertEquals(false, j.isFimDeJogo());
 	}
+	
+	@Test
+	public void moverHeroiBaixo(){
+	
+	}
+	
 }

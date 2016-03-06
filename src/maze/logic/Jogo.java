@@ -43,7 +43,7 @@ public class Jogo {
 				tab.inserirChar(ponto,'D');
 			}
 			else {
-				cli.imprimir("Coordenada inválida. Repita !");
+				cli.imprimir("Coordenada invï¿½lida. Repita !");
 				i--;
 			}
 		}
@@ -187,11 +187,13 @@ public class Jogo {
 			dragoes.get(indice).setPorCimaEspada(false);
 			tab.inserirChar(dragoes.get(indice).getP(),'E');
 		}
-		else tab.inserirChar(dragoes.get(indice).getP(),' ');
+		else{
+			tab.inserirChar(dragoes.get(indice).getP(),' ');
+		}
 
-		dragoes.get(indice).setP(p);
-
-		if(tab.retornaChar(p)== 'E'){
+		dragoes.get(indice).setP(p); 
+		
+		if(tab.retornaChar(p) == 'E'){
 			dragoes.get(indice).setPorCimaEspada(true);
 			tab.inserirChar(p, 'F');
 		}
@@ -252,7 +254,7 @@ public class Jogo {
 			break;
 
 		}
-		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd'){
+		if(DragaoPodeMover(p)){
 			valido=true;
 		}
 
@@ -261,6 +263,14 @@ public class Jogo {
 		}
 	}
 
+	
+	public boolean DragaoPodeMover(Point p){
+		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd')
+			return true;
+		return false;
+	}
+	
+	
 	public void moverDragao(){
 
 		for (int i=0;i<dragoes.size();i++){
