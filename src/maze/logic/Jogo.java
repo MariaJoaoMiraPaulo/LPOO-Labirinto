@@ -258,13 +258,19 @@ public class Jogo {
 			break;
 
 		}
-		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd'){
+		if(DragaoPodeMover(p)){
 			valido=true;
 		}
 
 		if(valido){
 			dragaoEEspada(p,indice);
 		}
+	}
+	
+	public boolean DragaoPodeMover(Point p){
+		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd')
+			return true;
+		return false;
 	}
 
 	public void moverDragao(){
@@ -319,6 +325,14 @@ public class Jogo {
 
 	public void setFimDeJogo(boolean fimDeJogo) {
 		this.fimDeJogo = fimDeJogo;
+	}
+
+	public Espada getEspada() {
+		return espada;
+	}
+
+	public void setEspada(Espada espada) {
+		this.espada = espada;
 	}
 
 }
