@@ -43,7 +43,7 @@ public class Jogo {
 				tab.inserirChar(ponto,'D');
 			}
 			else {
-				cli.imprimir("Coordenada inválida. Repita !");
+				cli.imprimir("Coordenada invï¿½lida. Repita !");
 				i--;
 			}
 		}
