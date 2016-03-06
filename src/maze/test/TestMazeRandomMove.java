@@ -150,9 +150,9 @@ public class TestMazeRandomMove {
 		j.dragoes.get(1).setEstado(EstadoDragao.MORTO);
 		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
 		for(int i=0;i<7;i++)
-			j.getHeroi().moverDireita();
+			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
 		for(int i=0;i<4;i++)
-			j.getHeroi().moverBaixo();
+			j.moveHeroiSegundoDirecao(Movimento.BAIXO);
 		j.podeMoverHeroi(Movimento.DIREITA);
 		assertEquals(false,j.isFimDeJogo());
 	}
@@ -173,13 +173,65 @@ public class TestMazeRandomMove {
 		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
 		j.dragoes.get(3).setEstado(EstadoDragao.MORTO);
 		for(int i=0;i<7;i++)
-			j.getHeroi().moverDireita();
-		for(int i=0;i<4;i++)
-			j.getHeroi().moverBaixo();
-		if(j.podeMoverHeroi(Movimento.DIREITA))
 			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+		for(int i=0;i<4;i++)
+			j.moveHeroiSegundoDirecao(Movimento.BAIXO);
+		//j.getHeroi().moverBaixo();
+		j.moveHeroiSegundoDirecao(Movimento.DIREITA);
 		assertEquals(true,j.isFimDeJogo());
 	}
+	
+	@Test
+	public void DragaoSaiCimaEspada(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(3,1,'D');
+		j.dragoes.add(d);
+		Point p=new Point (4,1);
+		j.dragaoEEspada(p, 0);
+		assertEquals('F',j.getTab().retornaChar(j.dragoes.get(0).p));
+		assertEquals(true,j.dragoes.get(0).isPorCimaEspada());
+		Point p2=new Point (5,1);
+		j.dragaoEEspada(p2, 0);
+		assertEquals('E',j.getTab().retornaChar(j.getEspada().p));
+		assertEquals('D',j.getTab().retornaChar(j.dragoes.get(0).p));
+	}
+	
+	@Test
+	public void DragaoDormirNaoSeMove(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(3,1,'D');
+		Point p=new Point(3,1);
+		j.dragoes.add(d);
+		j.dragoes.get(0).setEstado(EstadoDragao.DORMIR);
+		j.moverDragao();
+		assertEquals(p,j.dragoes.get(0).p);
+	}
+	
+	@Test
+	public void HeroiMataUmDragaoApenas(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(1,3,'D');
+		Dragao d1=new Dragao(1,6,'D');
+		Point p= new Point(1,3);
+		j.dragoes.add(d);
+		j.dragoes.add(d1);
+		assertEquals('H', j.getHeroi().getSimbolo());
+		for(int i=0;i<3;i++)
+			j.getHeroi().moverBaixo();
+		j.verificaEspada();
+		assertEquals('A', j.getHeroi().getSimbolo());
+		for(int i=0;i<3;i++)
+			j.moveHeroiSegundoDirecao(Movimento.CIMA);
+		for(int i=0;i<1;i++)
+			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+		j.verificaDragao();
+		assertEquals(' ',j.getTab().retornaChar(p));
+		assertEquals(true,j.dragoesVivos());
+	}
+	
+	
+	
+	
 	
 	
 	
