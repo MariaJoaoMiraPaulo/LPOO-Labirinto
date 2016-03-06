@@ -118,7 +118,6 @@ public class TestMazeRandomMove {
 		Jogo j= new Jogo();
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
-		//j.dragoes.get(0).moverCima();
 		Point p=new Point (4,1);
 		j.dragaoEEspada(p, 0);
 		assertEquals('F',j.getTab().retornaChar(j.dragoes.get(0).p));
@@ -129,7 +128,6 @@ public class TestMazeRandomMove {
 		Jogo j= new Jogo();
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
-		//j.dragoes.get(0).moverCima();
 		Point p=new Point (6,1);
 		j.dragaoEEspada(p, 0);
 		assertEquals('D',j.getTab().retornaChar(j.dragoes.get(0).p));
@@ -150,9 +148,9 @@ public class TestMazeRandomMove {
 		j.dragoes.get(1).setEstado(EstadoDragao.MORTO);
 		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
 		for(int i=0;i<7;i++)
-			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+			j.moverHeroi(Movimento.DIREITA);
 		for(int i=0;i<4;i++)
-			j.moveHeroiSegundoDirecao(Movimento.BAIXO);
+			j.moverHeroi(Movimento.BAIXO);
 		j.podeMoverHeroi(Movimento.DIREITA);
 		assertEquals(false,j.isFimDeJogo());
 	}
@@ -173,11 +171,11 @@ public class TestMazeRandomMove {
 		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
 		j.dragoes.get(3).setEstado(EstadoDragao.MORTO);
 		for(int i=0;i<7;i++)
-			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+			j.moverHeroi(Movimento.DIREITA);
 		for(int i=0;i<4;i++)
-			j.moveHeroiSegundoDirecao(Movimento.BAIXO);
+			j.moverHeroi(Movimento.BAIXO);
 		//j.getHeroi().moverBaixo();
-		j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+		j.moverHeroi(Movimento.DIREITA);
 		assertEquals(true,j.isFimDeJogo());
 	}
 	
@@ -221,9 +219,9 @@ public class TestMazeRandomMove {
 		j.verificaEspada();
 		assertEquals('A', j.getHeroi().getSimbolo());
 		for(int i=0;i<3;i++)
-			j.moveHeroiSegundoDirecao(Movimento.CIMA);
+			j.moverHeroi(Movimento.CIMA);
 		for(int i=0;i<1;i++)
-			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+			j.moverHeroi(Movimento.DIREITA);
 		j.verificaDragao();
 		assertEquals(' ',j.getTab().retornaChar(p));
 		assertEquals(true,j.dragoesVivos());
@@ -258,10 +256,4 @@ public class TestMazeRandomMove {
 		assertEquals(EstadoDragao.ACORDADO,j.dragoes.get(0).getEstado());
 	}
 	
-	
-	
-	
-	
-	
-
 }

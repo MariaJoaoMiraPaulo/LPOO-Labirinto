@@ -104,15 +104,9 @@ public class Jogo {
 		return false;
 	}
 
-	public void moverHeroi(){
+	public void moverHeroi(Movimento direcao){
 
-		Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getP(),' ');
-		moveHeroiSegundoDirecao(direcao);
-	
-	}
-	
-	public void moveHeroiSegundoDirecao(Movimento direcao){
 		switch (direcao){
 		case ESQUERDA: 
 			if(podeMoverHeroi(Movimento.ESQUERDA))
@@ -132,12 +126,11 @@ public class Jogo {
 				heroi.moverCima();
 			break;
 		default:
-			break;
+			break;	
 		}
-
+		
 		verificaSaida();
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
-		
 	}
 
 	public void verificaSaida(){
@@ -296,7 +289,7 @@ public class Jogo {
 
 
 	public boolean jogada( ){
-		moverHeroi();
+		moverHeroi(cli.lerDirecao());
 		verificaEspada();
 		verificaDragao();
 		if (modoJogo!=1){
