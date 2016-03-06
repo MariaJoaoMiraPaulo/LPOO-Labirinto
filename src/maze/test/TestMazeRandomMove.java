@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import maze.logic.Dragao;
 import maze.logic.Jogo;
+import maze.logic.Jogo.Movimento;
 import maze.logic.Dragao.EstadoDragao;
 
 public class TestMazeRandomMove {
@@ -122,6 +123,65 @@ public class TestMazeRandomMove {
 		j.dragaoEEspada(p, 0);
 		assertEquals('F',j.getTab().retornaChar(j.dragoes.get(0).p));
 	}
+	
+	@Test
+	public void DragaoNaoFicaCimaEspada(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(5,1,'D');
+		j.dragoes.add(d);
+		//j.dragoes.get(0).moverCima();
+		Point p=new Point (6,1);
+		j.dragaoEEspada(p, 0);
+		assertEquals('D',j.getTab().retornaChar(j.dragoes.get(0).p));
+	}
+	
+	@Test
+	public void NaSaidaDragoesVivos(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(3,1,'D');
+		Dragao d1=new Dragao(1,4,'D');
+		Dragao d2=new Dragao(1,6,'D');
+		Dragao d3=new Dragao(6,1,'D');
+		j.dragoes.add(d);
+		j.dragoes.add(d1);
+		j.dragoes.add(d2);
+		j.dragoes.add(d3);
+		j.dragoes.get(0).setEstado(EstadoDragao.MORTO);
+		j.dragoes.get(1).setEstado(EstadoDragao.MORTO);
+		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
+		for(int i=0;i<7;i++)
+			j.getHeroi().moverDireita();
+		for(int i=0;i<4;i++)
+			j.getHeroi().moverBaixo();
+		j.podeMoverHeroi(Movimento.DIREITA);
+		assertEquals(false,j.isFimDeJogo());
+	}
+	
+	@Test
+	public void NaSaidaDragoesMortosGanha(){
+		Jogo j= new Jogo();
+		Dragao d=new Dragao(3,1,'D');
+		Dragao d1=new Dragao(1,4,'D');
+		Dragao d2=new Dragao(1,6,'D');
+		Dragao d3=new Dragao(6,1,'D');
+		j.dragoes.add(d);
+		j.dragoes.add(d1);
+		j.dragoes.add(d2);
+		j.dragoes.add(d3);
+		j.dragoes.get(0).setEstado(EstadoDragao.MORTO);
+		j.dragoes.get(1).setEstado(EstadoDragao.MORTO);
+		j.dragoes.get(2).setEstado(EstadoDragao.MORTO);
+		j.dragoes.get(3).setEstado(EstadoDragao.MORTO);
+		for(int i=0;i<7;i++)
+			j.getHeroi().moverDireita();
+		for(int i=0;i<4;i++)
+			j.getHeroi().moverBaixo();
+		if(j.podeMoverHeroi(Movimento.DIREITA))
+			j.moveHeroiSegundoDirecao(Movimento.DIREITA);
+		assertEquals(true,j.isFimDeJogo());
+	}
+	
+	
 	
 
 }
