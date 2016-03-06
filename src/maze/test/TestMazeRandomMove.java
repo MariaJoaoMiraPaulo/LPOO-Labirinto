@@ -26,7 +26,7 @@ public class TestMazeRandomMove {
 	}
 	
 	@Test
-	public void PodeColecarDragaoCimaEspada(){
+	public void MoverDragaoCimaEspada(){
 		Jogo j= new Jogo();
 		Dragao d=new Dragao(3,1,'D');
 		j.dragoes.add(d);
@@ -36,7 +36,7 @@ public class TestMazeRandomMove {
 	}
 	
 	@Test
-	public void PodeColecarDragaoCelulaLivre(){
+	public void MoverDragaoCelulaLivre(){
 		Jogo j= new Jogo();
 		Dragao d=new Dragao(3,1,'D');
 		j.dragoes.add(d);
@@ -136,7 +136,7 @@ public class TestMazeRandomMove {
 	}
 	
 	@Test
-	public void NaSaidaDragoesVivos(){
+	public void NaSaidaComDragoesVivos(){
 		Jogo j= new Jogo();
 		Dragao d=new Dragao(3,1,'D');
 		Dragao d1=new Dragao(1,4,'D');
