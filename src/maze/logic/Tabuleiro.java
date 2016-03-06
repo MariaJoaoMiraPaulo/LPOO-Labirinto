@@ -1,6 +1,8 @@
 package maze.logic;
 
 import java.awt.Point;
+import java.util.Random;
+import java.util.Stack;
 
 public class Tabuleiro {
 	private char labirinto[][]={
@@ -18,6 +20,37 @@ public class Tabuleiro {
 
 	public Tabuleiro(){
 
+	}
+	
+	public void gerarLabirinto(int n){
+		
+		labirinto=new char[n][n];
+		Stack st = new Stack();
+		int CVisitadas=(n-1)/2;
+		char celulasVisitadas[][]=new char[CVisitadas][CVisitadas];
+		
+		for (int i=0;i<n;i++){
+			for (int j=0;j<n;j++)
+				labirinto[i][j]='X';
+		}
+		
+		for (int i=0;i<n;i++){
+			for (int j=0;j<n;j++){
+				if(i%2!=0 && j%2!=0)
+					labirinto[i][j]=' ';
+			}
+		}
+		
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++)
+				celulasVisitadas[i][j]='.';
+		}
+		
+		Random rn=new Random();
+		int linha=rn.nextInt(n-2)+1;
+		int coluna=rn.nextInt(n-2)+1;
+		
+		
 	}
 
 	public void desenhaTab(){

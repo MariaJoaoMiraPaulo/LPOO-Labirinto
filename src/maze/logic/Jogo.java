@@ -33,6 +33,7 @@ public class Jogo {
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
 
+
 	public void colocaDragoes(int numeroDragoes){
 
 		for(int i=0;i<numeroDragoes;i++){
@@ -192,7 +193,7 @@ public class Jogo {
 		}
 
 		dragoes.get(indice).setP(p); 
-		
+
 		if(tab.retornaChar(p) == 'E'){
 			dragoes.get(indice).setPorCimaEspada(true);
 			tab.inserirChar(p, 'F');
@@ -263,14 +264,14 @@ public class Jogo {
 		}
 	}
 
-	
+
 	public boolean DragaoPodeMover(Point p){
 		if(tab.retornaChar(p)!='X' && tab.retornaChar(p)!= 'S' && tab.retornaChar(p)!= 'D' && tab.retornaChar(p)!= 'd')
 			return true;
 		return false;
 	}
-	
-	
+
+
 	public void moverDragao(){
 
 		for (int i=0;i<dragoes.size();i++){
