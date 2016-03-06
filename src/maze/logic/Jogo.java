@@ -108,6 +108,11 @@ public class Jogo {
 
 		Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getP(),' ');
+		moveHeroiSegundoDirecao(direcao);
+	
+	}
+	
+	public void moveHeroiSegundoDirecao(Movimento direcao){
 		switch (direcao){
 		case ESQUERDA: 
 			if(podeMoverHeroi(Movimento.ESQUERDA))
@@ -132,6 +137,7 @@ public class Jogo {
 
 		verificaSaida();
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
+		
 	}
 
 	public void verificaSaida(){
