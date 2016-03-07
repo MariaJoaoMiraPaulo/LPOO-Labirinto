@@ -9,11 +9,11 @@ public class Jogar {
 	public CommandLineInterface cli;
 
 	public static void main(String[] args) {
-//		Jogar j1=new Jogar();
-//		j1.jogar();
-		Tabuleiro t=new Tabuleiro();
-		t.gerarLabirinto(7);
-		t.desenhaTab();
+		Jogar j1=new Jogar();
+		j1.jogar();
+//		Tabuleiro t=new Tabuleiro();
+//		t.gerarLabirinto(31);
+//		System.out.println(t.paraString());
 	}
 
 	Jogar(){
