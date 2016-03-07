@@ -17,19 +17,21 @@ public class Tabuleiro {
 			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
 			{'X','X','X','X','X','X','X','X','X','X'},
 	};
-	
+
 	private char celulasVisitadas[][];
+	private int n;
+	private int nCVisitadas;
 
 	public Tabuleiro(){
 		
 	}
-	
-	public void gerarSaida(int n){
+
+	public Point gerarSaida(){
 		Random rn=new Random();
 		int linha=0;
 		int coluna=0;
-		int CVisitadas=(n-1)/2;
-		
+		//int CVisitadas=(n-1)/2;
+
 		int extremo= rn.nextInt(4);
 		int lado=rn.nextInt(n-2)+1;
 		while(lado%2 == 0)
@@ -44,7 +46,7 @@ public class Tabuleiro {
 		case 1:
 			linha=n-1;
 			coluna=lado;
-			celulasVisitadas[CVisitadas-1][(lado-1)/2]='+';
+			celulasVisitadas[nCVisitadas-1][(lado-1)/2]='+';
 			break;
 		case 2:
 			coluna=0;
@@ -54,20 +56,86 @@ public class Tabuleiro {
 		case 3:
 			coluna=n-1;
 			linha=lado;
-			celulasVisitadas[(lado-1)/2][CVisitadas-1]='+';
+			celulasVisitadas[(lado-1)/2][nCVisitadas-1]='+';
 			break;
 		default:
 			break;
 		}
-		labirinto[linha][coluna]='S';
-	}
-	
-	public void gerarLabirinto(int n){
 
+		Point p=new Point(linha,coluna);
+		return p;
+	}
+
+	public boolean possoMover(Point p){
+		if(p.x>=nCVisitadas || p.y>=nCVisitadas || p.x<0 || p.y<0)
+			return false;
+		if(celulasVisitadas[p.x][p.y]=='+')
+			return false;
+		return true;
+	}
+
+	public Point coordenadasParaCVisitadas(Point p){
+		Point p2= (Point)p.clone();
+
+		p2.x=(p2.x-1)/2;
+		p2.y=(p2.y-1)/2;
+
+		return p2;
+	}
+
+	public boolean deadEnd(Point p){  
+		//verifica no array pequeno  se o ponto é um dead end
+		Point p2=new Point();
+		int contador=0;
+
+		//eixo dos x
+		p2=(Point)p.clone();
+		p2.x+=1;
+		if((p2.x<nCVisitadas && p2.y<nCVisitadas) && (p2.x>=0 && p2.y>=0)){
+			if(celulasVisitadas[p2.x][p2.y]=='+')
+				contador++;
+		}
+		else contador++;
+
+		p2=(Point)p.clone();
+		p2.x-=1;
+		if((p2.x<nCVisitadas && p2.y<nCVisitadas) && (p2.x>=0 && p2.y>=0)){
+			if(celulasVisitadas[p2.x][p2.y]=='+')
+				contador++;
+		}
+		else contador++;
+
+		//eixo dos y
+		p2=(Point)p.clone();
+		p2.y-=1;
+		if((p2.x<nCVisitadas && p2.y<nCVisitadas) && (p2.x>=0 && p2.y>=0)){
+			if(celulasVisitadas[p2.x][p2.y]=='+')
+				contador++;
+		}
+		else contador++;
+
+		p2=(Point)p.clone();
+		p2.y+=1;
+		if((p2.x<nCVisitadas && p2.y<nCVisitadas) && (p2.x>=0 && p2.y>=0)){
+			if(celulasVisitadas[p2.x][p2.y]=='+')
+				contador++;
+		}
+		else contador++;
+
+		if(contador==4)
+			return true;
+
+		return false;
+	}
+
+	public void gerarLabirinto(int nLabirinto){
+
+		n=nLabirinto;
 		labirinto=new char[n][n];
-		Stack st = new Stack();
-		int CVisitadas=(n-1)/2;
-		 celulasVisitadas=new char[CVisitadas][CVisitadas];
+		Stack<Point> st = new Stack();
+		nCVisitadas=(n-1)/2;
+		celulasVisitadas=new char[nCVisitadas][nCVisitadas];
+		Random rn=new Random();
 
 		for (int i=0;i<n;i++){
 			for (int j=0;j<n;j++)
@@ -81,15 +149,107 @@ public class Tabuleiro {
 			}
 		}
 
-		for(int i=0;i<CVisitadas;i++){
-			for(int j=0;j<CVisitadas;j++)
+		for(int i=0;i<nCVisitadas;i++){
+			for(int j=0;j<nCVisitadas;j++)
 				celulasVisitadas[i][j]='.';
 		}
 
-		gerarSaida(n);
+		Point pNoLab=gerarSaida();
+
+		labirinto[pNoLab.x][pNoLab.y]='S';
+		//st.push(pNoLab);
+		if(pNoLab.x==0){
+			pNoLab.x+=1;
+		}
+		else if(pNoLab.x==n-1){
+			pNoLab.x-=1;
+		}
+		else if(pNoLab.y==0){
+			pNoLab.y+=1;
+		}
+		else if(pNoLab.y==n-1){
+			pNoLab.y-=1;
+		}
+		Point pNoCV=coordenadasParaCVisitadas(pNoLab);
+
+		st.push(pNoCV);
+
+				Point copia=new Point();
+				boolean valido=false;
 		
-		for(int i=0; i<CVisitadas;i++){
-			for(int j=0; j<CVisitadas;j++)
+				while(!st.empty()){
+				//for(int i=0;i<3;i++){
+					if(!deadEnd(pNoCV)){
+						while(!valido){
+							copia=(Point)pNoCV.clone();
+							switch(rn.nextInt(4)){
+							case 0:    //mover para baixo
+								copia.x+=1;
+								if(possoMover(copia)){
+									pNoCV.x+=1;
+									pNoLab.x+=1;
+									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+									labirinto[pNoLab.x][pNoLab.y]=' ';
+									pNoLab.x+=1;
+									st.push((Point)pNoCV.clone());
+									valido=true;
+								}
+								break;
+							case 1:    //mover para cima
+								copia.x-=1;
+								if(possoMover(copia)){
+									pNoCV.x-=1;
+									pNoLab.x-=1;
+									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+									labirinto[pNoLab.x][pNoLab.y]=' ';
+									pNoLab.x-=1;
+									st.push((Point)pNoCV.clone());
+									valido=true;
+								}
+								break;
+							case 2:    //mover para esquerda
+								copia.y-=1;
+								if(possoMover(copia)){
+									pNoCV.y-=1;
+									pNoLab.y-=1;
+									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+									labirinto[pNoLab.x][pNoLab.y]=' ';
+									pNoLab.y-=1;
+									st.push((Point)pNoCV.clone());
+									valido=true;
+								}
+								break;
+							case 3:    //mover para direita
+								copia.y+=1;
+								if(possoMover(copia)){
+									pNoCV.y+=1;
+									pNoLab.y+=1;
+									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+									labirinto[pNoLab.x][pNoLab.y]=' ';
+									pNoLab.y+=1;
+									st.push((Point)pNoCV.clone());
+									valido=true;
+								}
+								break;
+							}
+						}
+						valido=false;
+					}
+					else {
+						pNoCV=(Point)st.peek().clone();
+						pNoLab=(Point)pNoCV.clone();
+						pNoLab.x=pNoLab.x*2+1;
+						pNoLab.y=pNoLab.y*2+1;
+						st.pop();
+					}
+				}
+
+		//desenhaCVisitadas();
+	}
+
+	public void desenhaCVisitadas(){
+		for(int i=0; i<nCVisitadas;i++){
+			for(int j=0; j<nCVisitadas;j++)
 				System.out.print(celulasVisitadas[i][j] + " ");
 			System.out.println();
 		}

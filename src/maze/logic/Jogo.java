@@ -33,7 +33,6 @@ public class Jogo {
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
 
-
 	public void colocaDragoes(int numeroDragoes){
 
 		for(int i=0;i<numeroDragoes;i++){
