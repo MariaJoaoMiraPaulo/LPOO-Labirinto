@@ -19,12 +19,12 @@ public class Jogar {
 	Jogar(){
 		jogo=new Jogo();
 		cli=new CommandLineInterface();
-		jogo.setModoJogo(cli.retornaModoJogo());
+		jogo.setModoJogo(cli.retornaModoJogo());   
 	}
 
 	public void jogar(){
 		boolean fimDeJogo=false;
-		jogo.colocaDragoes(cli.retornaNumeroDragoes());
+		//jogo.colocaDragoes(cli.retornaNumeroDragoes());
 		cli.imprimir(jogo.getTab().paraString());
 		while(!fimDeJogo){
 			fimDeJogo=jogo.jogada();

@@ -5,28 +5,38 @@ import java.util.Random;
 import java.util.Stack;
 
 public class Tabuleiro {
-	private char labirinto[][]={
-			{'X','X','X','X','X','X','X','X','X','X'},
-			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
-			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
-			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
-			{'X','X','X','X','X','X','X','X','X','X'},
-	};
+//	private char labirinto[][]={
+//			{'X','X','X','X','X','X','X','X','X','X'},
+//			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
+//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+//			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
+//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+//			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
+//			{'X','X','X','X','X','X','X','X','X','X'},
+//	};
+	private char labirinto[][];
 
 	private char celulasVisitadas[][];
 	private int n;
 	private int nCVisitadas;
 
-	public Tabuleiro(){
-		
+	public Tabuleiro(int dimensao){
+		n=dimensao;
+		nCVisitadas=(n-1)/2;
+		celulasVisitadas=new char[nCVisitadas][nCVisitadas];
+		labirinto=new char[n][n];
+		gerarLabirinto();
+
 	}
 
-	public Point gerarSaida(){
+	public Tabuleiro(char m[][]){
+		labirinto=m;
+	}
+
+	public Point retornaSaida(){
 		Random rn=new Random();
 		int linha=0;
 		int coluna=0;
@@ -84,7 +94,7 @@ public class Tabuleiro {
 	}
 
 	public boolean deadEnd(Point p){  
-		//verifica no array pequeno  se o ponto é um dead end
+		//verifica no array pequeno  se o ponto ï¿½ um dead end
 		Point p2=new Point();
 		int contador=0;
 
@@ -128,13 +138,9 @@ public class Tabuleiro {
 		return false;
 	}
 
-	public void gerarLabirinto(int nLabirinto){
+	public void gerarLabirinto(){
 
-		n=nLabirinto;
-		labirinto=new char[n][n];
 		Stack<Point> st = new Stack();
-		nCVisitadas=(n-1)/2;
-		celulasVisitadas=new char[nCVisitadas][nCVisitadas];
 		Random rn=new Random();
 
 		for (int i=0;i<n;i++){
@@ -154,7 +160,7 @@ public class Tabuleiro {
 				celulasVisitadas[i][j]='.';
 		}
 
-		Point pNoLab=gerarSaida();
+		Point pNoLab=retornaSaida();
 
 		labirinto[pNoLab.x][pNoLab.y]='S';
 		//st.push(pNoLab);
@@ -174,75 +180,75 @@ public class Tabuleiro {
 
 		st.push(pNoCV);
 
-				Point copia=new Point();
-				boolean valido=false;
-		
-				while(!st.empty()){
-				//for(int i=0;i<3;i++){
-					if(!deadEnd(pNoCV)){
-						while(!valido){
-							copia=(Point)pNoCV.clone();
-							switch(rn.nextInt(4)){
-							case 0:    //mover para baixo
-								copia.x+=1;
-								if(possoMover(copia)){
-									pNoCV.x+=1;
-									pNoLab.x+=1;
-									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
-									labirinto[pNoLab.x][pNoLab.y]=' ';
-									pNoLab.x+=1;
-									st.push((Point)pNoCV.clone());
-									valido=true;
-								}
-								break;
-							case 1:    //mover para cima
-								copia.x-=1;
-								if(possoMover(copia)){
-									pNoCV.x-=1;
-									pNoLab.x-=1;
-									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
-									labirinto[pNoLab.x][pNoLab.y]=' ';
-									pNoLab.x-=1;
-									st.push((Point)pNoCV.clone());
-									valido=true;
-								}
-								break;
-							case 2:    //mover para esquerda
-								copia.y-=1;
-								if(possoMover(copia)){
-									pNoCV.y-=1;
-									pNoLab.y-=1;
-									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
-									labirinto[pNoLab.x][pNoLab.y]=' ';
-									pNoLab.y-=1;
-									st.push((Point)pNoCV.clone());
-									valido=true;
-								}
-								break;
-							case 3:    //mover para direita
-								copia.y+=1;
-								if(possoMover(copia)){
-									pNoCV.y+=1;
-									pNoLab.y+=1;
-									celulasVisitadas[pNoCV.x][pNoCV.y]='+';
-									labirinto[pNoLab.x][pNoLab.y]=' ';
-									pNoLab.y+=1;
-									st.push((Point)pNoCV.clone());
-									valido=true;
-								}
-								break;
-							}
+		Point copia=new Point();
+		boolean valido=false;
+
+		while(!st.empty()){
+			//for(int i=0;i<3;i++){ 
+			if(!deadEnd(pNoCV)){
+				while(!valido){
+					copia=(Point)pNoCV.clone();
+					switch(rn.nextInt(4)){
+					case 0:    //mover para baixo
+						copia.x+=1;
+						if(possoMover(copia)){
+							pNoCV.x+=1;
+							pNoLab.x+=1;
+							celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+							labirinto[pNoLab.x][pNoLab.y]=' ';
+							pNoLab.x+=1;
+							st.push((Point)pNoCV.clone());
+							valido=true;
 						}
-						valido=false;
-					}
-					else {
-						pNoCV=(Point)st.peek().clone();
-						pNoLab=(Point)pNoCV.clone();
-						pNoLab.x=pNoLab.x*2+1;
-						pNoLab.y=pNoLab.y*2+1;
-						st.pop();
+						break;
+					case 1:    //mover para cima
+						copia.x-=1;
+						if(possoMover(copia)){
+							pNoCV.x-=1;
+							pNoLab.x-=1;
+							celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+							labirinto[pNoLab.x][pNoLab.y]=' ';
+							pNoLab.x-=1;
+							st.push((Point)pNoCV.clone());
+							valido=true;
+						}
+						break;
+					case 2:    //mover para esquerda
+						copia.y-=1;
+						if(possoMover(copia)){
+							pNoCV.y-=1;
+							pNoLab.y-=1;
+							celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+							labirinto[pNoLab.x][pNoLab.y]=' ';
+							pNoLab.y-=1;
+							st.push((Point)pNoCV.clone());
+							valido=true;
+						}
+						break;
+					case 3:    //mover para direita
+						copia.y+=1;
+						if(possoMover(copia)){
+							pNoCV.y+=1;
+							pNoLab.y+=1;
+							celulasVisitadas[pNoCV.x][pNoCV.y]='+';
+							labirinto[pNoLab.x][pNoLab.y]=' ';
+							pNoLab.y+=1;
+							st.push((Point)pNoCV.clone());
+							valido=true;
+						}
+						break;
 					}
 				}
+				valido=false;
+			}
+			else {
+				pNoCV=(Point)st.peek().clone();
+				pNoLab=(Point)pNoCV.clone();
+				pNoLab.x=pNoLab.x*2+1;
+				pNoLab.y=pNoLab.y*2+1;
+				st.pop();
+			}
+		}
 
 		//desenhaCVisitadas();
 	}
@@ -290,10 +296,14 @@ public class Tabuleiro {
 		for(int i=0; i< labirinto.length;i++){
 			for(int j=0;j<labirinto[i].length;j++){
 				resultado+= " " +labirinto[i][j];
-			}
+			}   
 			resultado+= "\n";
 		}
 
 		return resultado;
+	}
+
+	public int getN() {
+		return n;
 	}
 }

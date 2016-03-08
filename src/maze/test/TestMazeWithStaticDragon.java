@@ -10,9 +10,21 @@ import maze.logic.Jogo.Movimento;
 
 public class TestMazeWithStaticDragon {
 
+	char labirinto[][]={
+			{'X','X','X','X','X','X','X','X','X','X'},
+			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
+			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
+			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
+			{'X','X','X','X','X','X','X','X','X','X'},
+	};
 	@Test
 	public void testeHeroiParaUmaPosicaoLivre() {
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		assertEquals(new Point(1,1), j.getHeroi().getP());
 		j.getHeroi().moverDireita();
 		assertEquals(new Point(1,2), j.getHeroi().getP());
@@ -20,7 +32,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testeHeroiContraUmaParede(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		assertEquals(new Point(1,1), j.getHeroi().getP());
 		if(j.podeMoverHeroi(Movimento.ESQUERDA))
 			j.getHeroi().moverEsquerda();
@@ -29,7 +41,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiApanharEspada(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		assertEquals('H', j.getHeroi().getSimbolo());
 		j.getHeroi().moverBaixo();
 		j.getHeroi().moverBaixo();
@@ -40,7 +52,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiContaDragaoDesarmado(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		Dragao d=new Dragao(1,2,'D');
 		j.dragoes.add(d);
 		Point p=new Point(1,2);
@@ -53,7 +65,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiContaDragaoArmado(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
 		Point p=new Point(1,2);
@@ -69,7 +81,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiGanharJogo(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
 		Point p=new Point(1,2);
@@ -92,7 +104,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiAcabarJogoSemPoderDesarmado(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
 
@@ -110,7 +122,7 @@ public class TestMazeWithStaticDragon {
 
 	@Test
 	public void testaHeroiAcabarJogoSemPoderArmado(){
-		Jogo j= new Jogo();
+		Jogo j= new Jogo(labirinto);
 		Dragao d=new Dragao(5,1,'D');
 		j.dragoes.add(d);
 

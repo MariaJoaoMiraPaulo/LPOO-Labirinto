@@ -23,7 +23,21 @@ public class Jogo {
 	}
 
 	public Jogo(){
-		tab=new Tabuleiro();
+		cli=new CommandLineInterface();
+		tab=new Tabuleiro(cli.retornaTamanhoTabuleiro());
+		colocaHeroiAletorio();
+		colocaEspadaAleatoria();
+		//dragao=new Dragao(3,1,'D');
+		//heroi=new Heroi(1,1,'H');
+		//espada=new Espada(4,1,'E');
+
+		//tab.inserirChar(dragao.getP(), dragao.getSimbolo());
+		//tab.inserirChar(heroi.getP(), heroi.getSimbolo());
+		//tab.inserirChar(espada.getP(), espada.getSimbolo());
+	}
+
+	public Jogo(char m[][]){
+		tab=new Tabuleiro(m);
 		//dragao=new Dragao(3,1,'D');
 		heroi=new Heroi(1,1,'H');
 		espada=new Espada(4,1,'E');
@@ -31,6 +45,50 @@ public class Jogo {
 		//tab.inserirChar(dragao.getP(), dragao.getSimbolo());
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
+	}
+
+	public void colocaHeroiAletorio(){
+		Random rn=new Random();
+		boolean valido=false;
+
+		int x,y;
+		Point p;
+		
+		do{
+			x=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
+			y=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
+			p=new Point(x,y);
+			double distancia=p.distance(tab.retornaSaida());
+			if(tab.retornaChar(p)==' ' && distancia>tab.getN()/3){
+				valido=true;
+			}
+		}while(!valido);
+		
+		Heroi heroi=new Heroi(p.x,p.y,'H');
+		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
+
+	}
+	
+	public void colocaEspadaAleatoria(){
+		Random rn=new Random();
+		boolean valido=false;
+
+		int x,y;
+		Point p;
+		
+		
+		do{
+			x=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
+			y=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
+			p=new Point(x,y);
+			if(tab.retornaChar(p)==' ')
+				valido=true;
+		
+		}while(!valido);
+		
+		Espada espada=new Espada(p.x,p.y,'E');
+		tab.inserirChar(espada.getP(), espada.getSimbolo());
+		
 	}
 
 	public void colocaDragoes(int numeroDragoes){
@@ -176,7 +234,7 @@ public class Jogo {
 							fimDeJogo=true;
 						}
 					}
-				}
+				} 
 			}
 		}
 	}
