@@ -24,7 +24,7 @@ public class Jogar {
 
 	public void jogar(){
 		boolean fimDeJogo=false;
-		//jogo.colocaDragoes(cli.retornaNumeroDragoes());
+		
 		cli.imprimir(jogo.getTab().paraString());
 		while(!fimDeJogo){
 			fimDeJogo=jogo.jogada();

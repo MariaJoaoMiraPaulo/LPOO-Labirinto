@@ -27,6 +27,7 @@ public class Jogo {
 		tab=new Tabuleiro(cli.retornaTamanhoTabuleiro());
 		colocaHeroiAletorio();
 		colocaEspadaAleatoria();
+		colocaDragoesAleatorio(cli.retornaNumeroDragoes());
 		//dragao=new Dragao(3,1,'D');
 		//heroi=new Heroi(1,1,'H');
 		//espada=new Espada(4,1,'E');
@@ -53,7 +54,7 @@ public class Jogo {
 
 		int x,y;
 		Point p;
-		
+
 		do{
 			x=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
 			y=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
@@ -63,47 +64,83 @@ public class Jogo {
 				valido=true;
 			}
 		}while(!valido);
-		
-		Heroi heroi=new Heroi(p.x,p.y,'H');
+
+		heroi=new Heroi(p.x,p.y,'H');
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
 
 	}
-	
-	public void colocaEspadaAleatoria(){
+
+	public Point retornaPontoAleatorio(){
 		Random rn=new Random();
 		boolean valido=false;
 
 		int x,y;
 		Point p;
-		
-		
+
 		do{
 			x=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
 			y=rn.nextInt(tab.getN()); //0 a tab.getN() exclusive
 			p=new Point(x,y);
 			if(tab.retornaChar(p)==' ')
 				valido=true;
-		
+
 		}while(!valido);
-		
-		Espada espada=new Espada(p.x,p.y,'E');
-		tab.inserirChar(espada.getP(), espada.getSimbolo());
-		
+
+		return p;
 	}
 
-	public void colocaDragoes(int numeroDragoes){
+	public void colocaEspadaAleatoria(){
+
+		Point p=(Point)retornaPontoAleatorio().clone();
+
+		espada=new Espada(p.x,p.y,'E');
+		tab.inserirChar(espada.getP(), espada.getSimbolo());
+
+	}
+
+	public boolean possoColocarDragao(Point p){
+		Point copia;
+		int contador=0;
+		
+		copia=(Point)p.clone();
+		copia.x+=1;
+		if(tab.retornaChar(copia)!='H')
+			contador++;
+		
+		copia=(Point)p.clone();
+		copia.x-=1;
+		if(tab.retornaChar(copia)!='H')
+			contador++;
+		
+		copia=(Point)p.clone();
+		copia.y+=1;
+		if(tab.retornaChar(copia)!='H')
+			contador++;
+		
+		copia=(Point)p.clone();
+		copia.y-=1;
+		if(tab.retornaChar(copia)!='H')
+			contador++;
+		
+		if(contador==4)
+			return true;
+		
+		return false;
+	}
+
+	public void colocaDragoesAleatorio(int numeroDragoes){
+
+		Point p;
 
 		for(int i=0;i<numeroDragoes;i++){
-			Point ponto=cli.retornaCoordenadaDragao();
-			if (podeColocarDragao(ponto)){
-				Dragao d = new Dragao (ponto.x,ponto.y,'D');
-				dragoes.add(d);
-				tab.inserirChar(ponto,'D');
+			p=(Point)retornaPontoAleatorio().clone();
+
+			if(possoColocarDragao(p)){
+				Dragao dragao=new Dragao(p.x,p.y,'D');
+				tab.inserirChar(dragao.getP(), dragao.getSimbolo());
+				dragoes.add(dragao);
 			}
-			else {
-				cli.imprimir("Coordenada inv�lida. Repita !");
-				i--;
-			}
+			else i--;
 		}
 
 	}

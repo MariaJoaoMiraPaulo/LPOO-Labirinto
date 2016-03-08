@@ -26,11 +26,11 @@ public class CommandLineInterface {
 	}
 	
 	public int retornaTamanhoTabuleiro(){
-		imprimir("Qual é a altura tabuleiro com que pretende jogar?");
+		imprimir("Qual a altura do tabuleiro com que pretende jogar?");
 		Scanner ler=new Scanner(System.in);
 		int numero=ler.nextInt();
 		while(numero%2==0){
-			imprimir("A altura do tabuleiro tem de ser ímpar!");
+			imprimir("A altura do tabuleiro tem de ser impar!");
 			numero=ler.nextInt();
 		}
 		return numero;
@@ -53,7 +53,7 @@ public class CommandLineInterface {
 		imprimir("Com que modo de Jogo pretende jogar?");
 		imprimir("1.Dragao Parado");
 		imprimir("2.Dragao com movimentacao aleatoria");
-		imprimir("3.Dragao com movimenta�cao aleatoria intercalada com dormir");
+		imprimir("3.Dragao com movimentacao aleatoria intercalada com dormir");
 		int modo;
 		Scanner ler = new Scanner(System.in);
 		modo=ler.nextInt();
