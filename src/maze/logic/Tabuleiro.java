@@ -306,4 +306,5 @@ public class Tabuleiro {
 	public int getN() {
 		return n;
 	}
+	
 }
