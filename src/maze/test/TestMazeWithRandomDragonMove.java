@@ -10,6 +10,7 @@ import maze.logic.Dragao;
 import maze.logic.Dragao.EstadoDragao;
 import maze.logic.Jogo.Movimento;
 import maze.logic.Jogo;
+import maze.logic.Tabuleiro;
 
 public class TestMazeWithRandomDragonMove {
 
@@ -286,6 +287,12 @@ public class TestMazeWithRandomDragonMove {
 //		}
 //	}
 
+	@Test
+	public void testLabirinto() {
+		Tabuleiro t= new Tabuleiro(10);
+
+		assertEquals(10, t.getN());
+	}
 
 
 
