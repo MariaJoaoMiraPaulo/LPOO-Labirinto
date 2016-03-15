@@ -23,6 +23,11 @@ public class JanelaJogo {
 	private JFrame frmJogoDoLabirinto;
 	private JTextField dimensaoLabirinto;
 	private JTextField numeroDragoes;
+	private JTextArea mostradorLabirinto;
+	private JButton btnDireita;
+	private JButton btnBaixo;
+	private JButton btnEsquerda;
+	private JButton btnCima;
 	private Jogo jogo;
 
 	/**
@@ -89,28 +94,28 @@ public class JanelaJogo {
 		modosJogo.setBounds(204, 100, 111, 20);
 		frmJogoDoLabirinto.getContentPane().add(modosJogo);
 
-		JTextArea mostradorLabirinto = new JTextArea();
+		mostradorLabirinto = new JTextArea();
 		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
 		mostradorLabirinto.setEditable(false);
 		mostradorLabirinto.setBounds(54, 156, 318, 250);
 		frmJogoDoLabirinto.getContentPane().add(mostradorLabirinto);
 
-		JButton btnCima = new JButton("Cima");
+		btnCima = new JButton("Cima");
 		btnCima.setEnabled(false);
 		btnCima.setBounds(438, 194, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnCima);
 		
-		JButton btnEsquerda = new JButton("Esquerda");
+		btnEsquerda = new JButton("Esquerda");
 		btnEsquerda.setEnabled(false);
 		btnEsquerda.setBounds(382, 235, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnEsquerda);
 		
-		JButton btnDireita = new JButton("Direita");
+		btnDireita = new JButton("Direita");
 		btnDireita.setEnabled(false);
 		btnDireita.setBounds(500, 235, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnDireita);
 		
-		JButton btnBaixo = new JButton("Baixo");
+		btnBaixo = new JButton("Baixo");
 		btnBaixo.setEnabled(false);
 		btnBaixo.setBounds(438, 276, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnBaixo);
@@ -118,47 +123,19 @@ public class JanelaJogo {
 		
 		btnCima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(jogo.jogada(Movimento.CIMA)){
-					btnDireita.setEnabled(false);
-					btnEsquerda.setEnabled(false);
-					btnCima.setEnabled(false);
-					btnBaixo.setEnabled(false);
-					if(!jogo.dragoesVivos())
-						JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
-					else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
-				}
-				mostradorLabirinto.setText(jogo.getTab().paraString());
+				processarDirecao(Movimento.CIMA);
 			}
 		});
 		
 		btnEsquerda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(jogo.jogada(Movimento.ESQUERDA)){
-					btnDireita.setEnabled(false);
-					btnEsquerda.setEnabled(false);
-					btnCima.setEnabled(false);
-					btnBaixo.setEnabled(false);
-					if(!jogo.dragoesVivos())
-						JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
-					else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
-				}
-				mostradorLabirinto.setText(jogo.getTab().paraString());
+				processarDirecao(Movimento.ESQUERDA);
 			}
 		});
 		
 		btnDireita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(jogo.jogada(Movimento.DIREITA)){
-					btnDireita.setEnabled(false);
-					btnEsquerda.setEnabled(false);
-					btnCima.setEnabled(false);
-					btnBaixo.setEnabled(false);
-					if(!jogo.dragoesVivos())
-						JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
-					else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
-				}
-					
-				mostradorLabirinto.setText(jogo.getTab().paraString());
+				processarDirecao(Movimento.DIREITA);
 			}
 
 		});
@@ -166,16 +143,7 @@ public class JanelaJogo {
 		
 		btnBaixo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(jogo.jogada(Movimento.BAIXO)){
-					btnDireita.setEnabled(false);
-					btnEsquerda.setEnabled(false);
-					btnCima.setEnabled(false);
-					btnBaixo.setEnabled(false);
-					if(!jogo.dragoesVivos())
-						JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
-					else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
-				}
-				mostradorLabirinto.setText(jogo.getTab().paraString());
+				processarDirecao(Movimento.BAIXO);
 			}
 
 		});
@@ -228,10 +196,7 @@ public class JanelaJogo {
 				else jogo.setModoJogo(3);
 				
 				mostradorLabirinto.setText(jogo.getTab().paraString());
-				btnBaixo.setEnabled(true);
-				btnCima.setEnabled(true);
-				btnEsquerda.setEnabled(true);
-				btnDireita.setEnabled(true);
+				setEnableEmVariosBotoes(true);
 
 			}
 		});
@@ -249,5 +214,26 @@ public class JanelaJogo {
 
 
 
+	}
+	
+	public void setEnableEmVariosBotoes(boolean flag){
+		btnBaixo.setEnabled(flag);
+		btnCima.setEnabled(flag);
+		btnEsquerda.setEnabled(flag);
+		btnDireita.setEnabled(flag);
+
+	}
+	
+	public void processarDirecao(Movimento direcao){
+		if(jogo.jogada(direcao))
+			acabouJogo();
+		mostradorLabirinto.setText(jogo.getTab().paraString());
+	}
+	
+	public void acabouJogo(){
+		setEnableEmVariosBotoes(false);
+		if(!jogo.dragoesVivos())
+			JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
+		else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
 	}
 }
