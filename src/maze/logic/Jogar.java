@@ -27,7 +27,7 @@ public class Jogar {
 		
 		cli.imprimir(jogo.getTab().paraString());
 		while(!fimDeJogo){
-			fimDeJogo=jogo.jogada();
+			fimDeJogo=jogo.jogada(cli.lerDirecao());
 			cli.imprimir(jogo.getTab().paraString());
 		}
 

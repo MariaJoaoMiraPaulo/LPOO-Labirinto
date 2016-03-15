@@ -207,9 +207,9 @@ public class Jogo {
 		return false;
 	}
 
-	public void moverHeroi(){
+	public void moverHeroi(Movimento direcao){
 
-		Movimento direcao=cli.lerDirecao();
+		//Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getP(),' ');
 		switch (direcao){
 		case ESQUERDA: 
@@ -388,8 +388,8 @@ public class Jogo {
 	}
 
 
-	public boolean jogada( ){
-		moverHeroi();
+	public boolean jogada(Movimento direcao){
+		moverHeroi(direcao);
 		verificaEspada();
 		verificaDragao();
 		if (modoJogo!=1){
