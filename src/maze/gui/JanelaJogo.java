@@ -17,18 +17,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import javax.swing.JScrollPane;
 
 public class JanelaJogo {
 
 	private JFrame frmJogoDoLabirinto;
 	private JTextField dimensaoLabirinto;
 	private JTextField numeroDragoes;
-	private JTextArea mostradorLabirinto;
 	private JButton btnDireita;
 	private JButton btnBaixo;
 	private JButton btnEsquerda;
 	private JButton btnCima;
 	private Jogo jogo;
+	private JScrollPane scrollPane;
+	private JTextArea mostradorLabirinto;
 
 	/**
 	 * Launch the application.
@@ -93,12 +95,6 @@ public class JanelaJogo {
 		modosJogo.setSelectedIndex(1);
 		modosJogo.setBounds(204, 100, 111, 20);
 		frmJogoDoLabirinto.getContentPane().add(modosJogo);
-
-		mostradorLabirinto = new JTextArea();
-		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
-		mostradorLabirinto.setEditable(false);
-		mostradorLabirinto.setBounds(54, 156, 318, 250);
-		frmJogoDoLabirinto.getContentPane().add(mostradorLabirinto);
 
 		btnCima = new JButton("Cima");
 		btnCima.setEnabled(false);
@@ -211,6 +207,15 @@ public class JanelaJogo {
 		});
 		btnTerminarPrograma.setBounds(406, 88, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(55, 176, 301, 250);
+		frmJogoDoLabirinto.getContentPane().add(scrollPane);
+		
+		mostradorLabirinto = new JTextArea();
+		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
+		mostradorLabirinto.setEditable(false);
+		scrollPane.setViewportView(mostradorLabirinto);
 
 
 
