@@ -22,6 +22,7 @@ public class JanelaJogo {
 	private JFrame frmJogoDoLabirinto;
 	private JTextField dimensaoLabirinto;
 	private JTextField numeroDragoes;
+	private Jogo jogo;
 
 	/**
 	 * Launch the application.
@@ -129,10 +130,10 @@ public class JanelaJogo {
 					JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Formato não válido");
 					return;
 				}
-
-				Jogo j=new Jogo(nDragoes,dimensao);
-				j.setModoJogo(2);
-				mostradorLabirinto.setText(j.getTab().paraString());
+				
+				jogo=new Jogo(nDragoes,dimensao);
+				jogo.setModoJogo(2);
+				mostradorLabirinto.setText(jogo.getTab().paraString());
 			}
 		});
 		btnGerarLabirinto.setBounds(425, 37, 130, 23);
