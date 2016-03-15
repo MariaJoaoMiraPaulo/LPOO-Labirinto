@@ -37,6 +37,14 @@ public class Jogo {
 		//tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
 
+	public Jogo(int numeroDragoes, int dimensao){
+		cli=new CommandLineInterface();
+		tab=new Tabuleiro(dimensao);
+		colocaHeroiAletorio();
+		colocaEspadaAleatoria();
+		colocaDragoesAleatorio(numeroDragoes);
+	}
+	
 	public Jogo(char m[][]){
 		tab=new Tabuleiro(m);
 		//dragao=new Dragao(3,1,'D');
