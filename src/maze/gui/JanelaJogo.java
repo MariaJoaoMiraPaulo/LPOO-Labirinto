@@ -29,6 +29,7 @@ public class JanelaJogo {
 	private JButton btnEsquerda;
 	private JButton btnCima;
 	private Jogo jogo;
+	private JLabel estadoJogo;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class JanelaJogo {
 		frmJogoDoLabirinto = new JFrame();
 		frmJogoDoLabirinto.setResizable(false);
 		frmJogoDoLabirinto.setTitle("Jogo do Labirinto");
-		frmJogoDoLabirinto.setBounds(100, 100, 623, 466);
+		frmJogoDoLabirinto.setBounds(100, 100, 623, 500);
 		frmJogoDoLabirinto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJogoDoLabirinto.getContentPane().setLayout(null);
 
@@ -93,6 +94,10 @@ public class JanelaJogo {
 		modosJogo.setSelectedIndex(1);
 		modosJogo.setBounds(204, 100, 111, 20);
 		frmJogoDoLabirinto.getContentPane().add(modosJogo);
+		
+		estadoJogo = new JLabel("Pode gerar novo Labirinto!");
+		estadoJogo.setBounds(54, 438, 318, 16);
+		frmJogoDoLabirinto.getContentPane().add(estadoJogo);
 
 		mostradorLabirinto = new JTextArea();
 		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
@@ -197,6 +202,8 @@ public class JanelaJogo {
 				
 				mostradorLabirinto.setText(jogo.getTab().paraString());
 				setEnableEmVariosBotoes(true);
+				estadoJogo.setText("Pode Jogar!");
+				
 
 			}
 		});
@@ -211,6 +218,8 @@ public class JanelaJogo {
 		});
 		btnTerminarPrograma.setBounds(406, 88, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
+		
+	
 
 
 
@@ -235,5 +244,6 @@ public class JanelaJogo {
 		if(!jogo.dragoesVivos())
 			JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
 		else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
+		estadoJogo.setText("Pode gerar novo Labirinto!");
 	}
 }
