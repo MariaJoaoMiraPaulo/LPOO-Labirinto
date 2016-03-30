@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import maze.gui.GraficosJogo.EstadoJogo;
 import maze.logic.Jogo;
 import maze.logic.Jogo.Movimento;
 
@@ -18,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 
 public class JanelaJogo {
 
@@ -29,8 +31,9 @@ public class JanelaJogo {
 	private JButton btnEsquerda;
 	private JButton btnCima;
 	private Jogo jogo;
-	private JScrollPane scrollPane;
 	private JTextArea mostradorLabirinto;
+	private JTextArea textArea;
+	private JPanel desenhoLabirinto;
 
 	/**
 	 * Launch the application.
@@ -62,58 +65,58 @@ public class JanelaJogo {
 
 	private void initialize() {
 		frmJogoDoLabirinto = new JFrame();
-		frmJogoDoLabirinto.setResizable(false);
+		frmJogoDoLabirinto.setResizable(true);
 		frmJogoDoLabirinto.setTitle("Jogo do Labirinto");
 		frmJogoDoLabirinto.setBounds(100, 100, 623, 466);
 		frmJogoDoLabirinto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJogoDoLabirinto.getContentPane().setLayout(null);
-
+		
 		JLabel lblDimensaoDoLabirinto = new JLabel("Dimensao do labirinto");
-		lblDimensaoDoLabirinto.setBounds(54, 41, 174, 14);
+		lblDimensaoDoLabirinto.setBounds(30, 41, 174, 14);
 		frmJogoDoLabirinto.getContentPane().add(lblDimensaoDoLabirinto);
 
 		JLabel lblNumeroDeDragoes = new JLabel("Numero de dragoes\r\n");
-		lblNumeroDeDragoes.setBounds(54, 70, 141, 14);
+		lblNumeroDeDragoes.setBounds(30, 66, 141, 14);
 		frmJogoDoLabirinto.getContentPane().add(lblNumeroDeDragoes);
 
 		JLabel lblTipoDeDragoes = new JLabel("Tipo de dragoes\r\n");
-		lblTipoDeDragoes.setBounds(54, 102, 114, 14);
+		lblTipoDeDragoes.setBounds(30, 102, 114, 14);
 		frmJogoDoLabirinto.getContentPane().add(lblTipoDeDragoes);
 
 		dimensaoLabirinto = new JTextField();
-		dimensaoLabirinto.setBounds(207, 38, 108, 20);
+		dimensaoLabirinto.setBounds(158, 38, 108, 20);
 		frmJogoDoLabirinto.getContentPane().add(dimensaoLabirinto);
 		dimensaoLabirinto.setColumns(10);
 
 		numeroDragoes = new JTextField();
 		numeroDragoes.setColumns(10);
-		numeroDragoes.setBounds(207, 67, 108, 20);
+		numeroDragoes.setBounds(158, 67, 108, 20);
 		frmJogoDoLabirinto.getContentPane().add(numeroDragoes);
 
 		JComboBox modosJogo = new JComboBox();
 		modosJogo.setModel(new DefaultComboBoxModel(new String[] {"Estaticos", "Moveis", "A dormir"}));
 		modosJogo.setSelectedIndex(1);
-		modosJogo.setBounds(204, 100, 111, 20);
+		modosJogo.setBounds(158, 99, 111, 20);
 		frmJogoDoLabirinto.getContentPane().add(modosJogo);
 
 		btnCima = new JButton("Cima");
 		btnCima.setEnabled(false);
-		btnCima.setBounds(438, 194, 117, 29);
+		btnCima.setBounds(103, 236, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnCima);
 		
 		btnEsquerda = new JButton("Esquerda");
 		btnEsquerda.setEnabled(false);
-		btnEsquerda.setBounds(382, 235, 117, 29);
+		btnEsquerda.setBounds(30, 276, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnEsquerda);
 		
 		btnDireita = new JButton("Direita");
 		btnDireita.setEnabled(false);
-		btnDireita.setBounds(500, 235, 117, 29);
+		btnDireita.setBounds(162, 276, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnDireita);
 		
 		btnBaixo = new JButton("Baixo");
 		btnBaixo.setEnabled(false);
-		btnBaixo.setBounds(438, 276, 117, 29);
+		btnBaixo.setBounds(103, 312, 117, 29);
 		frmJogoDoLabirinto.getContentPane().add(btnBaixo);
 
 		
@@ -143,6 +146,19 @@ public class JanelaJogo {
 			}
 
 		});
+		
+		desenhoLabirinto = new GraficosJogo();
+		desenhoLabirinto.setBounds(303, 41, 294, 264);
+		frmJogoDoLabirinto.getContentPane().add(desenhoLabirinto);
+		
+		mostradorLabirinto = new JTextArea();
+		desenhoLabirinto.add(mostradorLabirinto);
+		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
+		mostradorLabirinto.setEditable(false);
+		
+//		mostradorLabirinto = new JTextArea();
+//		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
+//		mostradorLabirinto.setEditable(false);
 		
 		JButton btnGerarLabirinto = new JButton("Gerar Labirinto");
 		btnGerarLabirinto.addActionListener(new ActionListener() {
@@ -191,12 +207,17 @@ public class JanelaJogo {
 					jogo.setModoJogo(2);
 				else jogo.setModoJogo(3);
 				
-				mostradorLabirinto.setText(jogo.getTab().paraString());
+				//mostradorLabirinto.setText(jogo.getTab().paraString());
+				((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
+				((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
+				frmJogoDoLabirinto.setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 50 +50);
+				desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 50);
+				desenhoLabirinto.repaint();
 				setEnableEmVariosBotoes(true);
 
 			}
 		});
-		btnGerarLabirinto.setBounds(406, 38, 174, 23);
+		btnGerarLabirinto.setBounds(80, 142, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnGerarLabirinto);
 
 		JButton btnTerminarPrograma = new JButton("Terminar Programa");
@@ -205,20 +226,8 @@ public class JanelaJogo {
 				System.exit(0);
 			}
 		});
-		btnTerminarPrograma.setBounds(406, 88, 174, 23);
+		btnTerminarPrograma.setBounds(80, 188, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(55, 176, 301, 250);
-		frmJogoDoLabirinto.getContentPane().add(scrollPane);
-		
-		mostradorLabirinto = new JTextArea();
-		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
-		mostradorLabirinto.setEditable(false);
-		scrollPane.setViewportView(mostradorLabirinto);
-
-
-
 	}
 	
 	public void setEnableEmVariosBotoes(boolean flag){
@@ -231,7 +240,8 @@ public class JanelaJogo {
 	public void processarDirecao(Movimento direcao){
 		if(jogo.jogada(direcao))
 			acabouJogo();
-		mostradorLabirinto.setText(jogo.getTab().paraString());
+		//mostradorLabirinto.setText(jogo.getTab().paraString());
+		desenhoLabirinto.repaint();
 	}
 	
 	public void acabouJogo(){

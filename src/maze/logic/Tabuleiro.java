@@ -306,5 +306,9 @@ public class Tabuleiro {
 	public int getN() {
 		return n;
 	}
+
+	public char[][] getLabirinto() {
+		return labirinto;
+	}
 	
 }
