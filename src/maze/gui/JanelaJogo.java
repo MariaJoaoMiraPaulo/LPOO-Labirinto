@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import maze.gui.GraficosJogo.EstadoJogo;
+import maze.gui.VitoriaDerrota.Imagem;
 import maze.logic.Jogo;
 import maze.logic.Jogo.Movimento;
 
@@ -23,6 +24,8 @@ import javax.swing.JPanel;
 
 public class JanelaJogo {
 
+	private final int WIDTH=450, HEIGHT=350;
+	
 	private JFrame frmJogoDoLabirinto;
 	private JTextField dimensaoLabirinto;
 	private JTextField numeroDragoes;
@@ -34,6 +37,7 @@ public class JanelaJogo {
 	private JTextArea mostradorLabirinto;
 	private JTextArea textArea;
 	private JPanel desenhoLabirinto;
+	private JPanel vencedor;
 
 	/**
 	 * Launch the application.
@@ -148,7 +152,7 @@ public class JanelaJogo {
 		});
 		
 		desenhoLabirinto = new GraficosJogo();
-		desenhoLabirinto.setBounds(303, 41, 294, 264);
+		desenhoLabirinto.setBounds(303, 11, 294, 264);
 		frmJogoDoLabirinto.getContentPane().add(desenhoLabirinto);
 		
 		mostradorLabirinto = new JTextArea();
@@ -159,6 +163,10 @@ public class JanelaJogo {
 //		mostradorLabirinto = new JTextArea();
 //		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
 //		mostradorLabirinto.setEditable(false);
+		
+		vencedor = new VitoriaDerrota();
+		vencedor.setBounds(303, 11, 400, 300);
+		frmJogoDoLabirinto.getContentPane().add(vencedor);
 		
 		JButton btnGerarLabirinto = new JButton("Gerar Labirinto");
 		btnGerarLabirinto.addActionListener(new ActionListener() {
@@ -212,6 +220,8 @@ public class JanelaJogo {
 				((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
 				frmJogoDoLabirinto.setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 50 +50);
 				desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 50);
+				desenhoLabirinto.setVisible(true);
+				vencedor.setVisible(false);
 				desenhoLabirinto.repaint();
 				setEnableEmVariosBotoes(true);
 
@@ -228,6 +238,7 @@ public class JanelaJogo {
 		});
 		btnTerminarPrograma.setBounds(80, 188, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
+		
 	}
 	
 	public void setEnableEmVariosBotoes(boolean flag){
@@ -238,16 +249,39 @@ public class JanelaJogo {
 	}
 	
 	public void processarDirecao(Movimento direcao){
-		if(jogo.jogada(direcao))
+		if(jogo.jogada(direcao)){
 			acabouJogo();
+		}
 		//mostradorLabirinto.setText(jogo.getTab().paraString());
-		desenhoLabirinto.repaint();
+		else desenhoLabirinto.repaint();
 	}
 	
 	public void acabouJogo(){
 		setEnableEmVariosBotoes(false);
-		if(!jogo.dragoesVivos())
+		
+		if(vencedor.getY()+ HEIGHT < frmJogoDoLabirinto.getHeight())		
+			frmJogoDoLabirinto.setSize(vencedor.getX()+ WIDTH, frmJogoDoLabirinto.getHeight());
+		else
+			frmJogoDoLabirinto.setSize(vencedor.getX()+ WIDTH, vencedor.getY()+ HEIGHT);
+		
+		if(!jogo.dragoesVivos()){
+			((VitoriaDerrota) vencedor).quemGanhou(true);
+			}
+		else {
+			((VitoriaDerrota) vencedor).quemGanhou(false);
+		}
+		
+		((VitoriaDerrota) vencedor).setImagem(Imagem.COM_IMAGEM);
+		desenhoLabirinto.setVisible(false);
+		vencedor.setVisible(true);
+		vencedor.repaint();
+		
+		if(!jogo.dragoesVivos()){
 			JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Ganhou o jogo!!");
-		else JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
+			}
+		else {
+			JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Perdeu o jogo!!");
+		}
+		
 	}
 }

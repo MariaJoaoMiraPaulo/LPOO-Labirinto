@@ -2,6 +2,8 @@ package maze.gui;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -88,10 +90,13 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		switch(estadoJogo){
 		case COM_LABIRINTO:
 			drawLabirinto(g);
@@ -104,7 +109,7 @@ public class GraficosJogo extends JPanel{
 	public void drawLabirinto(Graphics g) {
 		Point ponto;
 		ponto=new Point(0,0);
-		
+		System.out.println("Entrei");
 		for(int i=0;i<labirinto.getLabirinto().length;i++){
 			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
 				Point p=new Point(i,j);
