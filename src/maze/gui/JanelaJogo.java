@@ -259,7 +259,7 @@ public class JanelaJogo {
 	public void acabouJogo(){
 		setEnableEmVariosBotoes(false);
 		
-		if(vencedor.getY()+ HEIGHT < frmJogoDoLabirinto.getHeight())		
+		if(vencedor.getY()+ HEIGHT< frmJogoDoLabirinto.getHeight())		
 			frmJogoDoLabirinto.setSize(vencedor.getX()+ WIDTH, frmJogoDoLabirinto.getHeight());
 		else
 			frmJogoDoLabirinto.setSize(vencedor.getX()+ WIDTH, vencedor.getY()+ HEIGHT);
