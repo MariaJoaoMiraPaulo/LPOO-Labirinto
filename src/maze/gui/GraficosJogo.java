@@ -28,6 +28,7 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage saida;
 	private BufferedImage heroiArmado;
 	private BufferedImage espadaEDragao;
+	private BufferedImage dragaoADormir;
 	
 	private int x=0, y=0, width=100, height=100;
 	private Tabuleiro labirinto;
@@ -81,6 +82,12 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			dragaoADormir =  ImageIO.read(new File("imagens/tomsleep.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -97,9 +104,8 @@ public class GraficosJogo extends JPanel{
 	public void drawLabirinto(Graphics g) {
 		Point ponto;
 		ponto=new Point(0,0);
-		System.out.println("Merdou");
+		
 		for(int i=0;i<labirinto.getLabirinto().length;i++){
-			System.out.println("Merdou11");
 			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
 				Point p=new Point(i,j);
 				if(labirinto.retornaChar(p)=='X')
@@ -118,6 +124,8 @@ public class GraficosJogo extends JPanel{
 					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
 				if(labirinto.retornaChar(p)=='F')
 					g.drawImage(espadaEDragao, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, espadaEDragao.getWidth(), espadaEDragao.getHeight(),null);
+				if(labirinto.retornaChar(p)=='d')
+					g.drawImage(dragaoADormir, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, dragaoADormir.getWidth(), dragaoADormir.getHeight(),null);
 				
 				ponto.x=ponto.x+WIDTH;
 			}
