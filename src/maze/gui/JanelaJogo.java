@@ -16,6 +16,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
@@ -126,19 +128,22 @@ public class JanelaJogo {
 		
 		btnCima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				processarDirecao(Movimento.CIMA);
+				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.CIMA);
+				desenhoLabirinto.requestFocus();
 			}
 		});
 		
 		btnEsquerda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				processarDirecao(Movimento.ESQUERDA);
+				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.ESQUERDA);
+				desenhoLabirinto.requestFocus();
 			}
 		});
 		
 		btnDireita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				processarDirecao(Movimento.DIREITA);
+				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.DIREITA);
+				desenhoLabirinto.requestFocus();
 			}
 
 		});
@@ -146,7 +151,8 @@ public class JanelaJogo {
 		
 		btnBaixo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				processarDirecao(Movimento.BAIXO);
+				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.BAIXO);
+				desenhoLabirinto.requestFocus();
 			}
 
 		});
@@ -209,21 +215,23 @@ public class JanelaJogo {
 				}
 
 				jogo=new Jogo(nDragoes,dimensao);
+				((GraficosJogo)desenhoLabirinto).inicializarJogo(nDragoes, dimensao);
 				if(modosJogo.getSelectedItem().equals("Estaticos"))
-					jogo.setModoJogo(1);
+					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(1);
 				else if(modosJogo.getSelectedItem().equals("Moveis"))
-					jogo.setModoJogo(2);
-				else jogo.setModoJogo(3);
+					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(2);
+				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);
 				
 				//mostradorLabirinto.setText(jogo.getTab().paraString());
-				((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
-				((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
+				//((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
+				//((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
 				frmJogoDoLabirinto.setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 50 +50);
 				desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 50);
 				desenhoLabirinto.setVisible(true);
 				vencedor.setVisible(false);
 				desenhoLabirinto.repaint();
 				setEnableEmVariosBotoes(true);
+				desenhoLabirinto.requestFocus();
 
 			}
 		});
@@ -238,7 +246,7 @@ public class JanelaJogo {
 		});
 		btnTerminarPrograma.setBounds(80, 188, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
-		
+	
 	}
 	
 	public void setEnableEmVariosBotoes(boolean flag){

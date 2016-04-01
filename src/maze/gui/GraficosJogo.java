@@ -2,20 +2,25 @@ package maze.gui;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maze.gui.VitoriaDerrota.Imagem;
 import maze.logic.Jogo;
+import maze.logic.Jogo.Movimento;
 import maze.logic.Tabuleiro;
 
 public class GraficosJogo extends JPanel{
 
 	public enum EstadoJogo{
-		COM_LABIRINTO, SEM_LABIRINTO
+		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU
 	}
 
 	private final int WIDTH=40, HEIGHT=50;
@@ -29,10 +34,13 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage heroiArmado;
 	private BufferedImage espadaEDragao;
 	private BufferedImage dragaoADormir;
-	
+	private BufferedImage vitoria;
+	private BufferedImage derrota;
+
 	private int x=0, y=0, width=100, height=100;
 	private Tabuleiro labirinto;
 	private EstadoJogo estadoJogo=EstadoJogo.SEM_LABIRINTO;
+	private Jogo jogo;
 
 	public GraficosJogo(){
 		try {
@@ -46,56 +54,111 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			parede =  ImageIO.read(new File("imagens/wall.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			dragao =  ImageIO.read(new File("imagens/tomFront.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			espada =  ImageIO.read(new File("imagens/cheese.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			saida =  ImageIO.read(new File("imagens/door.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			heroiArmado =  ImageIO.read(new File("imagens/jerryCheese.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			espadaEDragao =  ImageIO.read(new File("imagens/tomCheese.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			dragaoADormir =  ImageIO.read(new File("imagens/tomsleep.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			vitoria =  ImageIO.read(new File("imagens/ratoGanha.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			derrota =  ImageIO.read(new File("imagens/gatoGanha.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				 switch(e.getKeyCode()){
+	                case KeyEvent.VK_LEFT: 
+	                    processarDirecao(Movimento.ESQUERDA);
+	                    break;
+	                     
+	                case KeyEvent.VK_RIGHT: 
+	                    processarDirecao(Movimento.DIREITA);
+	                    break;
+	 
+	                case KeyEvent.VK_UP: 
+	                    processarDirecao(Movimento.CIMA);
+	                    break;
+	 
+	                case KeyEvent.VK_DOWN: 
+	                    processarDirecao(Movimento.BAIXO);
+	                    break;
+	                }
+				
+			}
+		});
 	}
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		switch(estadoJogo){
 		case COM_LABIRINTO:
 			drawLabirinto(g);
+			break;
+		case HEROI_GANHOU:
+			g.drawImage(vitoria, 0, 0, 400, 300, 0, 0, vitoria.getWidth(), vitoria.getHeight(),null);
+			break;
+		case HEROI_PERDEU:
+			g.drawImage(derrota, 0, 0, 400, 300, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
 			break;
 		}	
 	}
@@ -106,28 +169,30 @@ public class GraficosJogo extends JPanel{
 		Point ponto;
 		ponto=new Point(0,0);
 		System.out.println("Entrei");
-		for(int i=0;i<labirinto.getLabirinto().length;i++){
-			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
+//		for(int i=0;i<labirinto.getLabirinto().length;i++){
+//			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
+		for(int i=0;i<jogo.getTab().getLabirinto().length;i++){
+            for(int j=0;j<jogo.getTab().getLabirinto()[i].length;j++){
 				Point p=new Point(i,j);
-				if(labirinto.retornaChar(p)=='X')
+				if(jogo.getTab().retornaChar(p)=='X')
 					g.drawImage(parede, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, parede.getWidth(), parede.getHeight(),null);
-				if(labirinto.retornaChar(p)=='H')
+				if(jogo.getTab().retornaChar(p)=='H')
 					g.drawImage(heroi, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, heroi.getWidth(), heroi.getHeight(),null);
-				if(labirinto.retornaChar(p)==' ')
+				if(jogo.getTab().retornaChar(p)==' ')
 					g.drawImage(chao, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, chao.getWidth(), chao.getHeight(),null);
-				if(labirinto.retornaChar(p)=='D')
+				if(jogo.getTab().retornaChar(p)=='D')
 					g.drawImage(dragao, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, dragao.getWidth(), dragao.getHeight(),null);
-				if(labirinto.retornaChar(p)=='E')
+				if(jogo.getTab().retornaChar(p)=='E')
 					g.drawImage(espada, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, espada.getWidth(), espada.getHeight(),null);
-				if(labirinto.retornaChar(p)=='S')
+				if(jogo.getTab().retornaChar(p)=='S')
 					g.drawImage(saida, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, saida.getWidth(), saida.getHeight(),null);
-				if(labirinto.retornaChar(p)=='A')
+				if(jogo.getTab().retornaChar(p)=='A')
 					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
-				if(labirinto.retornaChar(p)=='F')
+				if(jogo.getTab().retornaChar(p)=='F')
 					g.drawImage(espadaEDragao, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, espadaEDragao.getWidth(), espadaEDragao.getHeight(),null);
-				if(labirinto.retornaChar(p)=='d')
+				if(jogo.getTab().retornaChar(p)=='d')
 					g.drawImage(dragaoADormir, ponto.x, ponto.y, ponto.x+WIDTH, ponto.y+HEIGHT, 0, 0, dragaoADormir.getWidth(), dragaoADormir.getHeight(),null);
-				
+
 				ponto.x=ponto.x+WIDTH;
 			}
 			ponto.y=ponto.y+HEIGHT;
@@ -143,5 +208,39 @@ public class GraficosJogo extends JPanel{
 
 	public void mudarEstadoJogo(EstadoJogo estado){
 		this.estadoJogo = estado;
+	}
+
+	public void inicializarJogo(int nDragoes, int dimensao){
+		jogo=new Jogo(nDragoes,dimensao);
+		estadoJogo=estadoJogo.COM_LABIRINTO;
+	}
+
+	public Jogo getJogo() {
+		return jogo;
+	}
+
+	public void processarDirecao(Movimento direcao){
+		if(jogo.jogada(direcao)){
+			acabouJogo();
+		}
+		//mostradorLabirinto.setText(jogo.getTab().paraString());
+		else repaint();
+	}
+	
+	public void acabouJogo(){
+		
+		if(!jogo.dragoesVivos())
+			estadoJogo=EstadoJogo.HEROI_GANHOU;
+		else estadoJogo=EstadoJogo.HEROI_PERDEU;
+		
+		repaint();
+		
+		if(!jogo.dragoesVivos()){
+			JOptionPane.showMessageDialog(this, "Ganhou o jogo!!");
+			}
+		else {
+			JOptionPane.showMessageDialog(this, "Perdeu o jogo!!");
+		}
+		
 	}
 }
