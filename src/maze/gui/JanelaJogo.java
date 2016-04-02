@@ -28,7 +28,7 @@ public class JanelaJogo {
 	private JButton btnBaixo;
 	private JButton btnEsquerda;
 	private JButton btnCima;
-	private JTextArea mostradorLabirinto;
+	private JTextArea mostradorLabirinto;   
 	private JPanel desenhoLabirinto;
 
 	/**
