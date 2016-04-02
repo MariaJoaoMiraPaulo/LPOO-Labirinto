@@ -26,24 +26,43 @@ public class GraficosJogo extends JPanel{
 	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40, LARGURA_IMAGEM_FIM_DE_JOGO=400, ALTURA_IMAGEM_FIM_DE_JOGO=300;
 
 	private BufferedImage heroi;
+	private BufferedImage heroiEsquerda;
+	private BufferedImage heroiDireita;
 	private BufferedImage chao;
 	private BufferedImage parede;
 	private BufferedImage dragao;
+	private BufferedImage dragaoEsquerda;
+	private BufferedImage dragaoDireita;
 	private BufferedImage espada;
 	private BufferedImage saida;
 	private BufferedImage heroiArmado;
+	private BufferedImage heroiArmadoEsquerda;
 	private BufferedImage espadaEDragao;
 	private BufferedImage dragaoADormir;
 	private BufferedImage vitoria;
 	private BufferedImage derrota;
 
+
 	//private Tabuleiro labirinto;
 	private EstadoJogo estadoJogo=EstadoJogo.SEM_LABIRINTO;
-	private Jogo jogo;
+	private Jogo jogo;   
+	private Movimento direcao=Movimento.CIMA;   
 
 	public GraficosJogo(){
 		try {
 			heroi =  ImageIO.read(new File("imagens/jerryFront.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			heroiEsquerda =  ImageIO.read(new File("imagens/jerryLeft.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			heroiDireita =  ImageIO.read(new File("imagens/jerryRight.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +85,19 @@ public class GraficosJogo extends JPanel{
 			e.printStackTrace();
 		}
 
+		try {
+			dragaoEsquerda =  ImageIO.read(new File("imagens/tomLeft.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			dragaoDireita =  ImageIO.read(new File("imagens/tomRight.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 		try {
 			espada =  ImageIO.read(new File("imagens/cheese.png"));
 		} catch (IOException e) {
@@ -107,6 +139,12 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			heroiArmadoEsquerda =  ImageIO.read(new File("imagens/jerryCheeseLeft.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		
 		addKeyListener(new KeyListener() {
 			
@@ -126,18 +164,22 @@ public class GraficosJogo extends JPanel{
 			public void keyPressed(KeyEvent e) {
 				 switch(e.getKeyCode()){
 	                case KeyEvent.VK_LEFT: 
+	                	direcao=Movimento.ESQUERDA;
 	                    processarDirecao(Movimento.ESQUERDA);
 	                    break;
 	                     
 	                case KeyEvent.VK_RIGHT: 
+	                	direcao=Movimento.DIREITA;
 	                    processarDirecao(Movimento.DIREITA);
 	                    break;
 	 
 	                case KeyEvent.VK_UP: 
+	                	direcao=Movimento.CIMA;
 	                    processarDirecao(Movimento.CIMA);
 	                    break;
 	 
 	                case KeyEvent.VK_DOWN: 
+	                	direcao=Movimento.BAIXO;
 	                    processarDirecao(Movimento.BAIXO);
 	                    break;
 	                }
@@ -175,18 +217,36 @@ public class GraficosJogo extends JPanel{
 				Point p=new Point(i,j);
 				if(jogo.getTab().retornaChar(p)=='X')
 					g.drawImage(parede, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, parede.getWidth(), parede.getHeight(),null);
-				if(jogo.getTab().retornaChar(p)=='H')
+				if(jogo.getTab().retornaChar(p)=='H'&& direcao==Movimento.BAIXO)
 					g.drawImage(heroi, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroi.getWidth(), heroi.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='H'&& direcao==Movimento.CIMA)
+					g.drawImage(heroi, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroi.getWidth(), heroi.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='H' && direcao==Movimento.DIREITA)
+					g.drawImage(heroiDireita, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroi.getWidth(), heroi.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='H' && direcao==Movimento.ESQUERDA)
+					g.drawImage(heroiEsquerda, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroi.getWidth(), heroi.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)==' ')
 					g.drawImage(chao, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, chao.getWidth(), chao.getHeight(),null);
-				if(jogo.getTab().retornaChar(p)=='D')
+				if(jogo.getTab().retornaChar(p)=='D' && jogo.getMovimentoDragao()==Movimento.BAIXO)
 					g.drawImage(dragao, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, dragao.getWidth(), dragao.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='D' && jogo.getMovimentoDragao()==Movimento.CIMA)
+					g.drawImage(dragao, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, dragao.getWidth(), dragao.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='D' && jogo.getMovimentoDragao()==Movimento.ESQUERDA)
+					g.drawImage(dragaoEsquerda, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, dragao.getWidth(), dragao.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='D' && jogo.getMovimentoDragao()==Movimento.DIREITA)
+					g.drawImage(dragaoDireita, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, dragao.getWidth(), dragao.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='E')
 					g.drawImage(espada, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, espada.getWidth(), espada.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='S')
 					g.drawImage(saida, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, saida.getWidth(), saida.getHeight(),null);
-				if(jogo.getTab().retornaChar(p)=='A')
+				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.DIREITA)
 					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.BAIXO)
+					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.CIMA)   
+					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
+				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.ESQUERDA)
+					g.drawImage(heroiArmadoEsquerda, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='F')
 					g.drawImage(espadaEDragao, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, espadaEDragao.getWidth(), espadaEDragao.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='d')
@@ -194,7 +254,7 @@ public class GraficosJogo extends JPanel{
 
 				ponto.x=ponto.x+LARGURA_IMAGENS_LABIRINTO;
 			}
-			ponto.y=ponto.y+ALTURA_IMAGENS_LABIRINTO;
+			ponto.y=ponto.y+ALTURA_IMAGENS_LABIRINTO;  
 			ponto.x=0;
 		}
 

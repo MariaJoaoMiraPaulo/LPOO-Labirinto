@@ -17,10 +17,13 @@ public class Jogo {
 	private CommandLineInterface cli;
 	private int modoJogo;
 	public ArrayList<Dragao> dragoes= new ArrayList<Dragao>();
+	
 
 	public enum Movimento{
 		DIREITA,ESQUERDA,CIMA,BAIXO
 	}
+	
+	private Movimento MovimentoDragao=Movimento.CIMA;
 
 	public Jogo(){
 		cli=new CommandLineInterface();
@@ -336,15 +339,19 @@ public class Jogo {
 		switch (direcao){
 		case 0: 
 			p.y-=1;
+			MovimentoDragao=Movimento.ESQUERDA;
 			break;
 		case 1: 
 			p.y+=1;
+			MovimentoDragao=Movimento.DIREITA;
 			break;
 		case 2:
 			p.x+=1;
+			MovimentoDragao=Movimento.BAIXO;
 			break;
 		case 3:
 			p.x-=1;
+			MovimentoDragao=Movimento.CIMA;
 			break;
 		case 4:
 			break;
@@ -426,6 +433,10 @@ public class Jogo {
 
 	public void setFimDeJogo(boolean fimDeJogo) {
 		this.fimDeJogo = fimDeJogo;
+	}
+
+	public Movimento getMovimentoDragao() {
+		return MovimentoDragao;
 	}
 
 }
