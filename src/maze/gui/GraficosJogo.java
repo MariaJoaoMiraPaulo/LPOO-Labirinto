@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import maze.logic.Jogo;
+import maze.logic.Jogo.Movimento;
 import maze.logic.Tabuleiro;
 
 public class GraficosJogo extends JPanel{
@@ -18,7 +19,7 @@ public class GraficosJogo extends JPanel{
 		COM_LABIRINTO, SEM_LABIRINTO
 	}
 
-	private final int WIDTH=40, HEIGHT=50;
+	private final int WIDTH=40, HEIGHT=40;  
 
 	private BufferedImage heroi;
 	private BufferedImage chao;
@@ -29,6 +30,7 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage heroiArmado;
 	private BufferedImage espadaEDragao;
 	private BufferedImage dragaoADormir;
+	private Movimento direcaoHeroi;
 	
 	private int x=0, y=0, width=100, height=100;
 	private Tabuleiro labirinto;
@@ -88,6 +90,9 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
+		
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -98,6 +103,10 @@ public class GraficosJogo extends JPanel{
 			drawLabirinto(g);
 			break;
 		}	
+	}
+	
+	public void setDirecao(Movimento direcao){
+		this.direcaoHeroi=direcao;
 	}
 
 

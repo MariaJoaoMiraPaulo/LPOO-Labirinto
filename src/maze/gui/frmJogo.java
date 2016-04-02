@@ -14,6 +14,9 @@ import maze.gui.GraficosJogo.EstadoJogo;
 import maze.gui.VitoriaDerrota.Imagem;
 import maze.logic.Jogo;
 import maze.logic.Jogo.Movimento;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class frmJogo extends JFrame {
 
@@ -21,6 +24,7 @@ public class frmJogo extends JFrame {
 	private Jogo jogo;
 	private JPanel desenhoLabirinto;
 	private JPanel vencedor;
+	private JButton btnNovoJogo;
 
 	/**   
 	 * Launch the application.
@@ -43,9 +47,7 @@ public class frmJogo extends JFrame {
 	 */
 	public frmJogo() {
 		initialize();
-
 	}
-
 
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,85 +57,105 @@ public class frmJogo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+
 		desenhoLabirinto = new GraficosJogo();
-		desenhoLabirinto.setBounds(6, 6, 294, 264);
+		desenhoLabirinto.setFocusTraversalPolicyProvider(true);
+		desenhoLabirinto.setBounds(23, 18, 294, 264);
 		getContentPane().add(desenhoLabirinto);
-		//this.pack();
+
 
 		int dimensao=11;
 		jogo=new Jogo(1,dimensao);
 		jogo.setModoJogo(1);
-		
-		vencedor = new VitoriaDerrota();
-		vencedor.setBounds(303, 11, 400, 300);
-		getContentPane().add(vencedor);
+
+
 
 		((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
 		((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
-		setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 50 +50);
-		desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 50);
+		setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 40 +80);
+		desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 40);
+
+		btnNovoJogo = new JButton("Jogar Novamente");
+		btnNovoJogo.setBounds(49, 481, 144, 29);
+		contentPane.add(btnNovoJogo);
+		btnNovoJogo.setEnabled(false);
+
+
 		desenhoLabirinto.setVisible(true);
-		desenhoLabirinto.repaint();
-		
-		desenhoLabirinto.requestFocus();
-		
-		
-		
-		
+
+
+		btnNovoJogo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jogo=new Jogo(1,dimensao);
+				jogo.setModoJogo(1);
+				((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
+				((GraficosJogo) desenhoLabirinto).setLabirinto(jogo.getTab());
+				setBounds(0, 0,desenhoLabirinto.getX()+ dimensao * 40+50, desenhoLabirinto.getY()+ dimensao * 40 +80);
+				desenhoLabirinto.setBounds(desenhoLabirinto.getX(), desenhoLabirinto.getY(), desenhoLabirinto.getX()+ dimensao * 40, desenhoLabirinto.getY()+ dimensao * 40);
+				desenhoLabirinto.setVisible(true);
+				btnNovoJogo.setEnabled(false);
+				desenhoLabirinto.repaint();	
+				desenhoLabirinto.requestFocus();
+			}
+	});
+
+
+
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				
+
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				switch(e.getKeyCode()){
-				case KeyEvent.VK_LEFT: 
-					processarDirecao(Movimento.ESQUERDA);
-					break;
-					
-				case KeyEvent.VK_RIGHT: 
-					processarDirecao(Movimento.DIREITA);
-					//System.out.println("x=" + x);
-					break;
+				MovimentoTecla(e);
 
-				case KeyEvent.VK_UP: 
-					processarDirecao(Movimento.CIMA);
-					break;
-
-				case KeyEvent.VK_DOWN: 
-					processarDirecao(Movimento.BAIXO);
-					break;
-				}
-				repaint();
-  
-				
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 			}			
 		});
-}
-	
+	}
+
 	public void processarDirecao(Movimento direcao){
 		if(jogo.jogada(direcao)){
 			acabouJogo();
 		}
-		//mostradorLabirinto.setText(jogo.getTab().paraString());
 		else desenhoLabirinto.repaint();
 	}
-	
+
 	public void acabouJogo(){
-		
+
 		if(!jogo.dragoesVivos()){
 			JOptionPane.showMessageDialog(this, "Ganhou o jogo!!");
-			}
+			btnNovoJogo.setEnabled(true);
+		}
 		else {
 			JOptionPane.showMessageDialog(this, "Perdeu o jogo!!");
 		}
-		
+
+	}
+	
+	public void MovimentoTecla(KeyEvent e){
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_LEFT: 
+			processarDirecao(Movimento.ESQUERDA);
+			break;
+
+		case KeyEvent.VK_RIGHT: 
+			processarDirecao(Movimento.DIREITA);
+			break;
+
+		case KeyEvent.VK_UP: 
+			processarDirecao(Movimento.CIMA);
+			break;
+
+		case KeyEvent.VK_DOWN: 
+			processarDirecao(Movimento.BAIXO);
+			break;
+		}
 	}
 }
 
