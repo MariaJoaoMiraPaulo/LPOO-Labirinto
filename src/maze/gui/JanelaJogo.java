@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 public class JanelaJogo {
 
@@ -36,6 +37,8 @@ public class JanelaJogo {
 	private JLabel lblDimensaoDoLabirinto;
 	private JLabel lblNumeroDeDragoes;
 	private JLabel lblTipoDeDragoes;
+	private JSlider DimensaoLab;
+	private JSlider slider;
 
 	/**
 	 * Launch the application.
@@ -91,23 +94,23 @@ public class JanelaJogo {
 		frmJogoDoLabirinto.getContentPane().add(lblNumeroDeDragoes);
 
 		lblTipoDeDragoes = new JLabel("Tipo de dragoes\r\n");
-		lblTipoDeDragoes.setBounds(30, 102, 114, 14);
+		lblTipoDeDragoes.setBounds(30, 102, 114, 14); 
 		frmJogoDoLabirinto.getContentPane().add(lblTipoDeDragoes);
 
 		dimensaoLabirinto = new JTextField();
-		dimensaoLabirinto.setBounds(158, 38, 108, 20);
+		dimensaoLabirinto.setBounds(30, 9, 108, 20);
 		frmJogoDoLabirinto.getContentPane().add(dimensaoLabirinto);
 		dimensaoLabirinto.setColumns(10);
 
 		numeroDragoes = new JTextField();
 		numeroDragoes.setColumns(10);
-		numeroDragoes.setBounds(158, 67, 108, 20);
+		numeroDragoes.setBounds(183, 77, 108, 20);
 		frmJogoDoLabirinto.getContentPane().add(numeroDragoes);
 
 		modosJogo = new JComboBox();
 		modosJogo.setModel(new DefaultComboBoxModel(new String[] {"Estaticos", "Moveis", "A dormir"}));
 		modosJogo.setSelectedIndex(1);
-		modosJogo.setBounds(158, 99, 111, 20);
+		modosJogo.setBounds(178, 100, 111, 20);
 		frmJogoDoLabirinto.getContentPane().add(modosJogo);
 
 		btnCima = new JButton("Cima");
@@ -170,6 +173,14 @@ public class JanelaJogo {
 		});
 		btnTerminarPrograma.setBounds(80, 188, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnTerminarPrograma);
+		
+		slider = new JSlider();
+		slider.setBounds(183, 36, 108, 29);
+		frmJogoDoLabirinto.getContentPane().add(slider);
+		slider.setMajorTickSpacing(6);
+		slider.setValue(5);
+		slider.setPaintTicks(true);
+		
 
 		//		mostradorLabirinto = new JTextArea();
 		//		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
@@ -192,7 +203,7 @@ public class JanelaJogo {
 							return;
 						}
 					}
-				}
+				}  
 				catch (NumberFormatException ex){
 					JOptionPane.showMessageDialog(frmJogoDoLabirinto, "Formato nao valido");
 					return;
@@ -235,7 +246,7 @@ public class JanelaJogo {
 
 				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
 				desenhoLabirinto.setVisible(true);
-				desenhoLabirinto.repaint();
+				desenhoLabirinto.repaint();   
 				setEnableEmVariosBotoes(true);
 				setTodosBotoesMenosLabirinto(false);
 				desenhoLabirinto.requestFocus();
@@ -244,6 +255,9 @@ public class JanelaJogo {
 		});
 		btnGerarLabirinto.setBounds(80, 142, 174, 23);
 		frmJogoDoLabirinto.getContentPane().add(btnGerarLabirinto);
+		
+		
+		
 
 	}
 
@@ -298,6 +312,9 @@ public class JanelaJogo {
 		
 		lblTipoDeDragoes.setVisible(flag);
 		lblTipoDeDragoes.setEnabled(flag);
+		
+		slider.setVisible(flag);
+		slider.setEnabled(flag);
 		
 		if(flag)
 			frmJogoDoLabirinto.setSize(400, 600);
