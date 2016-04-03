@@ -45,6 +45,7 @@ public class TomAndJerryGame {
 	private JButton btnSair;
 	private JButton btnJogarNovamente;
 	private JButton btnMenuPrincipal;
+	private GeradorLabirinto gerador;
 	public int dimensao;
 	public int Dragoes;
 
@@ -93,7 +94,7 @@ public class TomAndJerryGame {
 		frmJogo.getContentPane().add(desenhoLabirinto);
 		desenhoLabirinto.setLayout(null);
 
-
+		gerador=new GeradorLabirinto(this);  
 
 		mostradorLabirinto = new JTextArea();
 		mostradorLabirinto.setBounds(146, 12, 0, 15);
@@ -115,6 +116,13 @@ public class TomAndJerryGame {
 		desenhoLabirinto.add(btnConfiguraes);
 		
 		btnCriarLabirinto = new JButton("Criar Labirinto");
+		btnCriarLabirinto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {   
+				frmJogo.setVisible(false);
+				gerador.frame.setVisible(true);
+				
+			}
+		});
 		btnCriarLabirinto.setBounds(445, 326, 138, 29);
 		desenhoLabirinto.add(btnCriarLabirinto);
 		
@@ -232,7 +240,7 @@ public class TomAndJerryGame {
 
 
 
-		lblConfiguraes = new JLabel("Configurações");
+		lblConfiguraes = new JLabel("Configuracoes");
 		lblConfiguraes.setFont(new Font("Courier New", Font.PLAIN, 20));
 		lblConfiguraes.setBounds(113, 12, 174, 44);
 		frmJogo.getContentPane().add(lblConfiguraes);
