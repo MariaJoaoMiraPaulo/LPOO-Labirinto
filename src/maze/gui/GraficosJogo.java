@@ -136,7 +136,7 @@ public class GraficosJogo extends JPanel{
 	                case KeyEvent.VK_UP: 
 	                    processarDirecao(Movimento.CIMA);
 	                    break;
-	 
+	    
 	                case KeyEvent.VK_DOWN: 
 	                    processarDirecao(Movimento.BAIXO);
 	                    break;
