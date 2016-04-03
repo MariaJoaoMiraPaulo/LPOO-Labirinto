@@ -5,6 +5,8 @@ import java.util.Random;
 import maze.cli.CommandLineInterface;
 import maze.logic.Dragao.EstadoDragao;
 import maze.logic.Heroi.EstadoHeroi;
+import maze.logic.Jogo.Movimento;
+
 import java.util.ArrayList;
 
 public class Jogo {
@@ -22,6 +24,8 @@ public class Jogo {
 		DIREITA,ESQUERDA,CIMA,BAIXO
 	}
 
+	private Movimento movimentoDragao=Movimento.CIMA;
+	
 	public Jogo(){
 		cli=new CommandLineInterface();
 		tab=new Tabuleiro(cli.retornaTamanhoTabuleiro());
@@ -336,15 +340,19 @@ public class Jogo {
 		switch (direcao){
 		case 0: 
 			p.y-=1;
+			movimentoDragao=Movimento.ESQUERDA;
 			break;
 		case 1: 
 			p.y+=1;
+			movimentoDragao=Movimento.DIREITA;
 			break;
 		case 2:
 			p.x+=1;
+			movimentoDragao=Movimento.BAIXO;
 			break;
 		case 3:
-			p.x-=1;
+			p.x-=1;   
+			movimentoDragao=Movimento.CIMA;
 			break;
 		case 4:
 			break;
@@ -426,6 +434,10 @@ public class Jogo {
 
 	public void setFimDeJogo(boolean fimDeJogo) {
 		this.fimDeJogo = fimDeJogo;
+	}
+
+	public Movimento getMovimentoDragao() {
+		return movimentoDragao;
 	}
 
 }

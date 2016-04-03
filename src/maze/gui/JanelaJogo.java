@@ -205,7 +205,7 @@ public class JanelaJogo {
 					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(1);
 				else if(modosJogo.getSelectedItem().equals("Moveis"))
 					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(2);
-				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);
+				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);  
 
 				//mostradorLabirinto.setText(jogo.getTab().paraString());
 				//((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);
