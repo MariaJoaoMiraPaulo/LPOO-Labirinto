@@ -134,6 +134,7 @@ public class TomAndJerryGame {
 
 				desenhoLabirinto.setVisible(true);
 				desenhoLabirinto.repaint();
+				
 				setTodosBotoesMenosLabirinto(false);    
 				desenhoLabirinto.requestFocus();
 			}
