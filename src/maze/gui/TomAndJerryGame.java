@@ -103,7 +103,7 @@ public class TomAndJerryGame {
 		btnJogar.setBounds(295, 326, 138, 29);
 		desenhoLabirinto.add(btnJogar);
 
-		btnConfiguraes = new JButton("Configurações");
+		btnConfiguraes = new JButton("Configuracoes\r\n");
 		btnConfiguraes.addActionListener(new ActionListener() {  
 			public void actionPerformed(ActionEvent e) {
 				setTodosBotoesMenosLabirinto(true);  
