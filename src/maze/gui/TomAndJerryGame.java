@@ -43,6 +43,8 @@ public class TomAndJerryGame {
 	private JButton btnConfiguraes;
 	private JButton btnCriarLabirinto;
 	private JButton btnSair;
+	public int dimensao;
+	public int Dragoes;
 
     
 	/**
@@ -126,9 +128,9 @@ public class TomAndJerryGame {
 		btnJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int dimensao=11;
-				int nrDragoes=1;
-				((GraficosJogo)desenhoLabirinto).inicializarJogo(nrDragoes, dimensao);
+				dimensao=11;
+				Dragoes=1;
+				((GraficosJogo)desenhoLabirinto).inicializarJogo(Dragoes, dimensao);
 
 				((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(2);
 				
@@ -205,12 +207,12 @@ public class TomAndJerryGame {
 
 		btnGerarLabirinto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int nDragoes=nrDragoes.getValue();
-				int dimensao=dimensaoLab.getValue();
+				Dragoes=nrDragoes.getValue();
+				dimensao=dimensaoLab.getValue();
 				if(dimensao%2==0)
 					dimensao++;
 
-				((GraficosJogo)desenhoLabirinto).inicializarJogo(nDragoes, dimensao);
+				((GraficosJogo)desenhoLabirinto).inicializarJogo(Dragoes, dimensao);   
 
 				if(modosJogo.getSelectedItem().equals("Estaticos"))
 					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(1);
@@ -219,7 +221,7 @@ public class TomAndJerryGame {
 				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);
 
 
-				System.out.println("entrei aqui");  
+				System.out.println("entrei aqui");    
 
 
 				//				if(desenhoLabirinto.getX()+ dimensao * 40+50 < LARGURA_MINIMA_FRAME &&  desenhoLabirinto.getY()+ dimensao * 40 +50 < ALTURA_MINIMA_FRAME)
