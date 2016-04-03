@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import maze.gui.GeradorLabirinto.BonecoAtivo;
 import maze.gui.GraficosJogo.EstadoJogo;
 import maze.logic.Jogo.Movimento;
 
@@ -120,6 +121,9 @@ public class TomAndJerryGame {
 			public void actionPerformed(ActionEvent e) {   
 				frmJogo.setVisible(false);
 				gerador.frame.setVisible(true);
+				((PainelGerarLabirinto) gerador.getGerarLabirinto()).inicializarLabirinto('Q');
+				((PainelGerarLabirinto) gerador.getGerarLabirinto()).renicializarEstado();
+				gerador.setBonecoAtivo(BonecoAtivo.NENHUM);
 				
 			}
 		});
@@ -477,5 +481,9 @@ public class TomAndJerryGame {
 
 	public int getDragoes() {
 		return Dragoes;
+	}
+
+	public GraficosJogo getDesenhoLabirinto() {
+		return desenhoLabirinto;
 	}
 }

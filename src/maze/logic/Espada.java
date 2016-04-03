@@ -5,7 +5,7 @@ public class Espada extends Personagem {
 	public boolean encontrada=false;
 	//public boolean coberta=false;
 	
-	Espada(int linha,int coluna, char simbolo){
+	public Espada(int linha,int coluna, char simbolo){
 		super(linha,coluna,simbolo);
 	}
 

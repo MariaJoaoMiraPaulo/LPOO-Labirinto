@@ -5,16 +5,37 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import maze.logic.Dragao;
+import maze.logic.Espada;
+import maze.logic.Heroi;
+import maze.logic.Jogo;
 import maze.logic.Tabuleiro;
 
 public class PainelGerarLabirinto extends JPanel{
 
+	public enum EstadoSaida{
+		COLOCADA, NAO_COLOCADA
+	}
+
+	public enum EstadoHeroi{
+		COLOCADO, NAO_COLOCADO
+	}
+
+	public enum EstadoDragao{
+		COLOCADO, NAO_COLOCADO
+	}
+
+	public enum EstadoEspada{
+		COLOCADA, NAO_COLOCADA
+	}
+
 	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40;
-	
+
 	private BufferedImage quadricula;
 	private BufferedImage heroi;
 	private BufferedImage dragao;
@@ -24,6 +45,15 @@ public class PainelGerarLabirinto extends JPanel{
 	private BufferedImage chao;
 
 	private Tabuleiro labirinto;
+	private Heroi heroiColocado;
+	private ArrayList<Dragao> dragoes= new ArrayList<Dragao>();
+	private Espada espadaColocada;
+	private Jogo jogo;
+
+	private EstadoSaida estadoSaida=EstadoSaida.NAO_COLOCADA;
+	private EstadoHeroi estadoHeroi=EstadoHeroi.NAO_COLOCADO;
+	private EstadoDragao estadoDragao=EstadoDragao.NAO_COLOCADO;
+	private EstadoEspada estadoEspada=EstadoEspada.NAO_COLOCADA;
 
 	public PainelGerarLabirinto(){
 		try {
@@ -70,18 +100,18 @@ public class PainelGerarLabirinto extends JPanel{
 
 		inicializarLabirinto('Q');
 	}
-	
+
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		drawLabirinto(g);
 	}
-	
+
 	public void drawLabirinto(Graphics g) {
 		Point ponto;
 		ponto=new Point(0,0);
-		
+
 		for(int i=0;i<labirinto.getLabirinto().length;i++){
-            for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
+			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
 				Point p=new Point(i,j);
 				if(labirinto.retornaChar(p)=='Q')
 					g.drawImage(quadricula, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, quadricula.getWidth(), quadricula.getHeight(),null);
@@ -97,35 +127,109 @@ public class PainelGerarLabirinto extends JPanel{
 					g.drawImage(espada, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, espada.getWidth(), espada.getHeight(),null);
 				if(labirinto.retornaChar(p)=='S')
 					g.drawImage(saida, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, saida.getWidth(), saida.getHeight(),null);
-				
+
 				ponto.x=ponto.x+LARGURA_IMAGENS_LABIRINTO;
 			}
 			ponto.y=ponto.y+ALTURA_IMAGENS_LABIRINTO;
 			ponto.x=0;
 		}
 	}
-	
+
 	public void setLabirinto(Point p, char letra){
 		Point p2= (Point) p.clone();
-		
+
 		p2.x= p2.x/40;
 		p2.y= p2.y/40;
-		
-		System.out.println("x: "+ p2.x);
-		System.out.println("y: "+ p2.y);
-		
-		labirinto.inserirChar(p2, letra);
+
+		switch(letra){
+		case 'S':
+			if(labirinto.retornaChar(p2)=='X' && estadoSaida.equals(EstadoSaida.NAO_COLOCADA)){
+				labirinto.inserirChar(p2, letra);
+				estadoSaida=EstadoSaida.COLOCADA;
+			}
+			break;
+		case 'H':
+			if(labirinto.retornaChar(p2)=='Q' && estadoHeroi.equals(EstadoHeroi.NAO_COLOCADO)){
+				labirinto.inserirChar(p2, letra);
+				estadoHeroi=EstadoHeroi.COLOCADO;
+				heroiColocado=new Heroi(p2.x,p2.y, 'H');
+			}
+			break;
+		case 'D':
+			if(labirinto.retornaChar(p2)=='Q'){
+				labirinto.inserirChar(p2, letra);
+				estadoDragao=EstadoDragao.COLOCADO;
+				dragoes.add(new Dragao(p2.x,p2.y, 'D'));
+			}
+			break;
+		case 'E':
+			if(labirinto.retornaChar(p2)=='Q' && estadoEspada.equals(EstadoEspada.NAO_COLOCADA)){
+				labirinto.inserirChar(p2, letra);
+				estadoEspada=EstadoEspada.COLOCADA;
+				espadaColocada=new Espada(p2.x,p2.y, 'E');
+			}
+			break;
+		case 'Q':
+			break;
+		default:
+			break;
+		}
+
 	}
-	
+
 	public void inicializarLabirinto(char letra){
 		char[][] labInicial = new char[11][11];
-		
+
 		for(int i=0; i<labInicial.length;i++){
 			for(int j=0; j<labInicial[i].length;j++){
 				labInicial[i][j]=letra;
 			}
 		}
+
+		for(int i=0;i<labInicial.length;i++){
+			labInicial[i][0]='X';
+			labInicial[i][labInicial.length-1]='X';
+		}
+
+		for(int i=0;i<labInicial.length;i++){
+			labInicial[0][i]='X';
+			labInicial[labInicial.length-1][i]='X';
+		}
+
 		labirinto = new Tabuleiro(labInicial);
+	}
+
+	public boolean terminarLabirinto(){
+		if(estadoDragao.equals(EstadoDragao.COLOCADO) && estadoEspada.equals(EstadoEspada.COLOCADA) && estadoHeroi.equals(EstadoHeroi.COLOCADO) && estadoSaida.equals(EstadoSaida.COLOCADA)){
+			for(int i=0; i<labirinto.getLabirinto().length;i++){
+				for(int j=0; j<labirinto.getLabirinto()[i].length;j++){
+					if(labirinto.retornaChar(i, j)=='Q')
+						labirinto.getLabirinto()[i][j]=' ';
+				}
+			}
+			repaint();
+			
+			jogo=new Jogo(heroiColocado, dragoes, espadaColocada, labirinto);
+			
+			jogo.setModoJogo(2);
+			
+			return true;
+		}
+		
+		return false;
+	}
+
+	public Jogo getJogo() {
+		return jogo;
+	}
+	
+	public void renicializarEstado(){
+		estadoSaida=EstadoSaida.NAO_COLOCADA;
+		estadoHeroi=EstadoHeroi.NAO_COLOCADO;
+		estadoDragao=EstadoDragao.NAO_COLOCADO;
+		estadoEspada=EstadoEspada.NAO_COLOCADA;
+		
+		dragoes.clear();
 	}
 }
 

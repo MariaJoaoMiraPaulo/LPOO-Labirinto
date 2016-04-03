@@ -365,4 +365,9 @@ public class GraficosJogo extends JPanel{
 	public void setEstadoJogo(EstadoJogo estadoJogo) {
 		this.estadoJogo = estadoJogo;
 	}
+
+
+	public void setJogo(Jogo jogo) {
+		this.jogo = jogo;
+	}
 }
