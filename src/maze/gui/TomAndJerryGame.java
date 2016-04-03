@@ -40,7 +40,8 @@ public class TomAndJerryGame {
 	public boolean jogadorPerdeu;
 	public boolean menu;
 	private JButton btnJogar;
-   
+	private JButton btnConfiguraes;
+
 
 	/**
 	 * Launch the application.
@@ -91,15 +92,39 @@ public class TomAndJerryGame {
 		desenhoLabirinto.add(mostradorLabirinto);
 		mostradorLabirinto.setFont(new Font("Courier New", Font.PLAIN, 13));
 		mostradorLabirinto.setEditable(false);
-		
-				btnJogar = new JButton("Jogar");
-				btnJogar.setBounds(308, 328, 138, 29);
-				desenhoLabirinto.add(btnJogar);
-				btnJogar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						setTodosBotoesMenosLabirinto(true);  
-					}
-				});
+
+		btnJogar = new JButton("Jogar");
+		btnJogar.setBounds(308, 344, 138, 29);
+		desenhoLabirinto.add(btnJogar);
+
+		btnConfiguraes = new JButton("Configurações");
+		btnConfiguraes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setTodosBotoesMenosLabirinto(true);  
+			}
+		});
+		btnConfiguraes.setBounds(308, 313, 138, 29);
+		desenhoLabirinto.add(btnConfiguraes);
+		btnJogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int dimensao=11;
+				int nrDragoes=1;
+				((GraficosJogo)desenhoLabirinto).inicializarJogo(nrDragoes, dimensao);
+
+				((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(2);
+				
+				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO +20);
+				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
+
+				desenhoLabirinto.setVisible(true);
+				desenhoLabirinto.repaint();
+				setTodosBotoesMenosLabirinto(false);
+				desenhoLabirinto.requestFocus();
+
+
+			}
+		});
 
 		lblDimensaoDoLabirinto = new JLabel("Dimensao do labirinto");
 		lblDimensaoDoLabirinto.setBounds(30, 79, 174, 14);
@@ -159,7 +184,7 @@ public class TomAndJerryGame {
 		frmJogo.getContentPane().add(lblConfiguraes);
 
 		btnGerarLabirinto = new JButton("Gerar Labirinto");
-		  
+
 		btnGerarLabirinto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int nDragoes=nrDragoes.getValue();
@@ -202,7 +227,7 @@ public class TomAndJerryGame {
 
 		preparaBotoesMenu(true);   
 		desenhoLabirinto.repaint();
-		
+
 
 
 	}
@@ -244,6 +269,9 @@ public class TomAndJerryGame {
 
 		btnJogar.setVisible(false);
 		btnJogar.setEnabled(false);
+		
+		btnConfiguraes.setVisible(false);
+		btnConfiguraes.setEnabled(false);
 
 		if(flag){   
 			frmJogo.setSize(400, 400);
@@ -253,7 +281,7 @@ public class TomAndJerryGame {
 	}	
 
 	public void preparaBotoesMenu(boolean flag){
-		
+
 		desenhoLabirinto.setVisible(flag);
 
 		dimensaoLab.setVisible(!flag);
@@ -288,6 +316,9 @@ public class TomAndJerryGame {
 
 		btnJogar.setVisible(flag);
 		btnJogar.setEnabled(flag);
+		
+		btnConfiguraes.setVisible(flag);
+		btnConfiguraes.setEnabled(flag);
 
 		if(flag){
 			frmJogo.setSize(600, 500);
@@ -295,5 +326,4 @@ public class TomAndJerryGame {
 			//desenhoLabirinto.setSize(500, 400);
 		}
 	}
-
 }
