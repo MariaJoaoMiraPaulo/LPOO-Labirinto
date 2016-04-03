@@ -37,6 +37,7 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage saida;
 	private BufferedImage heroiArmado;
 	private BufferedImage heroiArmadoEsquerda;
+	private BufferedImage heroiArmadoDireita;
 	private BufferedImage espadaEDragao;
 	private BufferedImage dragaoADormir;
 	private BufferedImage vitoria;
@@ -112,7 +113,7 @@ public class GraficosJogo extends JPanel{
 		}
 
 		try {
-			heroiArmado =  ImageIO.read(new File("imagens/jerryCheese.png"));
+			heroiArmadoDireita =  ImageIO.read(new File("imagens/jerryCheese.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -142,6 +143,11 @@ public class GraficosJogo extends JPanel{
 		}
 		try {
 			heroiArmadoEsquerda =  ImageIO.read(new File("imagens/jerryCheeseLeft.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			heroiArmado =  ImageIO.read(new File("imagens/jerryCheeseFront.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -249,7 +255,7 @@ public class GraficosJogo extends JPanel{
 				if(jogo.getTab().retornaChar(p)=='S')
 					g.drawImage(saida, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, saida.getWidth(), saida.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.DIREITA)
-					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
+					g.drawImage(heroiArmadoDireita, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.BAIXO)
 					g.drawImage(heroiArmado, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, heroiArmado.getWidth(), heroiArmado.getHeight(),null);
 				if(jogo.getTab().retornaChar(p)=='A' && direcao==Movimento.CIMA)

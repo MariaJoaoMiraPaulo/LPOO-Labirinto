@@ -219,7 +219,7 @@ public class TomAndJerryGame {
 				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);
 
 
-				System.out.println("entrei aqui");
+				System.out.println("entrei aqui");  
 
 
 				//				if(desenhoLabirinto.getX()+ dimensao * 40+50 < LARGURA_MINIMA_FRAME &&  desenhoLabirinto.getY()+ dimensao * 40 +50 < ALTURA_MINIMA_FRAME)
