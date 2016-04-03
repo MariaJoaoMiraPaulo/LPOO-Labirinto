@@ -23,8 +23,10 @@ public class GraficosJogo extends JPanel{
 		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU
 	}
 
-	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40, LARGURA_IMAGEM_FIM_DE_JOGO=400, ALTURA_IMAGEM_FIM_DE_JOGO=300;
+	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40, LARGURA_IMAGEM_FIM_DE_JOGO=600, ALTURA_IMAGEM_FIM_DE_JOGO=500,TAMANHO_IMAGEM_LABIRINTO=40;
 
+	private TomAndJerryGame janela;
+	
 	private BufferedImage heroi;
 	private BufferedImage heroiEsquerda;
 	private BufferedImage heroiDireita;
@@ -49,7 +51,7 @@ public class GraficosJogo extends JPanel{
 	private EstadoJogo estadoJogo=EstadoJogo.SEM_LABIRINTO;
 	private Jogo jogo;
 	private Movimento direcao=Movimento.CIMA;
-
+	
 	public GraficosJogo(){
 		try {
 			heroi =  ImageIO.read(new File("imagens/jerryFront.png"));
@@ -193,10 +195,35 @@ public class GraficosJogo extends JPanel{
 	                	direcao=Movimento.BAIXO;
 	                    processarDirecao(Movimento.BAIXO);
 	                    break;
+	                    
+	                case KeyEvent.VK_ESCAPE:
+	                	janela.preparaBotoesMenu(true);
+	                	setEstadoJogo(EstadoJogo.SEM_LABIRINTO);
+	                	break;
+	                	
+	                case KeyEvent.VK_N:
+	                	inicializarJogo(janela.getDragoes(),janela.getDimensao());
+	    				jogo.setModoJogo(2);
+	    				janela.getFrmJogo().setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO +20);
+	    				setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO);
+	    				setVisible(true);
+	    				repaint();
+	    				janela.setTodosBotoesMenosLabirinto(false);
+	    				//requestFocus();
+	    				break;   
+	         
 	                }
+				 	
+		
 
 			}
 		});
+	}
+	
+	
+	public GraficosJogo(TomAndJerryGame janela){
+		this();
+		this.janela=janela;
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -208,10 +235,12 @@ public class GraficosJogo extends JPanel{
 			drawLabirinto(g);
 			break;
 		case HEROI_GANHOU:
-			g.drawImage(vitoria, 0, 0, 400, 300, 0, 0, vitoria.getWidth(), vitoria.getHeight(),null);
+			//g.drawImage(vitoria, 0, 0, 600, 500, 0, 0, vitoria.getWidth(), vitoria.getHeight(),null);
+			g.drawImage(vitoria, 0, 0, null);
 			break;
 		case HEROI_PERDEU:
-			g.drawImage(derrota, 0, 0, 400, 300, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
+			//g.drawImage(derrota, 0, 0, 600, 500, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
+			g.drawImage(derrota, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
 			g.drawImage(menu, 0, 0, null);
@@ -307,8 +336,12 @@ public class GraficosJogo extends JPanel{
 			estadoJogo=EstadoJogo.HEROI_GANHOU;
 		else estadoJogo=EstadoJogo.HEROI_PERDEU;   
 
-		this.setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
-
+		janela.getFrmJogo().setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
+		setSize(LARGURA_IMAGEM_FIM_DE_JOGO,ALTURA_IMAGEM_FIM_DE_JOGO);
+		
+		janela.desenhaGameOver(true);
+		
+		System.out.println("PASSEI AQUI");
 		repaint();
 
 		if(!jogo.dragoesVivos()){
@@ -322,5 +355,10 @@ public class GraficosJogo extends JPanel{
 
 	public EstadoJogo getEstadoJogo() {
 		return estadoJogo;
+	}
+
+
+	public void setEstadoJogo(EstadoJogo estadoJogo) {
+		this.estadoJogo = estadoJogo;
 	}
 }
