@@ -41,6 +41,7 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage dragaoADormir;
 	private BufferedImage vitoria;
 	private BufferedImage derrota;
+	private BufferedImage menu;
 
 
 	//private Tabuleiro labirinto;
@@ -59,7 +60,7 @@ public class GraficosJogo extends JPanel{
 			heroiEsquerda =  ImageIO.read(new File("imagens/jerryLeft.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}   
 
 		try {
 			heroiDireita =  ImageIO.read(new File("imagens/jerryRight.png"));
@@ -144,6 +145,11 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			menu =  ImageIO.read(new File("imagens/menu.png"));
+		} catch (IOException e) {
+			e.printStackTrace();  
+		}
    
 		addKeyListener(new KeyListener() {
 
@@ -189,7 +195,7 @@ public class GraficosJogo extends JPanel{
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("entrei");
+
 
 		switch(estadoJogo){
 		case COM_LABIRINTO:
@@ -201,6 +207,9 @@ public class GraficosJogo extends JPanel{
 		case HEROI_PERDEU:
 			g.drawImage(derrota, 0, 0, 400, 300, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
 			break;
+		case SEM_LABIRINTO:
+			g.drawImage(menu, 0, 0, null);
+		
 		}
 	}
 
@@ -290,7 +299,7 @@ public class GraficosJogo extends JPanel{
 
 		if(!jogo.dragoesVivos())
 			estadoJogo=EstadoJogo.HEROI_GANHOU;
-		else estadoJogo=EstadoJogo.HEROI_PERDEU;
+		else estadoJogo=EstadoJogo.HEROI_PERDEU;   
 
 		this.setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
 
@@ -303,5 +312,9 @@ public class GraficosJogo extends JPanel{
 			JOptionPane.showMessageDialog(this, "Perdeu o jogo!!");
 		}
 
+	}
+
+	public EstadoJogo getEstadoJogo() {
+		return estadoJogo;
 	}
 }
