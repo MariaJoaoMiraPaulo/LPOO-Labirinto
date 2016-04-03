@@ -22,7 +22,7 @@ import javax.swing.JSlider;
 
 
 public class TomAndJerryGame {
-	private final int TAMANHO_IMAGEM_LABIRINTO=40, ALTURA_MINIMA_FRAME=300, LARGURA_MINIMA_FRAME=400,LARGURA_IMAGEM=0,ALTURA_IMAGEM=0;
+	private final int TAMANHO_IMAGEM_LABIRINTO=40, ALTURA_MINIMA_FRAME=300, LARGURA_MINIMA_FRAME=400,LARGURA_IMAGEM=600,ALTURA_IMAGEM=500, ALTURA_MENU_CONFIGURACOES=400,LARGURA_MENU_CONFIGURACOES=400;
 
 	private JFrame frmJogo;   
 	private JTextArea mostradorLabirinto;
@@ -44,7 +44,7 @@ public class TomAndJerryGame {
 	private JButton btnCriarLabirinto;
 	private JButton btnSair;
 
-
+    
 	/**
 	 * Launch the application.
 	 */
@@ -246,8 +246,6 @@ public class TomAndJerryGame {
 		preparaBotoesMenu(true);   
 		desenhoLabirinto.repaint();
 
-
-
 	}
 
 	public void setTodosBotoesMenosLabirinto(boolean flag){
@@ -298,8 +296,8 @@ public class TomAndJerryGame {
 		btnSair.setEnabled(false);
 
 		if(flag){   
-			frmJogo.setSize(400, 400);
-			desenhoLabirinto.setSize(500, 400);
+			frmJogo.setSize(LARGURA_MENU_CONFIGURACOES, ALTURA_MENU_CONFIGURACOES);
+			//desenhoLabirinto.setSize(500, 400);
 		}
 
 	}	
@@ -349,16 +347,10 @@ public class TomAndJerryGame {
 		
 		btnSair.setVisible(flag);
 		btnSair.setEnabled(flag);
-		
-		
-		
-		
-		
-		
 
 		if(flag){
-			frmJogo.setSize(600, 500);
-			desenhoLabirinto.setBounds(0, 0, 600, 500);
+			frmJogo.setSize(LARGURA_IMAGEM, ALTURA_IMAGEM);
+			desenhoLabirinto.setBounds(0, 0, LARGURA_IMAGEM, ALTURA_IMAGEM);
 			//desenhoLabirinto.setSize(500, 400);
 		}
 	}
