@@ -42,6 +42,7 @@ public class TomAndJerryGame {
 	private JButton btnJogar;
 	private JButton btnConfiguraes;
 	private JButton btnCriarLabirinto;
+	private JButton btnSair;
 
 
 	/**
@@ -95,24 +96,24 @@ public class TomAndJerryGame {
 		mostradorLabirinto.setEditable(false);
 
 		btnJogar = new JButton("Jogar");
-		btnJogar.setBounds(308, 367, 138, 29);
+		btnJogar.setBounds(295, 326, 138, 29);
 		desenhoLabirinto.add(btnJogar);
 
 		btnConfiguraes = new JButton("Configurações");
-		btnConfiguraes.addActionListener(new ActionListener() {
+		btnConfiguraes.addActionListener(new ActionListener() {  
 			public void actionPerformed(ActionEvent e) {
 				setTodosBotoesMenosLabirinto(true);  
 			}
 		});
-		btnConfiguraes.setBounds(308, 326, 138, 29);
+		btnConfiguraes.setBounds(295, 367, 138, 29);
 		desenhoLabirinto.add(btnConfiguraes);
 		
 		btnCriarLabirinto = new JButton("Criar Labirinto");
-		btnCriarLabirinto.setBounds(458, 326, 138, 29);
+		btnCriarLabirinto.setBounds(445, 326, 138, 29);
 		desenhoLabirinto.add(btnCriarLabirinto);
 		
-		JButton btnSair = new JButton("Sair");
-		btnSair.setBounds(458, 367, 138, 29);
+		btnSair = new JButton("Sair");
+		btnSair.setBounds(445, 367, 138, 29);
 		desenhoLabirinto.add(btnSair);
 		
 		
@@ -289,6 +290,12 @@ public class TomAndJerryGame {
 		
 		btnConfiguraes.setVisible(false);
 		btnConfiguraes.setEnabled(false);
+		
+		btnCriarLabirinto.setVisible(false);
+		btnCriarLabirinto.setEnabled(false);   
+		
+		btnSair.setVisible(false);
+		btnSair.setEnabled(false);
 
 		if(flag){   
 			frmJogo.setSize(400, 400);
@@ -336,6 +343,18 @@ public class TomAndJerryGame {
 		
 		btnConfiguraes.setVisible(flag);
 		btnConfiguraes.setEnabled(flag);
+		
+		btnCriarLabirinto.setVisible(flag);
+		btnCriarLabirinto.setEnabled(flag);
+		
+		btnSair.setVisible(flag);
+		btnSair.setEnabled(flag);
+		
+		
+		
+		
+		
+		
 
 		if(flag){
 			frmJogo.setSize(600, 500);
