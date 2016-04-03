@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import maze.gui.GraficosJogo.EstadoJogo;
+import maze.gui.GraficosJogo.TipoJogo;
 import maze.logic.Jogo.Movimento;
 
 import javax.swing.JComboBox;
@@ -87,6 +88,7 @@ public class TomAndJerryGame {
 
 
 		desenhoLabirinto = new GraficosJogo(this);
+		desenhoLabirinto.setTipoJogo(TipoJogo.SEGUNDA_PARTE);
 		desenhoLabirinto.setBounds(0, 0, 530, 402);
 		frmJogo.getContentPane().add(desenhoLabirinto);
 		desenhoLabirinto.setLayout(null);
@@ -279,12 +281,12 @@ public class TomAndJerryGame {
 		preparaBotoesMenu(true);   
 		desenhoLabirinto.repaint();
 
-	}
+	}  
 
 	public void setTodosBotoesMenosLabirinto(boolean flag){
 
 		btnJogarNovamente.setEnabled(false);
-		btnJogarNovamente.setVisible(false);
+		btnJogarNovamente.setVisible(false);   
 		
 		btnMenuPrincipal.setEnabled(false);
 		btnMenuPrincipal.setVisible(false);

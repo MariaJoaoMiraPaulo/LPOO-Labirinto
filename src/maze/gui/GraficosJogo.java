@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import maze.gui.VitoriaDerrota.Imagem;
+import maze.gui.VitoriaDerrota.Imagem;   
 import maze.logic.Jogo;
 import maze.logic.Jogo.Movimento;
 import maze.logic.Tabuleiro;
@@ -23,10 +23,14 @@ public class GraficosJogo extends JPanel{
 		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU
 	}
 
+	public enum TipoJogo{
+		PRIMEIRA_PARTE,SEGUNDA_PARTE
+	}
+
 	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40, LARGURA_IMAGEM_FIM_DE_JOGO=600, ALTURA_IMAGEM_FIM_DE_JOGO=500,TAMANHO_IMAGEM_LABIRINTO=40;
 
-	private TomAndJerryGame janela;
-	
+	private TomAndJerryGame janela;   
+
 	private BufferedImage heroi;
 	private BufferedImage heroiEsquerda;
 	private BufferedImage heroiDireita;
@@ -49,9 +53,10 @@ public class GraficosJogo extends JPanel{
 
 	//private Tabuleiro labirinto;
 	private EstadoJogo estadoJogo=EstadoJogo.SEM_LABIRINTO;
+	private TipoJogo tipoJogo;
 	private Jogo jogo;
 	private Movimento direcao=Movimento.CIMA;
-	
+
 	public GraficosJogo(){
 		try {
 			heroi =  ImageIO.read(new File("imagens/jerryFront.png"));
@@ -158,7 +163,7 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();  
 		}
-   
+
 		addKeyListener(new KeyListener() {
 
 			@Override
@@ -175,52 +180,52 @@ public class GraficosJogo extends JPanel{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				 switch(e.getKeyCode()){
-	                case KeyEvent.VK_LEFT:
-	                	direcao=Movimento.ESQUERDA;
-	                    processarDirecao(Movimento.ESQUERDA);
-	                    break;
+				switch(e.getKeyCode()){
+				case KeyEvent.VK_LEFT:
+					direcao=Movimento.ESQUERDA;
+					processarDirecao(Movimento.ESQUERDA);
+					break;
 
-	                case KeyEvent.VK_RIGHT:
-	                	direcao=Movimento.DIREITA;
-	                    processarDirecao(Movimento.DIREITA);
-	                    break;
+				case KeyEvent.VK_RIGHT:
+					direcao=Movimento.DIREITA;
+					processarDirecao(Movimento.DIREITA);
+					break;
 
-	                case KeyEvent.VK_UP:
-	                	direcao=Movimento.CIMA;
-	                    processarDirecao(Movimento.CIMA);
-	                    break;
+				case KeyEvent.VK_UP:
+					direcao=Movimento.CIMA;
+					processarDirecao(Movimento.CIMA);
+					break;
 
-	                case KeyEvent.VK_DOWN:
-	                	direcao=Movimento.BAIXO;
-	                    processarDirecao(Movimento.BAIXO);
-	                    break;
-	                    
-	                case KeyEvent.VK_ESCAPE:
-	                	janela.preparaBotoesMenu(true);
-	                	setEstadoJogo(EstadoJogo.SEM_LABIRINTO);
-	                	break;
-	                	
-	                case KeyEvent.VK_N:
-	                	inicializarJogo(janela.getDragoes(),janela.getDimensao());
-	    				jogo.setModoJogo(2);
-	    				janela.getFrmJogo().setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO +20);
-	    				setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO);
-	    				setVisible(true);
-	    				repaint();
-	    				janela.setTodosBotoesMenosLabirinto(false);
-	    				//requestFocus();
-	    				break;   
-	         
-	                }
-				 	
-		
+				case KeyEvent.VK_DOWN:
+					direcao=Movimento.BAIXO;
+					processarDirecao(Movimento.BAIXO);
+					break;
+
+				case KeyEvent.VK_ESCAPE:
+					janela.preparaBotoesMenu(true);
+					setEstadoJogo(EstadoJogo.SEM_LABIRINTO);
+					break;
+
+				case KeyEvent.VK_N:
+					inicializarJogo(janela.getDragoes(),janela.getDimensao());
+					jogo.setModoJogo(2);
+					janela.getFrmJogo().setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO +20);
+					setSize(janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO,janela.getDimensao() * TAMANHO_IMAGEM_LABIRINTO);
+					setVisible(true);
+					repaint();
+					janela.setTodosBotoesMenosLabirinto(false);
+					//requestFocus();
+					break;   
+
+				}
+
+
 
 			}
 		});
 	}
-	
-	
+
+
 	public GraficosJogo(TomAndJerryGame janela){
 		this();
 		this.janela=janela;
@@ -243,8 +248,9 @@ public class GraficosJogo extends JPanel{
 			g.drawImage(derrota, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
-			g.drawImage(menu, 0, 0, null);
-		
+			if(tipoJogo==TipoJogo.SEGUNDA_PARTE)
+				g.drawImage(menu, 0, 0, null);
+
 		}
 	}
 
@@ -254,10 +260,10 @@ public class GraficosJogo extends JPanel{
 		Point ponto;
 		ponto=new Point(0,0);
 
-//		for(int i=0;i<labirinto.getLabirinto().length;i++){
-//			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
+		//		for(int i=0;i<labirinto.getLabirinto().length;i++){
+		//			for(int j=0;j<labirinto.getLabirinto()[i].length;j++){
 		for(int i=0;i<jogo.getTab().getLabirinto().length;i++){
-            for(int j=0;j<jogo.getTab().getLabirinto()[i].length;j++){
+			for(int j=0;j<jogo.getTab().getLabirinto()[i].length;j++){
 				Point p=new Point(i,j);
 				if(jogo.getTab().retornaChar(p)=='X')
 					g.drawImage(parede, ponto.x, ponto.y, ponto.x+LARGURA_IMAGENS_LABIRINTO, ponto.y+ALTURA_IMAGENS_LABIRINTO, 0, 0, parede.getWidth(), parede.getHeight(),null);
@@ -305,9 +311,9 @@ public class GraficosJogo extends JPanel{
 
 	}
 
-//	public void setLabirinto(Tabuleiro labirinto) {
-//		this.labirinto = labirinto;
-//	}
+	//	public void setLabirinto(Tabuleiro labirinto) {
+	//		this.labirinto = labirinto;
+	//	}
 
 	public void mudarEstadoJogo(EstadoJogo estado){
 		this.estadoJogo = estado;
@@ -336,17 +342,19 @@ public class GraficosJogo extends JPanel{
 			estadoJogo=EstadoJogo.HEROI_GANHOU;
 		else estadoJogo=EstadoJogo.HEROI_PERDEU;   
 
-		janela.getFrmJogo().setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
-		setSize(LARGURA_IMAGEM_FIM_DE_JOGO,ALTURA_IMAGEM_FIM_DE_JOGO);
-		
-		janela.desenhaGameOver(true);
-		
-		System.out.println("PASSEI AQUI");
-		repaint();
+		if(tipoJogo==TipoJogo.SEGUNDA_PARTE){
+			janela.getFrmJogo().setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
+			setSize(LARGURA_IMAGEM_FIM_DE_JOGO,ALTURA_IMAGEM_FIM_DE_JOGO);
+
+			janela.desenhaGameOver(true);
+
+			System.out.println("PASSEI AQUI");
+			repaint();
+		}
 
 		if(!jogo.dragoesVivos()){
 			JOptionPane.showMessageDialog(this, "Ganhou o jogo!!");
-			}
+		}
 		else {
 			JOptionPane.showMessageDialog(this, "Perdeu o jogo!!");
 		}
@@ -357,8 +365,16 @@ public class GraficosJogo extends JPanel{
 		return estadoJogo;
 	}
 
+	public TipoJogo getTipoJogo() {
+		return tipoJogo;
+	}
+
 
 	public void setEstadoJogo(EstadoJogo estadoJogo) {
 		this.estadoJogo = estadoJogo;
+	}
+
+	public void setTipoJogo(TipoJogo tipoJogo) {
+		this.tipoJogo = tipoJogo;
 	}
 }
