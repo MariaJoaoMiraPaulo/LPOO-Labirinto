@@ -47,7 +47,7 @@ public class TomAndJerryGame {
 	private JButton btnJogarNovamente;
 	private JButton btnMenuPrincipal;
 	private GeradorLabirinto gerador;
-	public int dimensao;
+	public int dimensao=11;
 	public int Dragoes;
 
     
@@ -121,7 +121,9 @@ public class TomAndJerryGame {
 			public void actionPerformed(ActionEvent e) {   
 				frmJogo.setVisible(false);
 				gerador.frame.setVisible(true);
-				((PainelGerarLabirinto) gerador.getGerarLabirinto()).inicializarLabirinto('Q');
+				gerador.getBtnJogar().setVisible(false);
+				gerador.getInstrucoesUtilizador().setText("Carregue na imagem que quer colocar a seguir");
+				((PainelGerarLabirinto) gerador.getGerarLabirinto()).inicializarLabirinto('Q',dimensao);
 				((PainelGerarLabirinto) gerador.getGerarLabirinto()).renicializarEstado();
 				gerador.setBonecoAtivo(BonecoAtivo.NENHUM);
 				

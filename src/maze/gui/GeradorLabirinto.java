@@ -35,6 +35,8 @@ public class GeradorLabirinto implements MouseListener{
 	private JPanel saida;
 	private JPanel gerarLabirinto;
 	private JLabel instrucoesUtilizador;
+	
+	private JButton btnJogar ;
 
 	private TomAndJerryGame janelaPrincipal;
 
@@ -58,27 +60,31 @@ public class GeradorLabirinto implements MouseListener{
 	 * Create the application.
 	 */
 	public GeradorLabirinto() {
-		initialize();
+		//initialize();
 	}
 	
 	public GeradorLabirinto(TomAndJerryGame janelaPrincipal) {
 		this();
-		this.janelaPrincipal=janelaPrincipal;
+		initialize(janelaPrincipal);
+		
+		//frame.setSize(gerarLabirinto.getX()+ janelaPrincipal.getDimensao()* 40+50, gerarLabirinto.getY()+ janelaPrincipal.getDimensao()* 40+70);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(TomAndJerryGame janelaPrincipal) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		
+		this.janelaPrincipal=janelaPrincipal;
+		
 		JButton btnNovoLabirinto = new JButton("Novo Labirinto");
 		btnNovoLabirinto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				((PainelGerarLabirinto)gerarLabirinto).inicializarLabirinto('Q');
+				((PainelGerarLabirinto)gerarLabirinto).inicializarLabirinto('Q',janelaPrincipal.getDimensao());
 				((PainelGerarLabirinto)gerarLabirinto).renicializarEstado();
 				bonecoAtivo=BonecoAtivo.NENHUM;
 				gerarLabirinto.repaint();
@@ -111,7 +117,9 @@ public class GeradorLabirinto implements MouseListener{
 		saida.setBounds(68, 462, 50, 50);
 		frame.getContentPane().add(saida);
 
-		gerarLabirinto = new PainelGerarLabirinto();
+		System.out.println("dimensaogerar: "+ janelaPrincipal.getDimensao());
+		
+		gerarLabirinto = new PainelGerarLabirinto(this,janelaPrincipal.getDimensao());
 		gerarLabirinto.setBounds(194, 52, 550, 550);
 		frame.getContentPane().add(gerarLabirinto);
 		
@@ -130,17 +138,18 @@ public class GeradorLabirinto implements MouseListener{
 		instrucoesUtilizador.setBounds(246, 15, 300, 14);
 		frame.getContentPane().add(instrucoesUtilizador);
 		
-		JButton btnJogar = new JButton("Jogar");
+		btnJogar = new JButton("Jogar");
 		btnJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				janelaPrincipal.getDesenhoLabirinto().setJogo(((PainelGerarLabirinto)gerarLabirinto).getJogo());
 				janelaPrincipal.getDesenhoLabirinto().setEstadoJogo(EstadoJogo.COM_LABIRINTO);
 				janelaPrincipal.getFrmJogo().setVisible(true);
 				frame.setVisible(false);
 				janelaPrincipal.setTodosBotoesMenosLabirinto(false);
-				janelaPrincipal.getDesenhoLabirinto().setJogo(((PainelGerarLabirinto)gerarLabirinto).getJogo());
+				//janelaPrincipal.getDesenhoLabirinto().setJogo(((PainelGerarLabirinto)gerarLabirinto).getJogo());
 				janelaPrincipal.getDesenhoLabirinto().requestFocus();
-				janelaPrincipal.getFrmJogo().setSize(janelaPrincipal.getDesenhoLabirinto().getX()+ 11 * TAMANHO_IMAGEM_LABIRINTO, janelaPrincipal.getDesenhoLabirinto().getY()+ 11 * TAMANHO_IMAGEM_LABIRINTO +20);
-				janelaPrincipal.getFrmJogo().setSize(janelaPrincipal.getDesenhoLabirinto().getX()+ 11 * TAMANHO_IMAGEM_LABIRINTO, janelaPrincipal.getDesenhoLabirinto().getY()+ 11 * TAMANHO_IMAGEM_LABIRINTO);
+				janelaPrincipal.getFrmJogo().setSize(janelaPrincipal.getDesenhoLabirinto().getX()+ janelaPrincipal.getDimensao() * TAMANHO_IMAGEM_LABIRINTO, janelaPrincipal.getDesenhoLabirinto().getY()+ janelaPrincipal.getDimensao() * TAMANHO_IMAGEM_LABIRINTO +20);
+				janelaPrincipal.getDesenhoLabirinto().setSize(janelaPrincipal.getDimensao() * TAMANHO_IMAGEM_LABIRINTO, janelaPrincipal.getDimensao() * TAMANHO_IMAGEM_LABIRINTO);
 			}
 		});
 		btnJogar.setBounds(500, 11, 89, 23);
@@ -159,10 +168,9 @@ public class GeradorLabirinto implements MouseListener{
 		btnTerminarLabirinto.setBounds(30, 124, 121, 23);
 		frame.getContentPane().add(btnTerminarLabirinto);
 
-		frame.setSize(gerarLabirinto.getX()+ 11* 40+50, gerarLabirinto.getY()+ 11* 40+70);
+		//frame.setSize(gerarLabirinto.getX()+ 11* 40+50, gerarLabirinto.getY()+ 11* 40+70);
 		
 		frame.addMouseListener(this);
-
 	}
 
 	@Override
@@ -275,6 +283,22 @@ public class GeradorLabirinto implements MouseListener{
 
 	public void setBonecoAtivo(BonecoAtivo bonecoAtivo) {
 		this.bonecoAtivo = bonecoAtivo;
+	}
+
+	public TomAndJerryGame getJanelaPrincipal() {
+		return janelaPrincipal;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public JButton getBtnJogar() {
+		return btnJogar;
+	}
+
+	public JLabel getInstrucoesUtilizador() {
+		return instrucoesUtilizador;
 	}
 	
 }

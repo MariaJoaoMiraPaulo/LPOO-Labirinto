@@ -49,13 +49,16 @@ public class PainelGerarLabirinto extends JPanel{
 	private ArrayList<Dragao> dragoes= new ArrayList<Dragao>();
 	private Espada espadaColocada;
 	private Jogo jogo;
+	private int dimensao=11;
 
 	private EstadoSaida estadoSaida=EstadoSaida.NAO_COLOCADA;
 	private EstadoHeroi estadoHeroi=EstadoHeroi.NAO_COLOCADO;
 	private EstadoDragao estadoDragao=EstadoDragao.NAO_COLOCADO;
 	private EstadoEspada estadoEspada=EstadoEspada.NAO_COLOCADA;
 
-	public PainelGerarLabirinto(){
+	GeradorLabirinto frame;
+
+	public PainelGerarLabirinto(int d){
 		try {
 			quadricula =  ImageIO.read(new File("imagens/quadricula.png"));
 		} catch (IOException e) {
@@ -98,7 +101,15 @@ public class PainelGerarLabirinto extends JPanel{
 			e.printStackTrace();
 		}
 
-		inicializarLabirinto('Q');
+		dimensao=d;
+
+	}
+
+	public PainelGerarLabirinto(GeradorLabirinto frame, int dimensao){
+		this(dimensao);
+		this.frame=frame;
+		
+		inicializarLabirinto('Q',dimensao);
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -169,6 +180,11 @@ public class PainelGerarLabirinto extends JPanel{
 				espadaColocada=new Espada(p2.x,p2.y, 'E');
 			}
 			break;
+		case 'X':
+			if(labirinto.retornaChar(p2)=='Q'){
+				labirinto.inserirChar(p2, letra);
+			}
+			break;
 		case 'Q':
 			break;
 		default:
@@ -177,8 +193,12 @@ public class PainelGerarLabirinto extends JPanel{
 
 	}
 
-	public void inicializarLabirinto(char letra){
-		char[][] labInicial = new char[11][11];
+	public void inicializarLabirinto(char letra, int d){
+		jogo=null;
+		dimensao=frame.getJanelaPrincipal().getDimensao();
+		System.out.println("dimensao:" +dimensao);
+
+		char[][] labInicial = new char[dimensao][dimensao];
 
 		for(int i=0; i<labInicial.length;i++){
 			for(int j=0; j<labInicial[i].length;j++){
@@ -197,6 +217,9 @@ public class PainelGerarLabirinto extends JPanel{
 		}
 
 		labirinto = new Tabuleiro(labInicial);
+
+		frame.getFrame().setSize(getX()+ dimensao* 40+50, getY()+ dimensao* 40+50);
+		setSize( dimensao* 40+50,  dimensao* 40+50);
 	}
 
 	public boolean terminarLabirinto(){
@@ -208,27 +231,27 @@ public class PainelGerarLabirinto extends JPanel{
 				}
 			}
 			repaint();
-			
+
 			jogo=new Jogo(heroiColocado, dragoes, espadaColocada, labirinto);
-			
+
 			jogo.setModoJogo(2);
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	public Jogo getJogo() {
 		return jogo;
 	}
-	
+
 	public void renicializarEstado(){
 		estadoSaida=EstadoSaida.NAO_COLOCADA;
 		estadoHeroi=EstadoHeroi.NAO_COLOCADO;
 		estadoDragao=EstadoDragao.NAO_COLOCADO;
 		estadoEspada=EstadoEspada.NAO_COLOCADA;
-		
+
 		dragoes.clear();
 	}
 }
