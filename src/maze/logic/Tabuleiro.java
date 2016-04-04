@@ -3,7 +3,10 @@ package maze.logic;
 import java.awt.Point;
 import java.util.Random;
 import java.util.Stack;
-
+/**
+ * Representa o tabuleiro do jogo (labirinto)
+ *
+ */
 public class Tabuleiro {
 //	private char labirinto[][]={
 //			{'X','X','X','X','X','X','X','X','X','X'},

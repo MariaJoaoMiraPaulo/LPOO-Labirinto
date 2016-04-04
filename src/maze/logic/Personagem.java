@@ -1,7 +1,10 @@
 package maze.logic;
 
 import java.awt.Point;
-
+/**
+ * Representa todas as personagens do jogo
+ *
+ */
 public class Personagem {
 	//	public int linha;
 	//	public int coluna;

@@ -10,14 +10,33 @@ import maze.logic.Jogo.Movimento;
 import java.util.ArrayList;
 
 public class Jogo {
-
+	/**
+	 * Tabuleiro do jogo
+	 */
 	private Tabuleiro tab;
-	//private Dragao dragao;
+	/**
+	 * Heroi do jogo
+	 */
 	private Heroi heroi;
+	/**
+	 * Espada do jogo
+	 */
 	private Espada espada;
+	/**
+	 * flag que indica se o jogo acabou ou nao
+	 */
 	private boolean fimDeJogo=false;
+	/**
+	 * Command Line Interface
+	 */
 	private CommandLineInterface cli;
+	/**
+	 * Modo de jogo
+	 */
 	private int modoJogo;
+	/**
+	 * Array List onde se guardam os dragoes 
+	 */
 	public ArrayList<Dragao> dragoes= new ArrayList<Dragao>();
 
 	/**

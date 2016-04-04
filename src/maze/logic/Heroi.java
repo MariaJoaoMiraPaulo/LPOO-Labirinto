@@ -1,5 +1,8 @@
 package maze.logic;
-
+/**
+ * Representa o Heroi do jogo
+ *
+ */
 public class Heroi extends Personagem{
 	/**
 	 * Estado do Heroi

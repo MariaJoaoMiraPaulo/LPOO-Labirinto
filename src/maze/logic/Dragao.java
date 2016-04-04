@@ -1,5 +1,9 @@
 package maze.logic;
-
+/**
+ * 
+ * Representa um Dragao no jogo
+ *
+ */
 public class Dragao extends Personagem {
 	/**
 	 *Estado do Dragao
@@ -9,6 +13,9 @@ public class Dragao extends Personagem {
 	}
 	
 	private EstadoDragao estado=EstadoDragao.ACORDADO;
+	/**
+	 * Indica se o Dragao esta ou nao por cima da espada
+	 */
 	private boolean porCimaEspada=false;
 	/**
 	 * Inicializar Dragao Acordado com linha, coluna e simbolo

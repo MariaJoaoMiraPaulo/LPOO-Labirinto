@@ -1,7 +1,13 @@
 package maze.logic;
-
+/**
+ * Representa a espada no jogo
+ *
+ */
 public class Espada extends Personagem {
 	
+	/**
+	 * Flag que indica se a espada foi ou nao encontrada pelo heroi
+	 */
 	public boolean encontrada=false;
 	
 	/**
