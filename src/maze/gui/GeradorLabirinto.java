@@ -14,6 +14,7 @@ import maze.gui.GraficosJogo.EstadoJogo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class GeradorLabirinto implements MouseListener{
 
@@ -301,5 +302,4 @@ public class GeradorLabirinto implements MouseListener{
 	public JLabel getInstrucoesUtilizador() {
 		return instrucoesUtilizador;
 	}
-	
 }

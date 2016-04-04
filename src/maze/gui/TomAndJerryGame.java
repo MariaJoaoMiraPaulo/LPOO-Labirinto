@@ -57,7 +57,7 @@ public class TomAndJerryGame {
 	private GeradorLabirinto gerador;
 	public int dimensao=11;
 	public int Dragoes;
-	public int modoJogo;
+	public int modoJogo=2;
 	private JButton btnNewButton;
 	private JButton btnComoJogar;
 	private JButton btnAbrirJogo;

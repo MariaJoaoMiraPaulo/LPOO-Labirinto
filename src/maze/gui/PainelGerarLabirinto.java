@@ -218,8 +218,8 @@ public class PainelGerarLabirinto extends JPanel{
 
 		labirinto = new Tabuleiro(labInicial);
 
-		frame.getFrame().setSize(getX()+ dimensao* 40+50, getY()+ dimensao* 40+50);
-		setSize( dimensao* 40+50,  dimensao* 40+50);
+		frame.getFrame().setSize(getX()+ dimensao* LARGURA_IMAGENS_LABIRINTO +50, getY()+ dimensao* ALTURA_IMAGENS_LABIRINTO+50);
+		setSize( dimensao* LARGURA_IMAGENS_LABIRINTO+50,  dimensao* ALTURA_IMAGENS_LABIRINTO+50);
 	}
 
 	public boolean terminarLabirinto(){
@@ -234,7 +234,7 @@ public class PainelGerarLabirinto extends JPanel{
 
 			jogo=new Jogo(heroiColocado, dragoes, espadaColocada, labirinto);
 
-			jogo.setModoJogo(2);
+			jogo.setModoJogo(frame.getJanelaPrincipal().getModoJogo());
 
 			return true;
 		}
