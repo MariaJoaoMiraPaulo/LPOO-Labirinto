@@ -274,7 +274,7 @@ public class GraficosJogo extends JPanel{
 		super.paintComponent(g);
 
 
-		switch(estadoJogo){  
+		switch(estadoJogo){
 		case COM_LABIRINTO:    
 			drawLabirinto(g);
 			break;  

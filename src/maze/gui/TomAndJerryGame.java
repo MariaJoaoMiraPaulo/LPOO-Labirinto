@@ -289,10 +289,11 @@ public class TomAndJerryGame {
 		modosJogo.setBounds(178, 193, 109, 20);
 		frmJogo.getContentPane().add(modosJogo);
 
-		btnTerminarPrograma = new JButton("Terminar Programa");
+		btnTerminarPrograma = new JButton("Menu Principal");
 		btnTerminarPrograma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				desenhoLabirinto.setEstadoJogo(EstadoJogo.SEM_LABIRINTO);
+				preparaBotoesMenu(true);
 			}
 		});
 		btnTerminarPrograma.setBounds(113, 289, 174, 23);
