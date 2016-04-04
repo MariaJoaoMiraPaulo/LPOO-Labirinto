@@ -3,11 +3,14 @@ package maze.test;
 import static org.junit.Assert.*;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 import maze.logic.Dragao;
 import maze.logic.Dragao.EstadoDragao;
+import maze.logic.Espada;
+import maze.logic.Heroi;
 import maze.logic.Jogo.Movimento;
 import maze.logic.Jogo;
 import maze.logic.Tabuleiro;
@@ -254,38 +257,38 @@ public class TestMazeWithRandomDragonMove {
 	}
 
 
-//	@Test
-//	public void testDragaoMoveAleatoriamenteTodasDirecõesModo3() {
-//		boolean moveuCima = false, moveuEsquerda = false, moveuBaixo=false, moveuDireita=false, igual=false, dormir=false;
-//		while (!moveuCima || !moveuEsquerda || !igual || !moveuBaixo || !moveuDireita || !dormir) {
-//			Jogo j= new Jogo(labirinto);
-//			j.setModoJogo(3);
-//			Dragao d=new Dragao(5,4,'D');
-//			j.dragoes.add(d);
-//			Point pc=new Point(4,4); //cima, x diminui 
-//			Point pb=new Point(6,4); //baixo x aumenta 
-//			Point pe=new Point(5,3); //esquerda y diminui 
-//			Point pd=new Point(5,5); //direita y aumenta 
-//			Point pi=new Point(5,4); //fica igual 
-//			j.dragaoAcordado(0);
-//			Point p=new Point(j.dragoes.get(0).getP());
-//			if (pc.equals(p))
-//				moveuCima = true;
-//			else if (pe.equals(p)) 
-//				moveuEsquerda = true;
-//			else if (pb.equals(p))
-//				moveuBaixo=true;
-//			else if (pd.equals(p))
-//				moveuDireita=true;
-//			else if(pi.equals(p))
-//				igual=true;
-//			else if(j.dragoes.get(0).getEstado()==EstadoDragao.DORMIR)
-//				dormir=true;
-//			else
-//				fail("some error message");
-//
-//		}
-//	}
+	//	@Test
+	//	public void testDragaoMoveAleatoriamenteTodasDirecõesModo3() {
+	//		boolean moveuCima = false, moveuEsquerda = false, moveuBaixo=false, moveuDireita=false, igual=false, dormir=false;
+	//		while (!moveuCima || !moveuEsquerda || !igual || !moveuBaixo || !moveuDireita || !dormir) {
+	//			Jogo j= new Jogo(labirinto);
+	//			j.setModoJogo(3);
+	//			Dragao d=new Dragao(5,4,'D');
+	//			j.dragoes.add(d);
+	//			Point pc=new Point(4,4); //cima, x diminui 
+	//			Point pb=new Point(6,4); //baixo x aumenta 
+	//			Point pe=new Point(5,3); //esquerda y diminui 
+	//			Point pd=new Point(5,5); //direita y aumenta 
+	//			Point pi=new Point(5,4); //fica igual 
+	//			j.dragaoAcordado(0);
+	//			Point p=new Point(j.dragoes.get(0).getP());
+	//			if (pc.equals(p))
+	//				moveuCima = true;
+	//			else if (pe.equals(p)) 
+	//				moveuEsquerda = true;
+	//			else if (pb.equals(p))
+	//				moveuBaixo=true;
+	//			else if (pd.equals(p))
+	//				moveuDireita=true;
+	//			else if(pi.equals(p))
+	//				igual=true;
+	//			else if(j.dragoes.get(0).getEstado()==EstadoDragao.DORMIR)
+	//				dormir=true;
+	//			else
+	//				fail("some error message");
+	//
+	//		}
+	//	}
 
 	@Test
 	public void testLabirinto() {
@@ -294,10 +297,130 @@ public class TestMazeWithRandomDragonMove {
 		assertEquals(10, t.getN());
 	}
 
+	@Test
+	public void testNovoConstrutor(){
+		int nDimensoes = 11;
+		int nDragoes = 2;
+		Jogo jogo= new Jogo(nDragoes, nDimensoes);
 
+		Point heroi= new Point();
 
+		for(int i=0;i < jogo.getTab().getLabirinto().length; i++){
+			for(int j=0;j < jogo.getTab().getLabirinto()[i].length; i++){
+				Point p=new Point(i,j);
+				if(jogo.getTab().retornaChar(p)=='H'){
+					heroi=(Point)p.clone();
+					break;
+				}
+				if(heroi != null)
+					break;
+			}
+		}
 
+		assertNotNull(heroi);
+	}
 
+	@Test
+	public void testNovoConstrutorv2(){
+		int dimensao=11;
+		Tabuleiro tab= new Tabuleiro(dimensao);
 
+		Point pontoH= new Point();
+
+		for(int i=0;i < tab.getLabirinto().length; i++){
+			for(int j=0;j < tab.getLabirinto()[i].length; i++){
+				Point p=new Point(i,j);
+				if(tab.retornaChar(p)=='H'){
+					pontoH=(Point)p.clone();
+					break;
+				}
+				if(pontoH != null)
+					break;
+			}
+		}
+
+		Heroi heroi= new Heroi(pontoH.x, pontoH.y, 'H');
+
+		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
+
+		Point pontoD= new Point();
+
+		for(int i=0;i < tab.getLabirinto().length; i++){
+			for(int j=0;j < tab.getLabirinto()[i].length; i++){
+				Point p=new Point(i,j);
+				if(tab.retornaChar(p)=='D'){
+					pontoD=(Point)p.clone();
+					break;
+				}
+				if(pontoD != null)
+					break;
+			}
+		}
+
+		ArrayList<Dragao> dragoes = new ArrayList<Dragao>();
+		Dragao dragao= new Dragao(pontoD.x, pontoD.y, 'D');
+		dragoes.add(dragao);
+
+		Point pontoE= new Point();
+
+		for(int i=0;i < tab.getLabirinto().length; i++){
+			for(int j=0;j < tab.getLabirinto()[i].length; i++){
+				Point p=new Point(i,j);
+				if(tab.retornaChar(p)=='D'){
+					pontoE=(Point)p.clone();
+					break;
+				}
+				if(pontoE != null)
+					break;
+			}
+		}
+
+		Espada espada= new Espada(pontoE.x,pontoE.y,'E');
+
+		Jogo jogo=new Jogo(heroi, dragoes, espada, tab);
+
+		assertNotNull(jogo);
+	}
+
+	@Test
+	public void testNovoConstrutorv3(){
+		char lab[][]={
+				{'X','X','X','X','X','X','X','X','X','X'},
+				{'X',' ','E',' ',' ',' ',' ',' ',' ','X'},
+				{'X',' ','X','X',' ','X',' ','X',' ','X'},
+				{'X',' ','X','X',' ','X',' ','X',' ','X'},
+				{'X','D','X','X',' ','X',' ','X',' ','X'},
+				{'X',' ',' ','H',' ',' ',' ','X',' ','S'},
+				{'X',' ','X','X',' ','X',' ','X',' ','X'},
+				{'X',' ','X','X',' ','X',' ','X',' ','X'},
+				{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
+				{'X','X','X','X','X','X','X','X','X','X'},
+		};
+
+		Jogo jogo= new Jogo(lab, 1);
+
+		Point p=new Point(5,3);
+		assertEquals(p,jogo.getHeroi().getP());
+	}
+
+	@Test
+	public void testMoverHeroiRandom(){
+		Jogo j=new Jogo(labirinto);
+		Point pontoHAntesMover=(Point)j.getHeroi().getP().clone();
+		pontoHAntesMover.x++;
+
+		j.moverHeroi(Movimento.DIREITA);
+		j.moverHeroi(Movimento.ESQUERDA);
+		j.moverHeroi(Movimento.CIMA);
+		j.moverHeroi(Movimento.BAIXO);
+
+		assertEquals(pontoHAntesMover, j.getHeroi().getP());
+		
+		j.jogada(Movimento.CIMA);
+		pontoHAntesMover.x--;
+		
+		assertEquals(pontoHAntesMover, j.getHeroi().getP());
+
+	}
 
 }
