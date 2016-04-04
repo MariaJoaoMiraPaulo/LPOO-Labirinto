@@ -59,6 +59,22 @@ public class Jogo {
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
+	
+	public Jogo(char m[][], int construtor){
+		tab=new Tabuleiro(m);
+		for(int i=0; i< m.length;i++){
+			for(int j=0;j<m[i].length;j++){
+				Point p=new Point(i,j);
+				if(tab.retornaChar(p)=='H')
+					heroi=new Heroi(p.x,p.y,'H');
+				else if(tab.retornaChar(p)=='E')
+					espada=new Espada(p.x,p.y,'E');
+				else if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d')
+					dragoes.add(new Dragao(p.x,p.y,'D'));
+					
+			}
+		}
+	}
 
 	public void colocaHeroiAletorio(){
 		Random rn=new Random();

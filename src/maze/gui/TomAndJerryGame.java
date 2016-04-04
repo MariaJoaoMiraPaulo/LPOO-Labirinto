@@ -6,15 +6,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import maze.gui.GraficosJogo.EstadoJogo;
 import maze.gui.GraficosJogo.TipoJogo;
 import maze.logic.Jogo.Movimento;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;   
@@ -51,8 +58,9 @@ public class TomAndJerryGame {
 	public int Dragoes;
 	private JButton btnNewButton;
 	private JButton btnComoJogar;
+	private JButton btnAbrirJogo;
 
-    
+
 	/**
 	 * Launch the application.
 	 */
@@ -118,42 +126,42 @@ public class TomAndJerryGame {
 		});
 		btnConfiguraes.setBounds(295, 367, 138, 29);
 		desenhoLabirinto.add(btnConfiguraes);
-		
+
 		btnCriarLabirinto = new JButton("Criar Labirinto");
 		btnCriarLabirinto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {   
 				frmJogo.setVisible(false);
 				gerador.frame.setVisible(true);
-				  
+
 			}
 		});
 		btnCriarLabirinto.setBounds(445, 326, 138, 29);
 		desenhoLabirinto.add(btnCriarLabirinto);
-		
+
 		btnSair = new JButton("Sair");
 		btnSair.setBounds(445, 367, 138, 29);
 		desenhoLabirinto.add(btnSair);
-		
+
 		btnJogarNovamente = new JButton("Jogar Novamente");
 		btnJogarNovamente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				desenhoLabirinto.inicializarJogo(Dragoes, dimensao);
 
 				desenhoLabirinto.getJogo().setModoJogo(2);
-				
+
 				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO +20);
 				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
 
 				desenhoLabirinto.setVisible(true);
 				desenhoLabirinto.repaint();
-				
+
 				setTodosBotoesMenosLabirinto(false);    
 				desenhoLabirinto.requestFocus();   
 			}
 		});
 		btnJogarNovamente.setBounds(368, 307, 138, 29);
 		desenhoLabirinto.add(btnJogarNovamente);
-		
+
 		btnMenuPrincipal = new JButton("Menu Principal");
 		btnMenuPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,33 +171,83 @@ public class TomAndJerryGame {
 		});
 		btnMenuPrincipal.setBounds(368, 337, 138, 29);
 		desenhoLabirinto.add(btnMenuPrincipal);
-		
+
 		btnComoJogar = new JButton("Como Jogar");
 		btnComoJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		btnComoJogar.setBounds(295, 408, 138, 29);
 		desenhoLabirinto.add(btnComoJogar);
-		
-		
+
+		btnAbrirJogo = new JButton("Abrir Jogo");
+		btnAbrirJogo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros de texto", "txt");
+				fileChooser.setFileFilter(filter);
+				int returnValue = fileChooser.showOpenDialog(null);
+
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					try{
+						
+					InputStream ips=new FileInputStream(selectedFile); 
+					InputStreamReader ipsr=new InputStreamReader(ips);
+					BufferedReader br=new BufferedReader(ipsr);
+					String line;
+					line=br.readLine();
+					char[][] labirinto = new char[line.length()][line.length()];
+					int x=0;
+					do{
+						for(int i=0;i<line.length();i++){
+							labirinto[x][i]=line.charAt(i);
+						}
+						x++;
+					}while((line=br.readLine())!=null);
+					br.close(); 
+
+					desenhoLabirinto.inicializarJogoAntigo(labirinto);
+					desenhoLabirinto.getJogo().setModoJogo(2);
+
+					frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO+20);
+					desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
+
+					desenhoLabirinto.setVisible(true);
+					desenhoLabirinto.repaint();
+					setTodosBotoesMenosLabirinto(false);
+					desenhoLabirinto.requestFocus();
+				}       
+				catch (Exception e1){
+					System.out.println(e1.toString());
+				}
+
+
+				}
+			}
+			
+			});
+		btnAbrirJogo.setBounds(445, 408, 138, 29);
+		desenhoLabirinto.add(btnAbrirJogo);
+
+
 		btnSair.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ){   
 				System.exit(0);
 			}
 		});
-		
+
 		btnJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-   
-			dimensao=11;   
-			Dragoes=1;
-			desenhoLabirinto.inicializarJogo(Dragoes, dimensao);
-				
+
+				dimensao=11;   
+				Dragoes=1;
+				desenhoLabirinto.inicializarJogo(Dragoes, dimensao);
+
 
 				desenhoLabirinto.getJogo().setModoJogo(2);
-				
+
 				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO+20);
 				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
 
@@ -205,7 +263,7 @@ public class TomAndJerryGame {
 		lblDimensaoDoLabirinto = new JLabel("Dimensao do labirinto");
 		lblDimensaoDoLabirinto.setBounds(30, 79, 174, 14);
 		frmJogo.getContentPane().add(lblDimensaoDoLabirinto);
-		
+
 
 		lblNumeroDeDragoes = new JLabel("Numero de dragoes\r\n");
 		lblNumeroDeDragoes.setBounds(30, 131, 141, 14);
@@ -305,201 +363,210 @@ public class TomAndJerryGame {
 		preparaBotoesMenu(true);   
 		desenhoLabirinto.repaint();
 
-	}
-
-	public void setTodosBotoesMenosLabirinto(boolean flag){
-
-		btnJogarNovamente.setEnabled(false);
-		btnJogarNovamente.setVisible(false);
-		
-		btnMenuPrincipal.setEnabled(false);
-		btnMenuPrincipal.setVisible(false);
-
-		desenhoLabirinto.setVisible(!flag);
-
-		dimensaoLab.setVisible(flag);
-		dimensaoLab.setEnabled(flag);
-
-		mostradorLabirinto.setVisible(flag);
-		mostradorLabirinto.setEnabled(flag);
-
-		btnGerarLabirinto.setVisible(flag);
-		btnGerarLabirinto.setEnabled(flag);
-
-		btnTerminarPrograma.setEnabled(flag);
-		btnTerminarPrograma.setVisible(flag);
-
-		modosJogo.setVisible(flag);
-		modosJogo.setEnabled(flag);
-
-		lblDimensaoDoLabirinto.setVisible(flag);
-		lblDimensaoDoLabirinto.setEnabled(flag);
-
-		lblNumeroDeDragoes.setVisible(flag);
-		lblNumeroDeDragoes.setEnabled(flag);
-
-		lblTipoDeDragoes.setVisible(flag);
-		lblTipoDeDragoes.setEnabled(flag);
-
-		lblConfiguraes.setVisible(flag);
-		lblConfiguraes.setEnabled(flag);
-		
-		btnComoJogar.setEnabled(flag);
-		btnComoJogar.setVisible(flag);
-
-		nrDragoes.setVisible(flag);
-		nrDragoes.setEnabled(flag);   
-
-		btnJogar.setVisible(false);
-		btnJogar.setEnabled(false);
-		
-		btnConfiguraes.setVisible(false);
-		btnConfiguraes.setEnabled(false);
-		
-		btnCriarLabirinto.setVisible(false);
-		btnCriarLabirinto.setEnabled(false);   
-		
-		btnSair.setVisible(false);
-		btnSair.setEnabled(false);
-
-		if(flag){   
-			frmJogo.setSize(LARGURA_MENU_CONFIGURACOES, ALTURA_MENU_CONFIGURACOES);
-			//desenhoLabirinto.setSize(500, 400);
 		}
 
-	}	
+		public void setTodosBotoesMenosLabirinto(boolean flag){
 
-	public void preparaBotoesMenu(boolean flag){
+			btnJogarNovamente.setEnabled(false);
+			btnJogarNovamente.setVisible(false);
 
-		desenhoLabirinto.setVisible(flag);
-		desenhoLabirinto.repaint();
-		
-		btnJogarNovamente.setEnabled(false);
-		btnJogarNovamente.setVisible(false);
-		
-		btnMenuPrincipal.setEnabled(false);
-		btnMenuPrincipal.setVisible(false);
+			btnMenuPrincipal.setEnabled(false);
+			btnMenuPrincipal.setVisible(false);
 
-		dimensaoLab.setVisible(!flag);
-		dimensaoLab.setEnabled(!flag);
+			desenhoLabirinto.setVisible(!flag);
 
-		mostradorLabirinto.setVisible(flag);
-		mostradorLabirinto.setEnabled(flag);
+			dimensaoLab.setVisible(flag);
+			dimensaoLab.setEnabled(flag);
 
-		btnGerarLabirinto.setVisible(!flag);
-		btnGerarLabirinto.setEnabled(!flag);
+			mostradorLabirinto.setVisible(flag);
+			mostradorLabirinto.setEnabled(flag);
 
-		btnTerminarPrograma.setEnabled(!flag);
-		btnTerminarPrograma.setVisible(!flag);
+			btnGerarLabirinto.setVisible(flag);
+			btnGerarLabirinto.setEnabled(flag);
 
-		modosJogo.setVisible(!flag);
-		modosJogo.setEnabled(!flag);
+			btnTerminarPrograma.setEnabled(flag);
+			btnTerminarPrograma.setVisible(flag);
 
-		lblDimensaoDoLabirinto.setVisible(!flag);
-		lblDimensaoDoLabirinto.setEnabled(!flag);
+			modosJogo.setVisible(flag);
+			modosJogo.setEnabled(flag);
 
-		lblNumeroDeDragoes.setVisible(!flag);
-		lblNumeroDeDragoes.setEnabled(!flag);
-    
-		lblTipoDeDragoes.setVisible(!flag);
-		lblTipoDeDragoes.setEnabled(!flag);
+			lblDimensaoDoLabirinto.setVisible(flag);
+			lblDimensaoDoLabirinto.setEnabled(flag);
 
-		lblConfiguraes.setVisible(!flag);
-		lblConfiguraes.setEnabled(!flag);
+			lblNumeroDeDragoes.setVisible(flag);
+			lblNumeroDeDragoes.setEnabled(flag);
 
-		nrDragoes.setVisible(!flag);
-		nrDragoes.setEnabled(!flag);
+			lblTipoDeDragoes.setVisible(flag);
+			lblTipoDeDragoes.setEnabled(flag);
 
-		btnJogar.setVisible(flag);
-		btnJogar.setEnabled(flag);
-		
-		btnConfiguraes.setVisible(flag);
-		btnConfiguraes.setEnabled(flag);
-		
-		btnComoJogar.setVisible(flag);
-		btnComoJogar.setVisible(flag);
-		
-		btnCriarLabirinto.setVisible(flag);
-		btnCriarLabirinto.setEnabled(flag);
-		
-		btnSair.setVisible(flag);
-		btnSair.setEnabled(flag);   
+			lblConfiguraes.setVisible(flag);
+			lblConfiguraes.setEnabled(flag);
 
-		if(flag){
-			frmJogo.setSize(LARGURA_IMAGEM, ALTURA_IMAGEM);
-			desenhoLabirinto.setBounds(0, 0, LARGURA_IMAGEM, ALTURA_IMAGEM);
-			//desenhoLabirinto.setSize(500, 400);
+			btnComoJogar.setEnabled(flag);
+			btnComoJogar.setVisible(flag);
+
+			btnAbrirJogo.setEnabled(flag);
+			btnAbrirJogo.setVisible(flag);
+
+			nrDragoes.setVisible(flag);
+			nrDragoes.setEnabled(flag);   
+
+			btnJogar.setVisible(false);
+			btnJogar.setEnabled(false);
+
+			btnConfiguraes.setVisible(false);
+			btnConfiguraes.setEnabled(false);
+
+			btnCriarLabirinto.setVisible(false);
+			btnCriarLabirinto.setEnabled(false);   
+
+			btnSair.setVisible(false);
+			btnSair.setEnabled(false);
+
+			if(flag){   
+				frmJogo.setSize(LARGURA_MENU_CONFIGURACOES, ALTURA_MENU_CONFIGURACOES);
+				//desenhoLabirinto.setSize(500, 400);
+			}
+
+		}	
+
+		public void preparaBotoesMenu(boolean flag){
+
+			desenhoLabirinto.setVisible(flag);
+			desenhoLabirinto.repaint();
+
+			btnJogarNovamente.setEnabled(false);
+			btnJogarNovamente.setVisible(false);
+
+			btnMenuPrincipal.setEnabled(false);
+			btnMenuPrincipal.setVisible(false);
+
+			dimensaoLab.setVisible(!flag);
+			dimensaoLab.setEnabled(!flag);
+
+			mostradorLabirinto.setVisible(flag);
+			mostradorLabirinto.setEnabled(flag);
+
+			btnGerarLabirinto.setVisible(!flag);
+			btnGerarLabirinto.setEnabled(!flag);
+
+			btnTerminarPrograma.setEnabled(!flag);
+			btnTerminarPrograma.setVisible(!flag);
+
+			modosJogo.setVisible(!flag);
+			modosJogo.setEnabled(!flag);
+
+			lblDimensaoDoLabirinto.setVisible(!flag);
+			lblDimensaoDoLabirinto.setEnabled(!flag);
+
+			lblNumeroDeDragoes.setVisible(!flag);
+			lblNumeroDeDragoes.setEnabled(!flag);
+
+			lblTipoDeDragoes.setVisible(!flag);
+			lblTipoDeDragoes.setEnabled(!flag);
+
+			lblConfiguraes.setVisible(!flag);
+			lblConfiguraes.setEnabled(!flag);
+
+			nrDragoes.setVisible(!flag);
+			nrDragoes.setEnabled(!flag);
+
+			btnJogar.setVisible(flag);
+			btnJogar.setEnabled(flag);
+
+			btnConfiguraes.setVisible(flag);
+			btnConfiguraes.setEnabled(flag);
+
+			btnAbrirJogo.setVisible(flag);
+			btnAbrirJogo.setEnabled(flag);
+
+			btnComoJogar.setVisible(flag);
+			btnComoJogar.setVisible(flag);
+
+			btnCriarLabirinto.setVisible(flag);
+			btnCriarLabirinto.setEnabled(flag);
+
+			btnSair.setVisible(flag);
+			btnSair.setEnabled(flag);   
+
+			if(flag){
+				frmJogo.setSize(LARGURA_IMAGEM, ALTURA_IMAGEM);
+				desenhoLabirinto.setBounds(0, 0, LARGURA_IMAGEM, ALTURA_IMAGEM);
+				//desenhoLabirinto.setSize(500, 400);
+			}
+		}
+
+		public void desenhaGameOver(boolean flag){
+
+
+
+			btnJogarNovamente.setEnabled(flag);
+			btnJogarNovamente.setVisible(flag);
+
+			btnMenuPrincipal.setEnabled(flag);
+			btnMenuPrincipal.setVisible(flag);
+
+			desenhoLabirinto.setVisible(flag);
+
+			dimensaoLab.setVisible(!flag);
+			dimensaoLab.setEnabled(!flag);
+
+			mostradorLabirinto.setVisible(!flag);
+			mostradorLabirinto.setEnabled(!flag);
+
+			btnGerarLabirinto.setVisible(!flag);
+			btnGerarLabirinto.setEnabled(!flag);
+
+			btnTerminarPrograma.setEnabled(!flag);
+			btnTerminarPrograma.setVisible(!flag);
+
+			modosJogo.setVisible(!flag);
+			modosJogo.setEnabled(!flag);
+
+			lblDimensaoDoLabirinto.setVisible(!flag);
+			lblDimensaoDoLabirinto.setEnabled(!flag);
+
+			lblNumeroDeDragoes.setVisible(!flag);
+			lblNumeroDeDragoes.setEnabled(!flag);
+
+			lblTipoDeDragoes.setVisible(!flag);
+			lblTipoDeDragoes.setEnabled(!flag);
+
+			lblConfiguraes.setVisible(!flag);
+			lblConfiguraes.setEnabled(!flag);
+
+			nrDragoes.setVisible(!flag);
+			nrDragoes.setEnabled(!flag);
+
+			btnJogar.setVisible(!flag);
+			btnJogar.setEnabled(!flag);
+
+			btnConfiguraes.setVisible(!flag);
+			btnConfiguraes.setEnabled(!flag);
+
+			btnCriarLabirinto.setVisible(!flag);
+			btnCriarLabirinto.setEnabled(!flag);
+
+			btnSair.setVisible(!flag);
+			btnSair.setEnabled(!flag);   
+
+			btnComoJogar.setVisible(!flag);
+			btnComoJogar.setEnabled(!flag);
+
+			btnAbrirJogo.setVisible(!flag);
+			btnAbrirJogo.setEnabled(!flag);
+
+		}
+
+		public JFrame getFrmJogo() {
+			return frmJogo;
+		}
+
+		public int getDimensao() {
+			return dimensao;
+		}
+
+		public int getDragoes() {
+			return Dragoes;
 		}
 	}
-	
-	public void desenhaGameOver(boolean flag){
-		
-	
-		
-		btnJogarNovamente.setEnabled(flag);
-		btnJogarNovamente.setVisible(flag);
-		
-		btnMenuPrincipal.setEnabled(flag);
-		btnMenuPrincipal.setVisible(flag);
-		
-		desenhoLabirinto.setVisible(flag);
-
-		dimensaoLab.setVisible(!flag);
-		dimensaoLab.setEnabled(!flag);
-
-		mostradorLabirinto.setVisible(!flag);
-		mostradorLabirinto.setEnabled(!flag);
-
-		btnGerarLabirinto.setVisible(!flag);
-		btnGerarLabirinto.setEnabled(!flag);
-
-		btnTerminarPrograma.setEnabled(!flag);
-		btnTerminarPrograma.setVisible(!flag);
-
-		modosJogo.setVisible(!flag);
-		modosJogo.setEnabled(!flag);
-
-		lblDimensaoDoLabirinto.setVisible(!flag);
-		lblDimensaoDoLabirinto.setEnabled(!flag);
-
-		lblNumeroDeDragoes.setVisible(!flag);
-		lblNumeroDeDragoes.setEnabled(!flag);
-    
-		lblTipoDeDragoes.setVisible(!flag);
-		lblTipoDeDragoes.setEnabled(!flag);
-
-		lblConfiguraes.setVisible(!flag);
-		lblConfiguraes.setEnabled(!flag);
-
-		nrDragoes.setVisible(!flag);
-		nrDragoes.setEnabled(!flag);
-
-		btnJogar.setVisible(!flag);
-		btnJogar.setEnabled(!flag);
-		
-		btnConfiguraes.setVisible(!flag);
-		btnConfiguraes.setEnabled(!flag);
-		
-		btnCriarLabirinto.setVisible(!flag);
-		btnCriarLabirinto.setEnabled(!flag);
-		
-		btnSair.setVisible(!flag);
-		btnSair.setEnabled(!flag);   
-		
-		btnComoJogar.setVisible(!flag);
-		btnComoJogar.setEnabled(!flag);
-		
-	}
-
-	public JFrame getFrmJogo() {
-		return frmJogo;
-	}
-
-	public int getDimensao() {
-		return dimensao;
-	}
-
-	public int getDragoes() {
-		return Dragoes;
-	}
-}

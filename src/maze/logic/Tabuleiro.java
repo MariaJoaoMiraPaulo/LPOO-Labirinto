@@ -295,7 +295,8 @@ public class Tabuleiro {
 
 		for(int i=0; i< labirinto.length;i++){
 			for(int j=0;j<labirinto[i].length;j++){
-				resultado+= " " +labirinto[i][j];
+				//resultado+= " " +labirinto[i][j];
+				resultado+=labirinto[i][j];
 			}   
 			resultado+= "\n";
 		}

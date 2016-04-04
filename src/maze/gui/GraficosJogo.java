@@ -6,9 +6,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -220,12 +222,35 @@ public class GraficosJogo extends JPanel{
 						//requestFocus();
 						break;
 					}
+					break;
+				case KeyEvent.VK_S:
+					switch(estadoJogo){
+					case COM_LABIRINTO:
+						JFileChooser chooser = new JFileChooser();
+						int retrival = chooser.showSaveDialog(null);
+						if (retrival == JFileChooser.APPROVE_OPTION) {
+							try(FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt")) {
+								String s=jogo.getTab().paraString();
+
+								for(int i=0; i<s.length();i++){
+									if(s.charAt(i)=='\n'){
+										fw.write(System.getProperty( "line.separator" ));
+									}else{
+										fw.write(s.charAt(i));
+									}
+								}      
+								fw.close();   
+							}catch (Exception ex) {
+								ex.printStackTrace();
+							}
+						}
+						break;
+					}
+				
+				
 					break;   
 
 				}
-
-
-
 			}
 		});
 	}
@@ -327,6 +352,11 @@ public class GraficosJogo extends JPanel{
 
 	public void inicializarJogo(int nDragoes, int dimensao){
 		jogo=new Jogo(nDragoes,dimensao);
+		estadoJogo=estadoJogo.COM_LABIRINTO;
+	}
+	
+	public void inicializarJogoAntigo(char m[][]){
+		jogo=new Jogo(m,0);
 		estadoJogo=estadoJogo.COM_LABIRINTO;
 	}
 
