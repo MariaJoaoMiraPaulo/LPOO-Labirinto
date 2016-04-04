@@ -274,10 +274,10 @@ public class GraficosJogo extends JPanel{
 		super.paintComponent(g);
 
 
-		switch(estadoJogo){
+		switch(estadoJogo){  
 		case COM_LABIRINTO:    
 			drawLabirinto(g);
-			break;
+			break;  
 		case HEROI_GANHOU:
 			//g.drawImage(vitoria, 0, 0, 600, 500, 0, 0, vitoria.getWidth(), vitoria.getHeight(),null);
 			g.drawImage(vitoria, 0, 0, null);
@@ -286,7 +286,7 @@ public class GraficosJogo extends JPanel{
 			//g.drawImage(derrota, 0, 0, 600, 500, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
 			g.drawImage(derrota, 0, 0, null);
 			break;
-		case INSTRUÇOES:
+		case INSTRUÇOES:    
 			g.drawImage(comoJogar, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
