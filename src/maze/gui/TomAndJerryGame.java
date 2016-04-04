@@ -140,7 +140,7 @@ public class TomAndJerryGame {
 		desenhoLabirinto.add(btnCriarLabirinto);
 
 		btnSair = new JButton("Sair");
-		btnSair.setBounds(445, 367, 138, 29);
+		btnSair.setBounds(445, 408, 138, 29);
 		desenhoLabirinto.add(btnSair);
 
 		btnJogarNovamente = new JButton("Jogar Novamente");
@@ -237,7 +237,7 @@ public class TomAndJerryGame {
 			}
 			
 			});
-		btnAbrirJogo.setBounds(445, 408, 138, 29);
+		btnAbrirJogo.setBounds(445, 367, 138, 29);
 		desenhoLabirinto.add(btnAbrirJogo);
 
 
