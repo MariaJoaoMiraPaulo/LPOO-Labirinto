@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import maze.gui.GraficosJogo.EstadoJogo;
+import maze.gui.GraficosJogo.TipoJogo;
 import maze.logic.Jogo.Movimento;
 
 import javax.swing.JComboBox;
@@ -48,6 +49,8 @@ public class TomAndJerryGame {
 	private GeradorLabirinto gerador;
 	public int dimensao;
 	public int Dragoes;
+	private JButton btnNewButton;
+	private JButton btnComoJogar;
 
     
 	/**
@@ -90,7 +93,8 @@ public class TomAndJerryGame {
 		Dragoes=1;
 
 		desenhoLabirinto = new GraficosJogo(this);
-		desenhoLabirinto.setBounds(0, 0, 530, 402);
+		desenhoLabirinto.setTipoJogo(TipoJogo.SEGUNDA_PARTE);
+		desenhoLabirinto.setBounds(0, 0, 535, 453);
 		frmJogo.getContentPane().add(desenhoLabirinto);
 		desenhoLabirinto.setLayout(null);
 
@@ -120,7 +124,7 @@ public class TomAndJerryGame {
 			public void actionPerformed(ActionEvent e) {   
 				frmJogo.setVisible(false);
 				gerador.frame.setVisible(true);
-				
+				  
 			}
 		});
 		btnCriarLabirinto.setBounds(445, 326, 138, 29);
@@ -144,7 +148,7 @@ public class TomAndJerryGame {
 				desenhoLabirinto.repaint();
 				
 				setTodosBotoesMenosLabirinto(false);    
-				desenhoLabirinto.requestFocus();
+				desenhoLabirinto.requestFocus();   
 			}
 		});
 		btnJogarNovamente.setBounds(368, 307, 138, 29);
@@ -160,6 +164,15 @@ public class TomAndJerryGame {
 		btnMenuPrincipal.setBounds(368, 337, 138, 29);
 		desenhoLabirinto.add(btnMenuPrincipal);
 		
+		btnComoJogar = new JButton("Como Jogar");
+		btnComoJogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnComoJogar.setBounds(295, 408, 138, 29);
+		desenhoLabirinto.add(btnComoJogar);
+		
 		
 		btnSair.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ){   
@@ -169,14 +182,15 @@ public class TomAndJerryGame {
 		
 		btnJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-//				dimensao=11;
-//				Dragoes=1;
-				desenhoLabirinto.inicializarJogo(Dragoes, dimensao);
+   
+			dimensao=11;   
+			Dragoes=1;
+			desenhoLabirinto.inicializarJogo(Dragoes, dimensao);
+				
 
 				desenhoLabirinto.getJogo().setModoJogo(2);
 				
-				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO +20);
+				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO+20);
 				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
 
 				desenhoLabirinto.setVisible(true);
@@ -191,6 +205,7 @@ public class TomAndJerryGame {
 		lblDimensaoDoLabirinto = new JLabel("Dimensao do labirinto");
 		lblDimensaoDoLabirinto.setBounds(30, 79, 174, 14);
 		frmJogo.getContentPane().add(lblDimensaoDoLabirinto);
+		
 
 		lblNumeroDeDragoes = new JLabel("Numero de dragoes\r\n");
 		lblNumeroDeDragoes.setBounds(30, 131, 141, 14);
@@ -328,6 +343,9 @@ public class TomAndJerryGame {
 
 		lblConfiguraes.setVisible(flag);
 		lblConfiguraes.setEnabled(flag);
+		
+		btnComoJogar.setEnabled(flag);
+		btnComoJogar.setVisible(flag);
 
 		nrDragoes.setVisible(flag);
 		nrDragoes.setEnabled(flag);   
@@ -398,6 +416,9 @@ public class TomAndJerryGame {
 		btnConfiguraes.setVisible(flag);
 		btnConfiguraes.setEnabled(flag);
 		
+		btnComoJogar.setVisible(flag);
+		btnComoJogar.setVisible(flag);
+		
 		btnCriarLabirinto.setVisible(flag);
 		btnCriarLabirinto.setEnabled(flag);
 		
@@ -464,6 +485,9 @@ public class TomAndJerryGame {
 		
 		btnSair.setVisible(!flag);
 		btnSair.setEnabled(!flag);   
+		
+		btnComoJogar.setVisible(!flag);
+		btnComoJogar.setEnabled(!flag);
 		
 	}
 

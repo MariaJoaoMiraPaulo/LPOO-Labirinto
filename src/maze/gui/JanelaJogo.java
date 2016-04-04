@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import maze.gui.GraficosJogo.TipoJogo;
 import maze.logic.Jogo.Movimento;
 
 import javax.swing.JComboBox;
@@ -29,7 +31,7 @@ public class JanelaJogo {
 	private JButton btnEsquerda;
 	private JButton btnCima;
 	private JTextArea mostradorLabirinto;   
-	private JPanel desenhoLabirinto;
+	private GraficosJogo desenhoLabirinto;
 
 	/**
 	 * Launch the application.
@@ -118,21 +120,21 @@ public class JanelaJogo {
 
 		btnCima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.CIMA);
+				desenhoLabirinto.processarDirecao(Movimento.CIMA);
 				desenhoLabirinto.requestFocus();
 			}
 		});
 
 		btnEsquerda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.ESQUERDA);
+				desenhoLabirinto.processarDirecao(Movimento.ESQUERDA);
 				desenhoLabirinto.requestFocus();
 			}
 		});
 
 		btnDireita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.DIREITA);
+				desenhoLabirinto.processarDirecao(Movimento.DIREITA);
 				desenhoLabirinto.requestFocus();
 			}
 
@@ -141,13 +143,14 @@ public class JanelaJogo {
 
 		btnBaixo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((GraficosJogo)desenhoLabirinto).processarDirecao(Movimento.BAIXO);
+				desenhoLabirinto.processarDirecao(Movimento.BAIXO);
 				desenhoLabirinto.requestFocus();
 			}
 
 		});
 
 		desenhoLabirinto = new GraficosJogo();
+		desenhoLabirinto.setTipoJogo(TipoJogo.PRIMEIRA_PARTE);
 		desenhoLabirinto.setBounds(303, 11, 294, 264);
 		frmJogoDoLabirinto.getContentPane().add(desenhoLabirinto);
 
@@ -200,12 +203,12 @@ public class JanelaJogo {
 					return;
 				}
 				
-				((GraficosJogo)desenhoLabirinto).inicializarJogo(nDragoes, dimensao);
+				desenhoLabirinto.inicializarJogo(nDragoes, dimensao);
 				if(modosJogo.getSelectedItem().equals("Estaticos"))
-					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(1);
+					desenhoLabirinto.getJogo().setModoJogo(1);
 				else if(modosJogo.getSelectedItem().equals("Moveis"))
-					((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(2);
-				else ((GraficosJogo)desenhoLabirinto).getJogo().setModoJogo(3);  
+					desenhoLabirinto.getJogo().setModoJogo(2);
+				else desenhoLabirinto.getJogo().setModoJogo(3);  
 
 				//mostradorLabirinto.setText(jogo.getTab().paraString());
 				//((GraficosJogo) desenhoLabirinto).mudarEstadoJogo(EstadoJogo.COM_LABIRINTO);

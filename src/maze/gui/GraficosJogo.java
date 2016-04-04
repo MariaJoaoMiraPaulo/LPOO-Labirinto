@@ -23,9 +23,14 @@ public class GraficosJogo extends JPanel{
 		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU
 	}
 
+	public enum TipoJogo{
+		PRIMEIRA_PARTE, SEGUNDA_PARTE
+	}
+
+
 	private final int LARGURA_IMAGENS_LABIRINTO=40, ALTURA_IMAGENS_LABIRINTO=40, LARGURA_IMAGEM_FIM_DE_JOGO=600, ALTURA_IMAGEM_FIM_DE_JOGO=500,TAMANHO_IMAGEM_LABIRINTO=40;
 
-	private TomAndJerryGame janela;
+	private TomAndJerryGame janela;   
 
 	private BufferedImage heroi;
 	private BufferedImage heroiEsquerda;
@@ -49,6 +54,7 @@ public class GraficosJogo extends JPanel{
 
 	//private Tabuleiro labirinto;
 	private EstadoJogo estadoJogo=EstadoJogo.SEM_LABIRINTO;
+	private TipoJogo tipoJogo;
 	private Jogo jogo;
 	private Movimento direcao=Movimento.CIMA;
 
@@ -247,7 +253,9 @@ public class GraficosJogo extends JPanel{
 			g.drawImage(derrota, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
-			g.drawImage(menu, 0, 0, null);
+			if(tipoJogo==TipoJogo.SEGUNDA_PARTE)
+				g.drawImage(menu, 0, 0, null);
+			break;
 
 		}
 	}
@@ -340,13 +348,17 @@ public class GraficosJogo extends JPanel{
 			estadoJogo=EstadoJogo.HEROI_GANHOU;
 		else estadoJogo=EstadoJogo.HEROI_PERDEU;   
 
-		janela.getFrmJogo().setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
-		setSize(LARGURA_IMAGEM_FIM_DE_JOGO,ALTURA_IMAGEM_FIM_DE_JOGO);
+		if(tipoJogo==TipoJogo.SEGUNDA_PARTE){
 
-		janela.desenhaGameOver(true);
 
-		System.out.println("PASSEI AQUI");
-		repaint();
+			janela.getFrmJogo().setSize(LARGURA_IMAGEM_FIM_DE_JOGO, ALTURA_IMAGEM_FIM_DE_JOGO);
+			setSize(LARGURA_IMAGEM_FIM_DE_JOGO,ALTURA_IMAGEM_FIM_DE_JOGO);
+
+			janela.desenhaGameOver(true);
+
+			System.out.println("PASSEI AQUI");
+			repaint();
+		}
 
 		if(!jogo.dragoesVivos()){
 			JOptionPane.showMessageDialog(this, "Ganhou o jogo!!");
@@ -361,6 +373,13 @@ public class GraficosJogo extends JPanel{
 		return estadoJogo;
 	}
 
+	public TipoJogo getTipoJogo() {
+		return tipoJogo;
+	}
+
+	public void setTipoJogo(TipoJogo tipoJogo) {
+		this.tipoJogo = tipoJogo;
+	}
 
 	public void setEstadoJogo(EstadoJogo estadoJogo) {
 		this.estadoJogo = estadoJogo;

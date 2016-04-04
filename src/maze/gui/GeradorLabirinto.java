@@ -108,6 +108,7 @@ public class GeradorLabirinto implements MouseListener{
 		JButton btnNewButton = new JButton("Menu Principal");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton.requestFocus();
 				janelaPrincipal.getFrmJogo().setVisible(true);
 				frame.setVisible(false);
 				janelaPrincipal.preparaBotoesMenu(true);
