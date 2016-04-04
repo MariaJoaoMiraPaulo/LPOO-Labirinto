@@ -22,7 +22,7 @@ import maze.logic.Tabuleiro;
 public class GraficosJogo extends JPanel{
 
 	public enum EstadoJogo{
-		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU
+		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU,INSTRUÇOES
 	}
 
 	public enum TipoJogo{
@@ -52,6 +52,7 @@ public class GraficosJogo extends JPanel{
 	private BufferedImage vitoria;
 	private BufferedImage derrota;
 	private BufferedImage menu;
+	private BufferedImage comoJogar;
 
 
 	//private Tabuleiro labirinto;
@@ -166,6 +167,11 @@ public class GraficosJogo extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();  
 		}
+		try {
+			comoJogar =  ImageIO.read(new File("imagens/comoJogar.png"));
+		} catch (IOException e) {
+			e.printStackTrace();  
+		}
 
 		addKeyListener(new KeyListener() {
 
@@ -269,7 +275,7 @@ public class GraficosJogo extends JPanel{
 
 
 		switch(estadoJogo){
-		case COM_LABIRINTO:
+		case COM_LABIRINTO:    
 			drawLabirinto(g);
 			break;
 		case HEROI_GANHOU:
@@ -279,6 +285,9 @@ public class GraficosJogo extends JPanel{
 		case HEROI_PERDEU:
 			//g.drawImage(derrota, 0, 0, 600, 500, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
 			g.drawImage(derrota, 0, 0, null);
+			break;
+		case INSTRUÇOES:
+			g.drawImage(comoJogar, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
 			if(tipoJogo==TipoJogo.SEGUNDA_PARTE)
