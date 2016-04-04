@@ -108,7 +108,7 @@ public class PainelGerarLabirinto extends JPanel{
 	public PainelGerarLabirinto(GeradorLabirinto frame, int dimensao){
 		this(dimensao);
 		this.frame=frame;
-		
+
 		inicializarLabirinto('Q',dimensao);
 	}
 
@@ -155,8 +155,10 @@ public class PainelGerarLabirinto extends JPanel{
 		switch(letra){
 		case 'S':
 			if(labirinto.retornaChar(p2)=='X' && estadoSaida.equals(EstadoSaida.NAO_COLOCADA)){
-				labirinto.inserirChar(p2, letra);
-				estadoSaida=EstadoSaida.COLOCADA;
+				if(!((p2.x == 0 && p2.y == 0) || (p2.x ==0 && p2.y == dimensao-1) || (p2.x == dimensao-1 && p2.y == 0) || (p2.x == dimensao-1 && p2.y == dimensao-1))){
+					labirinto.inserirChar(p2, letra);
+					estadoSaida=EstadoSaida.COLOCADA;
+				}
 			}
 			break;
 		case 'H':
