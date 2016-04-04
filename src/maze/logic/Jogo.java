@@ -65,11 +65,17 @@ public class Jogo {
 		for(int i=0; i< m.length;i++){
 			for(int j=0;j<m[i].length;j++){
 				Point p=new Point(i,j);
-				if(tab.retornaChar(p)=='H')
+				if(tab.retornaChar(p)=='H'){
 					heroi=new Heroi(p.x,p.y,'H');
-				else if(tab.retornaChar(p)=='E')
+					heroi.setEstado(EstadoHeroi.DESARMADO);
+				}
+				if(tab.retornaChar(p)=='A'){
+					heroi=new Heroi(p.x,p.y,'H');
+					heroi.setEstado(EstadoHeroi.ARMADO);
+				}
+				if(tab.retornaChar(p)=='E' || tab.retornaChar(p)=='F' || tab.retornaChar(p)=='A')
 					espada=new Espada(p.x,p.y,'E');
-				else if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d')
+				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'|| tab.retornaChar(p)=='F')
 					dragoes.add(new Dragao(p.x,p.y,'D'));
 					
 			}
@@ -228,9 +234,9 @@ public class Jogo {
 	}
 
 	public void moverHeroi(Movimento direcao){
-
 		//Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getP(),' ');
+		
 		switch (direcao){
 		case ESQUERDA: 
 			if(podeMoverHeroi(Movimento.ESQUERDA))
@@ -264,6 +270,8 @@ public class Jogo {
 	}
 
 	public void verificaEspada(){
+		
+		System.out.println("VAI CRASHAR AQUI");
 
 		if(heroi.getP().x==espada.getP().x && heroi.getP().y==espada.getP().y){
 			heroi.setSimbolo('A');
