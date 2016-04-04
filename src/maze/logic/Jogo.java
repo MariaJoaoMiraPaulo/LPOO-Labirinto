@@ -73,10 +73,17 @@ public class Jogo {
 					heroi=new Heroi(p.x,p.y,'H');
 					heroi.setEstado(EstadoHeroi.ARMADO);
 				}
-				if(tab.retornaChar(p)=='E' || tab.retornaChar(p)=='F' || tab.retornaChar(p)=='A')
+				if(tab.retornaChar(p)=='E' || tab.retornaChar(p)=='F' || tab.retornaChar(p)=='A'){
 					espada=new Espada(p.x,p.y,'E');
-				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'|| tab.retornaChar(p)=='F')
+					System.out.println("passei1");
+				}
+					
+				
+				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'|| tab.retornaChar(p)=='F'){
 					dragoes.add(new Dragao(p.x,p.y,'D'));
+					System.out.println("passei2");
+				}
+					
 					
 			}
 		}
@@ -271,8 +278,6 @@ public class Jogo {
 
 	public void verificaEspada(){
 		
-		System.out.println("VAI CRASHAR AQUI");
-
 		if(heroi.getP().x==espada.getP().x && heroi.getP().y==espada.getP().y){
 			heroi.setSimbolo('A');
 			heroi.setEstado(EstadoHeroi.ARMADO);
