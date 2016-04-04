@@ -41,6 +41,13 @@ public class Jogo {
 		//tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
 
+	public Jogo(Heroi h, ArrayList<Dragao> d, Espada e,Tabuleiro t){
+		this.heroi=h;
+		this.dragoes=d;
+		this.espada=e;
+		this.tab=t;
+	}
+	
 	public Jogo(int numeroDragoes, int dimensao){
 		cli=new CommandLineInterface();
 		tab=new Tabuleiro(dimensao);

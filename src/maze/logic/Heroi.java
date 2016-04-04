@@ -8,7 +8,7 @@ public class Heroi extends Personagem{
 	
 	public EstadoHeroi estado=EstadoHeroi.DESARMADO;
 	
-	Heroi(int linha,int coluna, char simbolo){
+	public Heroi(int linha,int coluna, char simbolo){
 		super(linha,coluna,simbolo);
 	}
 	
