@@ -11,17 +11,20 @@ public class Jogar {
 	public static void main(String[] args) {
 		Jogar j1=new Jogar();
 		j1.jogar();
-//		Tabuleiro t=new Tabuleiro();
-//		t.gerarLabirinto(31);
-//		System.out.println(t.paraString());
 	}
 
+	/**
+	 * Inicializa um novo jogo pela consola
+	 */
 	Jogar(){
 		jogo=new Jogo();
 		cli=new CommandLineInterface();
 		jogo.setModoJogo(cli.retornaModoJogo());   
 	}
 
+	/**
+	 * Verifica o estado do Jogo. Ciclo que permite jogar pela consola
+	 */
 	public void jogar(){
 		boolean fimDeJogo=false;
 		
