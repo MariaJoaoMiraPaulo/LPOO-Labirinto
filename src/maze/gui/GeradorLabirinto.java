@@ -122,7 +122,7 @@ public class GeradorLabirinto implements MouseListener{
 		gerarLabirinto = new PainelGerarLabirinto(this,janelaPrincipal.getDimensao());
 		gerarLabirinto.setBounds(194, 52, 550, 550);
 		frame.getContentPane().add(gerarLabirinto);
-		
+		    
 		JButton btnNewButton = new JButton("Menu Principal");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
