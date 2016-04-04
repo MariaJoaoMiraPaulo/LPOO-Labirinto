@@ -56,6 +56,7 @@ public class TomAndJerryGame {
 	private GeradorLabirinto gerador;
 	public int dimensao;
 	public int Dragoes;
+	public int modoJogo;
 	private JButton btnNewButton;
 	private JButton btnComoJogar;
 	private JButton btnAbrirJogo;
@@ -197,6 +198,10 @@ public class TomAndJerryGame {
 					InputStreamReader ipsr=new InputStreamReader(ips);
 					BufferedReader br=new BufferedReader(ipsr);
 					String line;
+					
+					line=br.readLine();
+					String ModoJogo=Character.toString(line.charAt(0));
+					int mJ=Integer.parseInt(ModoJogo);
 					line=br.readLine();
 					char[][] labirinto = new char[line.length()][line.length()];
 					int x=0;
@@ -205,11 +210,11 @@ public class TomAndJerryGame {
 							labirinto[x][i]=line.charAt(i);
 						}
 						x++;
-					}while((line=br.readLine())!=null);
+					}while((line=br.readLine())!=null);   
 					br.close(); 
 
 					desenhoLabirinto.inicializarJogoAntigo(labirinto);
-					desenhoLabirinto.getJogo().setModoJogo(2);
+					desenhoLabirinto.getJogo().setModoJogo(mJ);
 
 					frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO+20);
 					desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
@@ -247,6 +252,7 @@ public class TomAndJerryGame {
 
 
 				desenhoLabirinto.getJogo().setModoJogo(2);
+				modoJogo=2;
 
 				frmJogo.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO+20);
 				desenhoLabirinto.setSize(desenhoLabirinto.getX()+ dimensao * TAMANHO_IMAGEM_LABIRINTO, desenhoLabirinto.getY()+ dimensao * TAMANHO_IMAGEM_LABIRINTO);
@@ -329,11 +335,20 @@ public class TomAndJerryGame {
 
 				desenhoLabirinto.inicializarJogo(Dragoes, dimensao);   
 
-				if(modosJogo.getSelectedItem().equals("Estaticos"))
+				if(modosJogo.getSelectedItem().equals("Estaticos")){
 					desenhoLabirinto.getJogo().setModoJogo(1);
-				else if(modosJogo.getSelectedItem().equals("Moveis"))
+					modoJogo=1;
+				}
+					
+				else if(modosJogo.getSelectedItem().equals("Moveis")){
 					desenhoLabirinto.getJogo().setModoJogo(2);
-				else desenhoLabirinto.getJogo().setModoJogo(3);
+					modoJogo=2;
+				}
+					
+				else {
+					desenhoLabirinto.getJogo().setModoJogo(3);
+					modoJogo=3;
+				}
 
 
 				System.out.println("entrei aqui");    
@@ -568,5 +583,9 @@ public class TomAndJerryGame {
 
 		public int getDragoes() {
 			return Dragoes;
+		}
+
+		public int getModoJogo() {
+			return modoJogo;
 		}
 	}

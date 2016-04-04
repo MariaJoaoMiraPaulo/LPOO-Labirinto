@@ -230,6 +230,9 @@ public class GraficosJogo extends JPanel{
 						int retrival = chooser.showSaveDialog(null);
 						if (retrival == JFileChooser.APPROVE_OPTION) {
 							try(FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt")) {
+								String modoJogo=Integer.toString(janela.getModoJogo());
+								fw.write(modoJogo);
+								fw.write(System.getProperty( "line.separator" ));
 								String s=jogo.getTab().paraString();
 
 								for(int i=0; i<s.length();i++){
@@ -246,8 +249,8 @@ public class GraficosJogo extends JPanel{
 						}
 						break;
 					}
-				
-				
+
+
 					break;   
 
 				}
@@ -354,7 +357,7 @@ public class GraficosJogo extends JPanel{
 		jogo=new Jogo(nDragoes,dimensao);
 		estadoJogo=estadoJogo.COM_LABIRINTO;
 	}
-	
+
 	public void inicializarJogoAntigo(char m[][]){
 		jogo=new Jogo(m,0);
 		estadoJogo=estadoJogo.COM_LABIRINTO;
