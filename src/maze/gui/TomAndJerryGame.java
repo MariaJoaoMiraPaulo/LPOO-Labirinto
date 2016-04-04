@@ -176,10 +176,10 @@ public class TomAndJerryGame {
 		btnComoJogar = new JButton("Como Jogar");
 		btnComoJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				desenhoLabirinto.setEstadoJogo(EstadoJogo.INSTRUÇOES);
+				desenhoLabirinto.setEstadoJogo(EstadoJogo.INSTRUCOES);
 				
 				desenhoLabirinto.repaint();
-				desenhaInstruções(true);
+				desenhaInstrucoes(true);
 				
 			}
 		});
@@ -578,7 +578,7 @@ public class TomAndJerryGame {
 
 		}
 		
-		public void desenhaInstruções(boolean flag){
+		public void desenhaInstrucoes(boolean flag){
 
 			btnJogarNovamente.setEnabled(!flag);
 			btnJogarNovamente.setVisible(!flag);

@@ -22,7 +22,7 @@ import maze.logic.Tabuleiro;
 public class GraficosJogo extends JPanel{
 
 	public enum EstadoJogo{
-		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU,INSTRUÇOES
+		COM_LABIRINTO, SEM_LABIRINTO, HEROI_GANHOU, HEROI_PERDEU,INSTRUCOES
 	}
 
 	public enum TipoJogo{
@@ -286,7 +286,7 @@ public class GraficosJogo extends JPanel{
 			//g.drawImage(derrota, 0, 0, 600, 500, 0, 0, derrota.getWidth(), derrota.getHeight(),null);
 			g.drawImage(derrota, 0, 0, null);
 			break;
-		case INSTRUÇOES:    
+		case INSTRUCOES:    
 			g.drawImage(comoJogar, 0, 0, null);
 			break;
 		case SEM_LABIRINTO:
