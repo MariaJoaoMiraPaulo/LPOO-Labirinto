@@ -79,10 +79,16 @@ public class Jogo {
 				}
 					
 				
-				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'|| tab.retornaChar(p)=='F'){
+				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'){
 					dragoes.add(new Dragao(p.x,p.y,'D'));
 					System.out.println("passei2");
 				}
+				if(tab.retornaChar(p)=='F'){
+					Dragao d=new Dragao(p.x,p.y,'D');
+					d.setPorCimaEspada(true);
+					dragoes.add(d);
+				}
+					
 					
 					
 			}
