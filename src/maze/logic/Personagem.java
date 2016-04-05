@@ -2,8 +2,8 @@ package maze.logic;
 
 import java.awt.Point;
 /**
- * Representa todas as personagens do jogo
- *
+ * Personagem.java - Representa todas as personagens do jogo, classe mae das classes,
+ * dragao, heroi e espada
  */
 public class Personagem {
 	//	public int linha;
@@ -13,10 +13,10 @@ public class Personagem {
 
 
 	/**
-	 * Inicializa Personagem pela linha, coluna e símbolo respetivo
-	 * @param linha
-	 * @param coluna
-	 * @param simbolo
+	 * Inicializa Personagem pela linha, coluna e simbolo respetivo
+	 * @param linha da personagem
+	 * @param coluna da personagem
+	 * @param simbolo da personagem
 	 */
 	Personagem(int linha, int coluna,char simbolo){
 		p= new Point(linha,coluna);

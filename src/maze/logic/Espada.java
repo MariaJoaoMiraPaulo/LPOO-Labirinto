@@ -1,6 +1,6 @@
 package maze.logic;
 /**
- * Representa a espada no jogo
+ * Espada.java - Representa a espada no jogo
  *
  */
 public class Espada extends Personagem {
@@ -12,9 +12,9 @@ public class Espada extends Personagem {
 	
 	/**
 	 * Inicializa espada com linha, coluna e símbolo
-	 * @param linha
-	 * @param coluna
-	 * @param simbolo
+	 * @param linha linha da espada
+	 * @param coluna coluna da espada
+ 	 * @param simbolo simbolo da espada
 	 */
 	public Espada(int linha,int coluna, char simbolo){
 		super(linha,coluna,simbolo);
@@ -30,7 +30,7 @@ public class Espada extends Personagem {
 
 	/**
 	 * Altera flag Encontrada para true ou false
-	 * @param encontrada
+	 * @param encontrada flag que indica se o heroi encontrou ou nao a espada
 	 */
 	public void setEncontrada(boolean encontrada) {
 		this.encontrada = encontrada;

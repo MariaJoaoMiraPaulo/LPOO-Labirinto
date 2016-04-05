@@ -1,6 +1,6 @@
 package maze.logic;
 /**
- * Representa o Heroi do jogo
+ * Heroi.java - Representa o Heroi do jogo
  *
  */
 public class Heroi extends Personagem{
@@ -16,9 +16,9 @@ public class Heroi extends Personagem{
 	
 	/**
 	 * Inicialização do heroi com a linha, coluna e símbolo respetivo
-	 * @param linha
-	 * @param coluna
-	 * @param simbolo
+	 * @param linha do heroi
+	 * @param coluna do heroi 
+	 * @param simbolo do heroi
 	 */
 	public Heroi(int linha,int coluna, char simbolo){
 		super(linha,coluna,simbolo);
@@ -35,7 +35,7 @@ public class Heroi extends Personagem{
 
 	/**
 	 * Retorna estado do Heroi (Armado ou Desarmado)
-	 * @return EstadoHeroi
+	 * @return EstadoHeroi estado atual do heroi
 	 */
 	public EstadoHeroi getEstado() {
 		return estado;
@@ -43,7 +43,7 @@ public class Heroi extends Personagem{
 
 	/**
 	 * Altera estado do Heroi para Armado ou Desarmado
-	 * @param estado
+	 * @param estado estado atual do heroi
 	 */
 	public void setEstado(EstadoHeroi estado) {
 		this.estado = estado;

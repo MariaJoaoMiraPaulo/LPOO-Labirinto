@@ -1,5 +1,6 @@
 package maze.logic;
 
+
 import java.awt.Point;
 import java.util.Random;
 import maze.cli.CommandLineInterface;
@@ -9,6 +10,9 @@ import maze.logic.Jogo.Movimento;
 
 import java.util.ArrayList;
 
+/**
+ * Jogo.java - Classe que contem todos os elementos do jogo
+ */
 public class Jogo {
 	/**
 	 * Tabuleiro do jogo
@@ -48,7 +52,7 @@ public class Jogo {
 	}
 
 	private Movimento movimentoDragao=Movimento.CIMA;
-	
+
 	/**
 	 * Inicializa um jogo com um labirinto aleatorio, e coloca Personagens tambem aleatoriamente
 	 */
@@ -62,10 +66,10 @@ public class Jogo {
 
 	/**
 	 * Utilizado para inicializar um jogo quando é o utilizador a criar o seu proprio labirinto
-	 * @param heroi
-	 * @param dragoes
-	 * @param espada
-	 * @param tab
+	 * @param heroi heroi a ser inicializado
+	 * @param dragoes dragoes a serem inicializados
+	 * @param espada espada a ser inicializada
+	 * @param tab tabuleiro a ser inicializado
 	 */
 	public Jogo(Heroi heroi, ArrayList<Dragao> dragoes, Espada espada,Tabuleiro tab){
 		this.heroi=heroi;
@@ -73,11 +77,11 @@ public class Jogo {
 		this.espada=espada;
 		this.tab=tab;
 	}
-	
+
 	/**
 	 * Inicializa jogo com tabuleiro aleatorio de tamanho dimensao e com numeroDragoes numero de Dragoes
-	 * @param numeroDragoes
-	 * @param dimensao
+	 * @param numeroDragoes numero de dragoes existentes no labirinto
+	 * @param dimensao dimensao do labirinto
 	 */
 	public Jogo(int numeroDragoes, int dimensao){
 		cli=new CommandLineInterface();
@@ -86,10 +90,10 @@ public class Jogo {
 		colocaEspadaAleatoria();
 		colocaDragoesAleatorio(numeroDragoes);
 	}
-	
+
 	/**
 	 * Inicializa um jogo com um labirinto especifico (labirinto) e com coordenadas das personagens já definidas
-	 * @param labirinto
+	 * @param labirinto labirinto a ser inicializado
 	 */
 	public Jogo(char labirinto[][]){
 		tab=new Tabuleiro(labirinto);
@@ -101,11 +105,11 @@ public class Jogo {
 		tab.inserirChar(heroi.getP(), heroi.getSimbolo());
 		tab.inserirChar(espada.getP(), espada.getSimbolo());
 	}
-	
+
 	/**
 	 * Inicializa um jogo com uma labirinto especifico (m), Atribuindo as personagens as coordenadas especificas
-	 * @param m
-	 * @param construtor
+	 * @param m	labirinto a ser utilizado
+	 * @param construtor serve para distinguir construtores
 	 */
 	public Jogo(char m[][], int construtor){   
 		tab=new Tabuleiro(m);
@@ -124,8 +128,8 @@ public class Jogo {
 					espada=new Espada(p.x,p.y,'E');
 					System.out.println("passei1");
 				}
-					
-				
+
+
 				if(tab.retornaChar(p)=='D'||tab.retornaChar(p)=='d'){
 					dragoes.add(new Dragao(p.x,p.y,'D'));
 					System.out.println("passei2");
@@ -135,14 +139,14 @@ public class Jogo {
 					d.setPorCimaEspada(true);
 					dragoes.add(d);
 				}
-					
-					
-					
+
+
+
 			}
 		}
-//		
-//		if(tab.retornaChar(heroi.getP())=='A')
-//			espada.setEncontrada(true);
+		//		
+		//		if(tab.retornaChar(heroi.getP())=='A')
+		//			espada.setEncontrada(true);
 	}
 
 	/**
@@ -171,7 +175,7 @@ public class Jogo {
 	}
 
 	/**
-	 * Retorna um ponto aleatório
+	 * Retorna um ponto aleatorio
 	 * @return ponto aleatorio
 	 */
 	public Point retornaPontoAleatorio(){
@@ -207,42 +211,42 @@ public class Jogo {
 
 	/**
 	 * Verifica se pode ou não colocar o Dragao no tabuleiro
-	 * @param p
+	 * @param p ponto onde verifica se pode colocar o dragao
 	 * @return boolean true se puder colocar dragao, false se nao puder colocar dragao
 	 */
 	public boolean possoColocarDragao(Point p){
 		Point copia;
 		int contador=0;
-		
+
 		copia=(Point)p.clone();
 		copia.x+=1;
 		if(tab.retornaChar(copia)!='H')
 			contador++;
-		
+
 		copia=(Point)p.clone();
 		copia.x-=1;
 		if(tab.retornaChar(copia)!='H')
 			contador++;
-		
+
 		copia=(Point)p.clone();
 		copia.y+=1;
 		if(tab.retornaChar(copia)!='H')
 			contador++;
-		
+
 		copia=(Point)p.clone();
 		copia.y-=1;
 		if(tab.retornaChar(copia)!='H')
 			contador++;
-		
+
 		if(contador==4)
 			return true;
-		
+
 		return false;
 	}
 
 	/**
 	 * Coloca dragoes aleatoriamente no tabuleiro
-	 * @param numeroDragoes
+	 * @param numeroDragoes a serem colocados aleatoriamente no tabuleiro
 	 */
 	public void colocaDragoesAleatorio(int numeroDragoes){
 
@@ -263,8 +267,8 @@ public class Jogo {
 
 	/**
 	 * Verifica se existe alguma personagem no ponto dado como paramentro, verificando se pode ou nao colocar o dragao
-	 * @param ponto
-	 * @return
+	 * @param ponto ponto onde esta o dragao a ser verificado
+	 * @return verdadeiro se puder, falso caso contrario
 	 */
 	public boolean podeColocarDragao(Point ponto){
 
@@ -277,8 +281,8 @@ public class Jogo {
 
 	/**
 	 * Verifica se pode ou nao mover o heroi para uma direcao especifica, direita, esquerda, cima ou baixo
-	 * @param direcao
-	 * @return
+	 * @param direcao direcao para onde se pretende mover o heroi
+	 * @return verdadeiro se puder, falso caso contrario
 	 */
 	public boolean podeMoverHeroi(Movimento direcao ){
 		boolean valido=false;
@@ -336,7 +340,7 @@ public class Jogo {
 	public void moverHeroi(Movimento direcao){
 		//Movimento direcao=cli.lerDirecao();
 		tab.inserirChar(heroi.getP(),' ');
-		
+
 		switch (direcao){
 		case ESQUERDA: 
 			if(podeMoverHeroi(Movimento.ESQUERDA))
@@ -376,7 +380,7 @@ public class Jogo {
 	 * Verifica se o Heroi apanha a espada, caso apanhe muda o estado do heroi para armado e muda o simbolo respetivo da personagem
 	 */
 	public void verificaEspada(){
-		
+
 		if(heroi.getP().x==espada.getP().x && heroi.getP().y==espada.getP().y){
 			heroi.setSimbolo('A');
 			heroi.setEstado(EstadoHeroi.ARMADO);
@@ -420,9 +424,9 @@ public class Jogo {
 	}
 
 	/**
-	 * Verifica se o Dragao cobre ou não a espada, caso um dragao esteja em cima da espada, altera o simbolo desse dragao
-	 * @param p
-	 * @param indice
+	 * Verifica se o Dragao cobre ou nao a espada, caso um dragao esteja em cima da espada, altera o simbolo desse dragao
+	 * @param p ponto a verificar 
+	 * @param indice indice do dragao a ser verificado no arraylist dragoes
 	 */
 	public void dragaoEEspada(Point p, int indice){
 
@@ -447,7 +451,7 @@ public class Jogo {
 
 	/**
 	 * Altera posicao ou estado do heroi. Quando esta a dormir pode continuar a dormir ou acordar
-	 * @param indice
+	 * @param indice indice do dragao a ser verificado no arraylist dragoes
 	 */
 	public void dragaoADormir(int indice){
 		Random rn=new Random();
@@ -468,7 +472,7 @@ public class Jogo {
 
 	/**
 	 * Altera posicao ou estado do dragao. Dragao pode mover se para a esquerda, para a direita, para cima, para baixo ou simplesmnete adormecer
-	 * @param indice
+	 * @param indice indice do dragao a ser verificado no arraylist dragoes
 	 */
 	public void dragaoAcordado(int indice){
 
@@ -521,7 +525,7 @@ public class Jogo {
 
 	/**
 	 * Verifica se o dragao pode ou nao mover se para o ponto dado como parametro
-	 * @param p
+	 * @param p ponto para onde se pretende mover o dragao
 	 * @return boolean true se pode mover se, false se nao
 	 */
 	public boolean DragaoPodeMover(Point p){
@@ -549,8 +553,8 @@ public class Jogo {
 
 	/**
 	 * Responsavel por uma jogada, mover heroi, mover dragoes e verificar estado do jogo
-	 * @param direcao
-	 * @return
+	 * @param direcao direcao para onde se pretende mover o heroi
+	 * @return retorna verdadeiro se for fim de jogo, falso caso contrario
 	 */
 	public boolean jogada(Movimento direcao){
 		moverHeroi(direcao);
@@ -614,7 +618,7 @@ public class Jogo {
 
 	/**
 	 * Atualiza estado de fim de jogo, true se o jogo acabou, false se ainda nao acabou
-	 * @param fimDeJogo
+	 * @param fimDeJogo flag que indica se o jogo acabou ou nao
 	 */
 	public void setFimDeJogo(boolean fimDeJogo) {
 		this.fimDeJogo = fimDeJogo;
@@ -622,7 +626,7 @@ public class Jogo {
 
 	/**
 	 * Retorna Movimento do Dragao
-	 * @return
+	 * @return retorna o movimento do dragao
 	 */
 	public Movimento getMovimentoDragao() {
 		return movimentoDragao;

@@ -4,28 +4,43 @@ import java.awt.Point;
 import java.util.Random;
 import java.util.Stack;
 /**
- * Representa o tabuleiro do jogo (labirinto)
+ * Tabuleiro.java - Representa o tabuleiro do jogo (labirinto)
  *
  */
 public class Tabuleiro {
-//	private char labirinto[][]={
-//			{'X','X','X','X','X','X','X','X','X','X'},
-//			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
-//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-//			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
-//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
-//			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
-//			{'X','X','X','X','X','X','X','X','X','X'},
-//	};
+	//	private char labirinto[][]={
+	//			{'X','X','X','X','X','X','X','X','X','X'},
+	//			{'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
+	//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+	//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+	//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+	//			{'X',' ',' ',' ',' ',' ',' ','X',' ','S'},
+	//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+	//			{'X',' ','X','X',' ','X',' ','X',' ','X'},
+	//			{'X',' ','X','X',' ',' ',' ',' ',' ','X'},
+	//			{'X','X','X','X','X','X','X','X','X','X'},
+	//	};
+	/**
+	 * Array que contem o labirinto
+	 */
 	private char labirinto[][];
-
+	/**
+	 * Array utilizado na geracao aleatoria do labirinto, serve para fazer backtracing
+	 */
 	private char celulasVisitadas[][];
+	/**
+	 * Comprimento do labirinto
+	 */
 	private int n;
+	/**
+	 * Comprimento do array utilizado na geracao aleatoria do labirinto
+	 */
 	private int nCVisitadas;
 
+	/**
+	 * Inicializa um tabuleiro com uma dada dimensão, construtor usado na quando se quer gerar um labirinto aleatório
+	 * @param dimensao dimensao do labirinto a gerar
+	 */
 	public Tabuleiro(int dimensao){
 		n=dimensao;
 		nCVisitadas=(n-1)/2;
@@ -35,10 +50,18 @@ public class Tabuleiro {
 
 	}
 
+	/**
+	 * Inicializa um tabuleiro copiando para o labirinto o conteudo do parametro m
+	 * @param m labirinto a ser usado
+	 */
 	public Tabuleiro(char m[][]){
 		labirinto=m;
 	}
 
+	/**
+	 * Funcao utilizada para criar a saida quando se esta a gerar um labirinto
+	 * @return retorna o ponto onda esta a saída
+	 */
 	public Point retornaSaida(){
 		Random rn=new Random();
 		int linha=0;
@@ -79,6 +102,13 @@ public class Tabuleiro {
 		return p;
 	}
 
+	/**
+	 * Funcao utilizada quando se esta a gerar o labirinto, serve para ver se o ponto p, 
+	 * é um ponto válido para se mover, ou seja, se esta dentro das dimensoes do labirinto
+	 * e se é uma posicao pela qual o algoritmo ainda não passou la
+	 * @param p ponto a verificar 
+	 * @return verdadeiro se poder mover, falso caso contrario
+	 */
 	public boolean possoMover(Point p){
 		if(p.x>=nCVisitadas || p.y>=nCVisitadas || p.x<0 || p.y<0)
 			return false;
@@ -87,6 +117,12 @@ public class Tabuleiro {
 		return true;
 	}
 
+	/**
+	 * Funcao que serve para converter as coordenadas do atributo labirinto para
+	 * o atributo CVisitadas
+	 * @param p ponto a ser convertido
+	 * @return retorna o ponto a ser utilizado no atributo CVisitadas
+	 */
 	public Point coordenadasParaCVisitadas(Point p){
 		Point p2= (Point)p.clone();
 
@@ -96,6 +132,13 @@ public class Tabuleiro {
 		return p2;
 	}
 
+	/**
+	 * Funcao utilizada quando se esta a gerar o labirinto, serve para verificar se o 
+	 * ponto p é um beco sem saída, ou seja, se os pontos a volta ja foram visitados pelo
+	 * algoritmo ou nao
+	 * @param p ponto a ser verificado
+	 * @return se todos os pontos a volta ja foram visitados pelo algoritmo retorna true, falso caso contrario
+	 */
 	public boolean deadEnd(Point p){  
 		//verifica no array pequeno  se o ponto ï¿½ um dead end
 		Point p2=new Point();
@@ -141,6 +184,10 @@ public class Tabuleiro {
 		return false;
 	}
 
+	/**
+	 * Funcao responsavel por gerar labirinto, 
+	 * esta funcao chama grande parte das funcoes em cima
+	 */
 	public void gerarLabirinto(){
 
 		Stack<Point> st = new Stack();
@@ -256,6 +303,9 @@ public class Tabuleiro {
 		//desenhaCVisitadas();
 	}
 
+	/**
+	 * Funcao utilizada para desenhar o atributo CVisitadas na consola
+	 */
 	public void desenhaCVisitadas(){
 		for(int i=0; i<nCVisitadas;i++){
 			for(int j=0; j<nCVisitadas;j++)
@@ -265,6 +315,9 @@ public class Tabuleiro {
 
 	}
 
+	/**
+	 * Funcao utilizada para desenhar o atributo labirinto na consola
+	 */
 	public void desenhaTab(){
 		for(int i=0;i<labirinto.length;i++){
 			for(int j=0;j<labirinto[i].length;j++){
@@ -274,25 +327,40 @@ public class Tabuleiro {
 		}
 	}
 
+	/**
+	 * Funcao utilizada para retornar um determinado carater numa determinada posicao
+	 * @param linha linha do elemento
+	 * @param coluna coluna do elemento
+	 * @return retorna o carater na posicao labirinto[linha][coluna]
+	 */
 	public char retornaChar(int linha,int coluna){
 		//if(linha<labirinto.length && coluna<labirinto[0].length)
 		return labirinto[linha][coluna];
 		//return 's';
 	}
 
+	/**
+	 * Funcao utilizada para retornar um determinado carater numa determinada posicao
+	 * @param p ponto onde se quer saber o carater
+	 * @return retorna o carater na posicao labirinto[p.x][p.y]
+	 */
 	public char retornaChar(Point p){
 		return labirinto[p.x][p.y];
 	}
 
-	//	public void inserirChar(int linha,int coluna, char letra){
-	//		labirinto[linha][coluna]=letra;
-	//	}
-
+	/**
+	 * Funcao utilizada para inserir o carater letra no labirinto na posicao p 
+	 * @param p ponto para inserir o carater
+	 * @param letra carater a ser inserido
+	 */
 	public void inserirChar(Point p, char letra){
 		labirinto[p.x][p.y]=letra;
 	}
 
-
+	/**
+	 * Transforma o atributo labirinto de um array bidimensional numa string
+	 * @return retorna o labirinto numa string
+	 */
 	public String paraString(){
 		String resultado="";
 
@@ -307,12 +375,20 @@ public class Tabuleiro {
 		return resultado;
 	}
 
+	/**
+	 * Funcao que retorna a dimensao do labirinto
+	 * @return retorna a dimensao do labirinto
+	 */
 	public int getN() {
 		return n;
 	}
 
+	/**
+	 * Funcao que retorna o labirinto
+	 * @return retorna o labirinto
+	 */
 	public char[][] getLabirinto() {
 		return labirinto;
 	}
-	
+
 }

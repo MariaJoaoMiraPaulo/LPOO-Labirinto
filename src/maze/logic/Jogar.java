@@ -3,7 +3,9 @@ package maze.logic;
 import maze.cli.CommandLineInterface;
 import maze.logic.Dragao.EstadoDragao;
 
-
+/**
+ * Jogar.java - Classe responsavel por jogar na consola
+ */
 public class Jogar {
 	public Jogo jogo;
 	public CommandLineInterface cli;
