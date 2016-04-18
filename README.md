@@ -17,6 +17,6 @@ Projeto guiado de LPOO- Jogo do labirinto
 #####Fig. 4: Configurations
 
 
-<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-1/imagens/ComoJogar.png" width="500">
+<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-1/imagens/instruc%CC%A7o%CC%83es.png" width="500">
 #####Fig. 5: How to Play
 
