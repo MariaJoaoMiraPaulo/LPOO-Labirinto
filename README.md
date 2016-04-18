@@ -9,7 +9,7 @@ Projeto guiado de LPOO- Jogo do labirinto
 #####Fig. 2: Game 
 
 
-<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-1/imagens/Criar%20Labirinto.png" width="500">
+<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-3/imagens/Criar%20Labirinto.png" width="500">
 #####Fig. 3: Create Maze 
 
 
