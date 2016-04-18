@@ -5,7 +5,7 @@ Projeto guiado de LPOO- Jogo do labirinto
 #####Fig. 1: Main menu
 
 
-<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-2/imagens/Jogo.png" width="500">
+<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-4/imagens/jogar.png" width="500">
 #####Fig. 2: Game 
 
 
