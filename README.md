@@ -13,7 +13,7 @@ Projeto guiado de LPOO- Jogo do labirinto
 #####Fig. 3: Create Maze 
 
 
-<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-1/imagens/Configurac%CC%A7o%CC%83es.png" width="500">
+<img src="https://github.com/MariaJoaoMiraPaulo/LPOO-Maze/blob/MariaJoaoMiraPaulo-patch-1/imagens/Configurac%CC%A7o%CC%83es.png" width="300">
 #####Fig. 4: Configurations
 
 
